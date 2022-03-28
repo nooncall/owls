@@ -1,0 +1,40 @@
+# config
+server:
+  port: 8081
+  env: "dev" # test, prod, dev
+  log_level: "debug" # debug, info, warning, error
+  log_dir: "./"
+  show_sql: true
+  num_once_limit: 100
+  exec_no_backup: false
+  aes_key: "l02mx893j3283445"
+  aes_iv: "08783ksu3k390dj3" # length same to ase_key; 16
+
+db:
+  address: "127.0.0.1"
+  port: 3306
+  user: "root"
+  password: "aaaaaa"
+  db_name: "owl"
+  max_idle_conn: 2
+  max_open_conn: 30
+
+login:
+  ldap:
+    host: "ldap.test.com"
+    port: 389
+    base_dn: "dc=test,dc=com"
+    use_ssl: false
+    bind_dn: "cn=hi,dc=test,dc=com"
+    bind_pwd: "password"
+  login_path: "https://ipalfish.com/login"
+  token_secret: "xxswfwes23sdsfsf"
+  token_effective_hour: 1
+
+
+role:
+  from: "admin" # admin or conf
+  conf:
+    dba:
+      - "zhangdashu"
+      - "wangdazhang"

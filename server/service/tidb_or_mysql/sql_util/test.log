@@ -1,0 +1,73 @@
+{"level":"warn","ts":"2021-07-29 11:43:44.389","caller":"config/config.go:76","msg":"init config failed, err: open ../config/config.yml: no such file or directory, path: ../config/config.yml"}
+{"level":"info","ts":"2021-07-29 11:53:35.292","caller":"sql_util/sql_util.go:47","msg":"build rollback delete sql : INSERT INTO auth (id, channels, permission, topic, backup_status, backup_id) VALUES ('1', 'hello', '2', 'hello', '4', '5'), ('4', 'hi', '3', 'boy', '5', '6'); "}
+{"level":"info","ts":"2021-07-29 11:53:35.293","caller":"sql_util/sql_util.go:137","msg":"sql condition is : [firstname lastname age name high]"}
+{"level":"info","ts":"2021-07-29 11:53:35.293","caller":"sql_util/sql_util.go:137","msg":"sql condition is : []"}
+{"level":"info","ts":"2021-07-29 11:53:35.293","caller":"sql_util/sql_util.go:137","msg":"sql condition is : [uid courseid `index` name]"}
+{"level":"info","ts":"2021-07-29 11:53:35.293","caller":"sql_util/sql_util.go:137","msg":"sql condition is : [uid courseid index user]"}
+{"level":"info","ts":"2021-07-29 11:53:35.293","caller":"sql_util/sql_util.go:137","msg":"sql condition is : [firstname lastname age name high]"}
+{"level":"info","ts":"2021-07-29 11:53:35.293","caller":"sql_util/sql_util.go:137","msg":"sql condition is : []"}
+{"level":"info","ts":"2021-07-29 11:53:35.293","caller":"sql_util/sql_util.go:137","msg":"sql condition is : [uid courseid `index` name]"}
+{"level":"info","ts":"2021-07-29 11:54:02.880","caller":"sql_util/sql_util.go:47","msg":"build rollback delete sql : INSERT INTO auth (id, channels, permission, topic, backup_status, backup_id) VALUES ('1', 'hello', '2', 'hello', '4', '5'), ('4', 'hi', '3', 'boy', '5', '6'); "}
+{"level":"info","ts":"2021-07-29 11:54:02.885","caller":"sql_util/sql_util.go:137","msg":"sql condition is : [firstname lastname age name high]"}
+{"level":"info","ts":"2021-07-29 11:54:02.885","caller":"sql_util/sql_util.go:137","msg":"sql condition is : []"}
+{"level":"info","ts":"2021-07-29 11:54:02.885","caller":"sql_util/sql_util.go:137","msg":"sql condition is : [uid courseid `index` name]"}
+{"level":"info","ts":"2021-07-29 11:54:02.885","caller":"sql_util/sql_util.go:137","msg":"sql condition is : [uid courseid index user]"}
+{"level":"info","ts":"2021-07-29 11:54:02.887","caller":"sql_util/sql_util.go:137","msg":"sql condition is : [firstname lastname age name high]"}
+{"level":"info","ts":"2021-07-29 11:54:02.887","caller":"sql_util/sql_util.go:137","msg":"sql condition is : []"}
+{"level":"info","ts":"2021-07-29 11:54:02.887","caller":"sql_util/sql_util.go:137","msg":"sql condition is : [uid courseid `index` name]"}
+{"level":"info","ts":"2021-07-29 11:54:36.336","caller":"sql_util/sql_util.go:47","msg":"build rollback delete sql : INSERT INTO auth (id, channels, permission, topic, backup_status, backup_id) VALUES ('1', 'hello', '2', 'hello', '4', '5'), ('4', 'hi', '3', 'boy', '5', '6'); "}
+{"level":"info","ts":"2021-07-29 11:54:36.341","caller":"sql_util/sql_util.go:137","msg":"sql condition is : [firstname lastname age name high]"}
+{"level":"info","ts":"2021-07-29 11:54:36.341","caller":"sql_util/sql_util.go:137","msg":"sql condition is : []"}
+{"level":"info","ts":"2021-07-29 11:54:36.341","caller":"sql_util/sql_util.go:137","msg":"sql condition is : [uid courseid `index` name]"}
+{"level":"info","ts":"2021-07-29 11:54:36.341","caller":"sql_util/sql_util.go:137","msg":"sql condition is : [uid courseid index user]"}
+{"level":"info","ts":"2021-07-29 11:54:36.343","caller":"sql_util/sql_util.go:137","msg":"sql condition is : [firstname lastname age name high]"}
+{"level":"info","ts":"2021-07-29 11:54:36.343","caller":"sql_util/sql_util.go:137","msg":"sql condition is : []"}
+{"level":"info","ts":"2021-07-29 11:54:36.343","caller":"sql_util/sql_util.go:137","msg":"sql condition is : [uid courseid `index` name]"}
+{"level":"info","ts":"2021-08-03 14:38:55.185","caller":"sql_util/sql_util.go:47","msg":"build rollback delete sql : INSERT INTO auth (id, channels, permission, topic, backup_status, backup_id) VALUES ('1', 'hello', '2', 'hello', '4', '5'), ('4', 'hi', '3', 'boy', '5', '6'); "}
+{"level":"info","ts":"2021-08-03 14:38:55.190","caller":"sql_util/sql_util.go:137","msg":"sql condition is : [firstname lastname age name high]"}
+{"level":"info","ts":"2021-08-03 14:38:55.190","caller":"sql_util/sql_util.go:137","msg":"sql condition is : []"}
+{"level":"info","ts":"2021-08-03 14:38:55.190","caller":"sql_util/sql_util.go:137","msg":"sql condition is : [uid courseid `index` name]"}
+{"level":"info","ts":"2021-08-03 14:38:55.190","caller":"sql_util/sql_util.go:137","msg":"sql condition is : [uid courseid index user]"}
+{"level":"info","ts":"2021-08-03 14:38:55.192","caller":"sql_util/sql_util.go:137","msg":"sql condition is : [firstname lastname age name high]"}
+{"level":"info","ts":"2021-08-03 14:38:55.192","caller":"sql_util/sql_util.go:137","msg":"sql condition is : []"}
+{"level":"info","ts":"2021-08-03 14:38:55.192","caller":"sql_util/sql_util.go:137","msg":"sql condition is : [uid courseid `index` name]"}
+{"level":"info","ts":"2021-08-10 15:55:29.046","caller":"sql_util/sql_util.go:47","msg":"build rollback delete sql : INSERT INTO auth (id, channels, permission, topic, backup_status, backup_id) VALUES ('1', 'hello', '2', 'hello', '4', '5'), ('4', 'hi', '3', 'boy', '5', '6'); "}
+{"level":"info","ts":"2021-08-10 15:55:29.050","caller":"sql_util/sql_util.go:137","msg":"sql condition is : [firstname lastname age name high]"}
+{"level":"info","ts":"2021-08-10 15:55:29.050","caller":"sql_util/sql_util.go:137","msg":"sql condition is : []"}
+{"level":"info","ts":"2021-08-10 15:55:29.050","caller":"sql_util/sql_util.go:137","msg":"sql condition is : [uid courseid `index` name]"}
+{"level":"info","ts":"2021-08-10 15:55:29.050","caller":"sql_util/sql_util.go:137","msg":"sql condition is : [uid courseid index user]"}
+{"level":"info","ts":"2021-08-10 15:55:29.052","caller":"sql_util/sql_util.go:137","msg":"sql condition is : [firstname lastname age name high]"}
+{"level":"info","ts":"2021-08-10 15:55:29.052","caller":"sql_util/sql_util.go:137","msg":"sql condition is : []"}
+{"level":"info","ts":"2021-08-10 15:55:29.052","caller":"sql_util/sql_util.go:137","msg":"sql condition is : [uid courseid `index` name]"}
+{"level":"info","ts":"2021-08-11 20:55:08.973","caller":"sql_util/sql_util.go:47","msg":"build rollback delete sql : INSERT INTO auth (id, channels, permission, topic, backup_status, backup_id) VALUES ('1', 'hello', '2', 'hello', '4', '5'), ('4', 'hi', '3', 'boy', '5', '6'); "}
+{"level":"info","ts":"2021-08-11 20:55:08.977","caller":"sql_util/sql_util.go:137","msg":"sql condition is : [firstname lastname age name high]"}
+{"level":"info","ts":"2021-08-11 20:55:08.978","caller":"sql_util/sql_util.go:137","msg":"sql condition is : []"}
+{"level":"info","ts":"2021-08-11 20:55:08.978","caller":"sql_util/sql_util.go:137","msg":"sql condition is : [uid courseid `index` name]"}
+{"level":"info","ts":"2021-08-11 20:55:08.978","caller":"sql_util/sql_util.go:137","msg":"sql condition is : [uid courseid index user]"}
+{"level":"info","ts":"2021-08-11 20:55:08.979","caller":"sql_util/sql_util.go:137","msg":"sql condition is : [firstname lastname age name high]"}
+{"level":"info","ts":"2021-08-11 20:55:08.980","caller":"sql_util/sql_util.go:137","msg":"sql condition is : []"}
+{"level":"info","ts":"2021-08-11 20:55:08.980","caller":"sql_util/sql_util.go:137","msg":"sql condition is : [uid courseid `index` name]"}
+{"level":"info","ts":"2021-08-12 21:09:50.048","caller":"sql_util/sql_util.go:47","msg":"build rollback delete sql : INSERT INTO auth (id, channels, permission, topic, backup_status, backup_id) VALUES ('1', 'hello', '2', 'hello', '4', '5'), ('4', 'hi', '3', 'boy', '5', '6'); "}
+{"level":"info","ts":"2021-08-12 21:09:50.053","caller":"sql_util/sql_util.go:137","msg":"sql condition is : [firstname lastname age name high]"}
+{"level":"info","ts":"2021-08-12 21:09:50.053","caller":"sql_util/sql_util.go:137","msg":"sql condition is : []"}
+{"level":"info","ts":"2021-08-12 21:09:50.054","caller":"sql_util/sql_util.go:137","msg":"sql condition is : [uid courseid `index` name]"}
+{"level":"info","ts":"2021-08-12 21:09:50.054","caller":"sql_util/sql_util.go:137","msg":"sql condition is : [uid courseid index user]"}
+{"level":"info","ts":"2021-08-12 21:09:50.055","caller":"sql_util/sql_util.go:137","msg":"sql condition is : [firstname lastname age name high]"}
+{"level":"info","ts":"2021-08-12 21:09:50.056","caller":"sql_util/sql_util.go:137","msg":"sql condition is : []"}
+{"level":"info","ts":"2021-08-12 21:09:50.056","caller":"sql_util/sql_util.go:137","msg":"sql condition is : [uid courseid `index` name]"}
+{"level":"info","ts":"2021-08-24 15:00:43.811","caller":"sql_util/sql_util.go:47","msg":"build rollback delete sql : INSERT INTO auth (id, channels, permission, topic, backup_status, backup_id) VALUES ('1', 'hello', '2', 'hello', '4', '5'), ('4', 'hi', '3', 'boy', '5', '6'); "}
+{"level":"info","ts":"2021-08-24 15:00:43.816","caller":"sql_util/sql_util.go:137","msg":"sql condition is : [firstname lastname age name high]"}
+{"level":"info","ts":"2021-08-24 15:00:43.816","caller":"sql_util/sql_util.go:137","msg":"sql condition is : []"}
+{"level":"info","ts":"2021-08-24 15:00:43.817","caller":"sql_util/sql_util.go:137","msg":"sql condition is : [uid courseid `index` name]"}
+{"level":"info","ts":"2021-08-24 15:00:43.817","caller":"sql_util/sql_util.go:137","msg":"sql condition is : [uid courseid index user]"}
+{"level":"info","ts":"2021-08-24 15:00:43.818","caller":"sql_util/sql_util.go:137","msg":"sql condition is : [firstname lastname age name high]"}
+{"level":"info","ts":"2021-08-24 15:00:43.819","caller":"sql_util/sql_util.go:137","msg":"sql condition is : []"}
+{"level":"info","ts":"2021-08-24 15:00:43.819","caller":"sql_util/sql_util.go:137","msg":"sql condition is : [uid courseid `index` name]"}
+{"level":"info","ts":"2021-11-04 17:42:12.401","caller":"sql_util/sql_util.go:48","msg":"build rollback delete sql : INSERT INTO auth (id, channels, permission, topic, backup_status, backup_id) VALUES ('1', 'hello', '2', 'hello', '4', '5'), ('4', 'hi', '3', 'boy', '5', '6'); "}
+{"level":"info","ts":"2021-11-04 17:42:12.406","caller":"sql_util/sql_util.go:138","msg":"sql condition is : [firstname lastname age name high]"}
+{"level":"info","ts":"2021-11-04 17:42:12.407","caller":"sql_util/sql_util.go:138","msg":"sql condition is : []"}
+{"level":"info","ts":"2021-11-04 17:42:12.407","caller":"sql_util/sql_util.go:138","msg":"sql condition is : [uid courseid `index` name]"}
+{"level":"info","ts":"2021-11-04 17:42:12.407","caller":"sql_util/sql_util.go:138","msg":"sql condition is : [uid courseid index user]"}
+{"level":"info","ts":"2021-11-04 17:42:12.409","caller":"sql_util/sql_util.go:138","msg":"sql condition is : [firstname lastname age name high]"}
+{"level":"info","ts":"2021-11-04 17:42:12.409","caller":"sql_util/sql_util.go:138","msg":"sql condition is : []"}
+{"level":"info","ts":"2021-11-04 17:42:12.409","caller":"sql_util/sql_util.go:138","msg":"sql condition is : [uid courseid `index` name]"}

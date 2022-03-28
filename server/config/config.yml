@@ -1,0 +1,45 @@
+# config
+server:
+  port: 8081
+  env: "dev" # test, prod, dev
+  log_level: "debug" # debug, info, warning, error
+  log_dir: "./"
+  show_sql: true
+  num_once_limit: 100
+  exec_no_backup: false # 备份失败是否继续执行
+  aes_key: "l02mx893j3283445"
+  aes_iv: "08783ksu3k390dj3" # length same to ase_key; 16
+
+db:
+  address: "127.0.0.1"
+  port: 3306
+  user: "root"
+  password: "aaaaaa"
+  db_name: "owl"
+  max_idle_conn: 2
+  max_open_conn: 10
+
+login:
+  ldap:
+    host: "ldap.pri.ibanyu.com"
+    port: 389
+    base_dn: "dc=ipalfish,dc=com"
+    use_ssl: false
+    bind_dn: "cn=Manager,dc=ipalfish,dc=com"
+    bind_pwd: "Ccjsj1200"
+  login_path: "http://baidu.com"
+  token_secret: "ipalfish-db-injection-c362ef0dce45bb48b8f400e34b74c37b"
+  token_effective_hour: 1
+
+role:
+  from: "admin" # admin, conf, net(need code)
+  net:
+    reviewer_api_address: "https://sea.pri.ibanyu.com/qtapi/base/organization/employee/batch/list"
+    reviewer_api_token: "prI6IkpXVCIsImnlRCDYcb8yTuPXJOVMrsgg"
+    dba_api_address: "https://sea.pri.ibanyu.com/utilapi/base/servmgr/busi/member/list"
+    dba_api_token: "prn=prnkpXVCIsImtpZCI6MTYwMzk0NDE3Mn0.eyJpc3MiFFPVmptanlRPT0ifQ.mmOMTsqv804CRK-GjeMXRGE8CDYcb8yTuPXJOVMrsgg"
+    dba_department_id: 120002
+  conf:
+    dba:
+      - ""
+      - ""
