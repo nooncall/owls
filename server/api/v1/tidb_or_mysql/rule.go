@@ -14,7 +14,7 @@ type RuleApi struct {}
 func (ruleApi *RuleApi)LisRule(ctx *gin.Context) {
 	rules := checker.ListRules()
 	response.OkWithData(ListData{
-		Items:  rules,
+		List:   rules,
 		Total:  int64(len(rules)),
 		More:   false,
 		Offset: 0,

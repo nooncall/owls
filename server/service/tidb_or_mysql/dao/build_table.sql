@@ -78,8 +78,8 @@ CREATE TABLE IF NOT EXISTS `owl_rule_status`
   COLLATE = utf8mb4_bin
   AUTO_INCREMENT = 7077 COMMENT '规则状态任务表';
 
-DROP TABLE IF EXISTS `owl_cluster`;
-CREATE TABLE IF NOT EXISTS `owl_cluster`
+DROP TABLE IF EXISTS `owl_clusters`;
+CREATE TABLE IF NOT EXISTS `owl_clusters`
 (
     `id`          BIGINT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '自增主键',
     `name`        VARCHAR(160)    NOT NULL DEFAULT '' COMMENT '名称',

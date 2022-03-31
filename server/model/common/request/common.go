@@ -6,6 +6,13 @@ type PageInfo struct {
 	PageSize int `json:"pageSize" form:"pageSize"` // 每页大小
 }
 
+type SortPageInfo struct {
+	PageInfo
+	OrderKey string `json:"orderKey"` // 排序
+	Key      string `json:"key"`
+	Desc     bool   `json:"desc"` // 排序方式:升序false(默认)|降序true
+}
+
 // GetById Find by id structure
 type GetById struct {
 	ID int `json:"id" form:"id"` // 主键ID

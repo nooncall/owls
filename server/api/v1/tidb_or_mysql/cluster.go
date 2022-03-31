@@ -2,6 +2,8 @@ package tidb_or_mysql
 
 import (
 	"fmt"
+	"github.com/flipped-aurora/gin-vue-admin/server/model/common/request"
+	"github.com/flipped-aurora/gin-vue-admin/server/utils"
 	"strconv"
 
 	"github.com/gin-gonic/gin"
@@ -27,17 +29,26 @@ func (clusterApi *ClusterApi)ListDB(ctx *gin.Context) {
 func (clusterApi *ClusterApi)ListCluster(ctx *gin.Context) {
 	f := "ListCluster()-->"
 
-	clusters, err := db_info.ListClusterForUI()
+	var pageInfo request.SortPageInfo
+	ctx.ShouldBindJSON(&pageInfo)
+	if err := utils.Verify(pageInfo.PageInfo, utils.PageInfoVerify); err != nil {
+		response.FailWithMessage(err.Error(), ctx)
+		return
+	}
+
+	clusters, err := db_info.ListClusterForUI(pageInfo)
 	if err != nil {
 		response.FailWithMessage(fmt.Sprintf("%s,list cluster failed :%s ", f, err.Error()), ctx)
 		return
 	}
 
 	response.OkWithData(ListData{
-		Items:  clusters,
+		List:   clusters,
 		Total:  int64(len(clusters)),
 		More:   false,
 		Offset: 0,
+		Page: pageInfo.Page,
+		PageSize: pageInfo.PageSize,
 	}, ctx)
 }
 

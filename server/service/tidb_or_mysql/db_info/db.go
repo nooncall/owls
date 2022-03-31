@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"fmt"
 
+	"github.com/flipped-aurora/gin-vue-admin/server/model/common/request"
 	"github.com/flipped-aurora/gin-vue-admin/server/service/tidb_or_mysql/task"
 	"github.com/flipped-aurora/gin-vue-admin/server/utils"
 )
@@ -38,7 +39,7 @@ func (DBInfoTool) GetDBConn(dbName, clusterName string) (*task.DBInfo, error) {
 
 // return dbs and mapping cluster
 func ListAllDB() (map[string][]string, error) {
-	clusters, err := ListCluster()
+	clusters, err := ListCluster(request.SortPageInfo{})
 	if err != nil {
 		return nil, err
 	}

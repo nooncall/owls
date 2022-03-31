@@ -33,10 +33,10 @@ func (s *TidbOrMysqlRouter) InitApiRouter(Router *gin.RouterGroup) {
 	{
 		clusterApi := v1.ApiGroupApp.TiDBOrMysqlGroup.ClusterApi
 
-		apiRouter.POST("/cluster", clusterApi.AddCluster)
+		apiRouter.POST("/cluster", clusterApi.AddCluster) // without record can paas
 		apiRouter.PUT("/cluster", clusterApi.UpdateCluster)
 		apiRouter.DELETE("/cluster", clusterApi.DelCluster)
-		apiRouterWithoutRecord.GET("/cluster/list", clusterApi.ListCluster)
+		apiRouterWithoutRecord.POST("/cluster/list", clusterApi.ListCluster)
 		apiRouterWithoutRecord.GET("/cluster/db/list", clusterApi.ListDB)
 	}
 

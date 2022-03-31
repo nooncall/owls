@@ -14,8 +14,8 @@ import (
 var DB *gorm.DB
 
 func GetDB() *gorm.DB {
-	//return DB
-	return global.GVA_DB
+	// todo, refactor to config~~
+	return global.GVA_DB.Debug()
 }
 
 func InitDB() {

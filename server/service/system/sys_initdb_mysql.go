@@ -2,8 +2,6 @@ package system
 
 import (
 	"fmt"
-	"path/filepath"
-
 	"github.com/flipped-aurora/gin-vue-admin/server/config"
 	"github.com/flipped-aurora/gin-vue-admin/server/global"
 	model "github.com/flipped-aurora/gin-vue-admin/server/model/system"
@@ -14,6 +12,10 @@ import (
 	uuid "github.com/satori/go.uuid"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
+	"gorm.io/gorm/logger"
+	"log"
+	"os"
+	"path/filepath"
 )
 
 // writeMysqlConfig mysql回写配置
@@ -49,7 +51,17 @@ func (initDBService *InitDBService) initMysqlDB(conf request.InitDB) error {
 		DSN:                       mysqlConfig.Dsn(), // DSN data source name
 		DefaultStringSize:         191,               // string 类型字段的默认长度
 		SkipInitializeWithVersion: true,              // 根据版本自动配置
-	}), &gorm.Config{DisableForeignKeyConstraintWhenMigrating: true}); err != nil {
+		//refactor to gorm.config todo ...
+	}), &gorm.Config{DisableForeignKeyConstraintWhenMigrating: true,
+		Logger: logger.New(
+			log.New(os.Stdout, "\r\n", log.LstdFlags), // io writer
+			logger.Config{
+				//SlowThreshold:             time.Second,   // Slow SQL threshold
+				LogLevel:                  logger.Info, // Log level
+				IgnoreRecordNotFoundError: true,          // Ignore ErrRecordNotFound error for logger
+				Colorful:                  true,         // Disable color
+			},
+		)}); err != nil {
 		return nil
 	} else {
 		global.GVA_DB = db

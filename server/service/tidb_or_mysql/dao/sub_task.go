@@ -8,7 +8,7 @@ type SubTaskDaoImpl struct {
 var SubTask SubTaskDaoImpl
 
 func (SubTaskDaoImpl) UpdateItem(item *task.OwlExecItem) error {
-	return GetDB().Model(item).Where("id = ?", item.ID).Update(item).Error
+	return GetDB().Model(item).Where("id = ?", item.ID).Updates(item).Error
 }
 
 func (SubTaskDaoImpl) DelItem(item *task.OwlExecItem) error {
@@ -16,5 +16,5 @@ func (SubTaskDaoImpl) DelItem(item *task.OwlExecItem) error {
 }
 
 func (SubTaskDaoImpl) UpdateItemByBackupId(item *task.OwlExecItem) error {
-	return GetDB().Model(item).Where("backup_id = ?", item.BackupID).Update(item).Error
+	return GetDB().Model(item).Where("backup_id = ?", item.BackupID).Updates(item).Error
 }

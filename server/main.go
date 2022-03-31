@@ -1,9 +1,11 @@
 package main
 
 import (
+	"github.com/flipped-aurora/gin-vue-admin/server/config"
 	"github.com/flipped-aurora/gin-vue-admin/server/core"
 	"github.com/flipped-aurora/gin-vue-admin/server/global"
 	"github.com/flipped-aurora/gin-vue-admin/server/initialize"
+	"github.com/flipped-aurora/gin-vue-admin/server/service/tidb_or_mysql/injection"
 	"go.uber.org/zap"
 )
 
@@ -32,5 +34,10 @@ func main() {
 		db, _ := global.GVA_DB.DB()
 		defer db.Close()
 	}
+
+	// todo refactor to db
+	config.InitConfig("")
+	injection.Injection()
+
 	core.RunWindowsServer()
 }

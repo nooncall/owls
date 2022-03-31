@@ -1,9 +1,10 @@
 package db_info
 
 import (
-	"github.com/flipped-aurora/gin-vue-admin/server/service/tidb_or_mysql"
 	"time"
 
+	"github.com/flipped-aurora/gin-vue-admin/server/model/common/request"
+	"github.com/flipped-aurora/gin-vue-admin/server/service/tidb_or_mysql"
 	"github.com/flipped-aurora/gin-vue-admin/server/utils"
 )
 
@@ -25,7 +26,7 @@ type ClusterDao interface {
 	UpdateCluster(cluster *OwlCluster) error
 	DelCluster(id int64) error
 	GetClusterByName(clusterName string) (*OwlCluster, error)
-	ListCluster() ([]OwlCluster, error)
+	ListCluster(pageInfo request.SortPageInfo) ([]OwlCluster, error)
 }
 
 var clusterDao ClusterDao
@@ -81,14 +82,14 @@ func GetClusterByName(name string) (*OwlCluster, error) {
 	return cluster, nil
 }
 
-func ListCluster() ([]OwlCluster, error) {
-	return clusterDao.ListCluster()
+func ListCluster(pageInfo request.SortPageInfo) ([]OwlCluster, error) {
+	return clusterDao.ListCluster(pageInfo)
 }
 
 const pwdReplace = "******"
 
-func ListClusterForUI() ([]OwlCluster, error) {
-	clusters, err := ListCluster()
+func ListClusterForUI(pageInfo request.SortPageInfo) ([]OwlCluster, error) {
+	clusters, err := ListCluster(pageInfo)
 	if err != nil {
 		return nil, err
 	}

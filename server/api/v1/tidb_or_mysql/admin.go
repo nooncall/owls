@@ -47,7 +47,7 @@ func (adminApi *AdminApi) ListAdmin(ctx *gin.Context) {
 	}
 
 	response.OkWithData(ListData{
-		Items:  admins,
+		List:   admins,
 		Total:  count,
 		More:   count > int64(page.Offset+page.Limit),
 		Offset: page.Offset,

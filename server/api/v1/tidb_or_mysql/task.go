@@ -31,7 +31,7 @@ func (taskApi *TaskApi)ListExecTask(ctx *gin.Context) {
 	}
 
 	response.OkWithData(ListData{
-		Items:  setTypeNameForTasks(task),
+		List:   setTypeNameForTasks(task),
 		Total:  count,
 		More:   count > int64(page.Offset+page.Limit),
 		Offset: page.Offset,
@@ -54,7 +54,7 @@ func (taskApi *TaskApi)ListReviewerTask(ctx *gin.Context) {
 	}
 
 	response.OkWithData(ListData{
-		Items:  setTypeNameForTasks(task),
+		List:   setTypeNameForTasks(task),
 		Total:  count,
 		More:   count > int64(page.Offset+page.Limit),
 		Offset: page.Offset,
@@ -77,7 +77,7 @@ func (taskApi *TaskApi)ListHistoryTask(ctx *gin.Context) {
 	}
 
 	response.OkWithData(ListData{
-		Items:  setTypeNameForTasks(task),
+		List:   setTypeNameForTasks(task),
 		Total:  count,
 		More:   count > int64(page.Offset+page.Limit),
 		Offset: page.Offset,

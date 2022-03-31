@@ -7,8 +7,10 @@ type Resp struct {
 }
 
 type ListData struct {
-	Total  int64       `json:"total"`
-	Items  interface{} `json:"items"`
-	More   bool        `json:"more"`
-	Offset int         `json:"offset"`
+	Total    int64       `json:"total"`
+	List     interface{} `json:"list"`
+	More     bool        `json:"more"`
+	Offset   int         `json:"offset"`
+	Page     int         `json:"page"`
+	PageSize int         `json:"pageSize"`
 }

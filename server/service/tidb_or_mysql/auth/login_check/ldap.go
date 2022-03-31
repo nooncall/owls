@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"sync"
 
+	ldap "github.com/jtblin/go-ldap-client"
+
 	"github.com/flipped-aurora/gin-vue-admin/server/config"
 	"github.com/flipped-aurora/gin-vue-admin/server/utils/logger"
 )
