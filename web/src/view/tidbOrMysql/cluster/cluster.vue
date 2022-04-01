@@ -3,7 +3,7 @@
     <div class="gva-search-box">
       <el-form ref="searchForm" :inline="true" :model="searchInfo">
         <el-form-item label="模糊查询">
-          <el-input v-model="searchInfo.key" placeholder="name" />
+          <el-input v-model="searchInfo.key" placeholder="模糊查询" />
         </el-form-item>
         <el-form-item>
           <el-button size="small" type="primary" icon="search" @click="onSubmit">查询</el-button>
@@ -71,7 +71,6 @@
             @size-change="handleSizeChange"
         />
       </div>
-
     </div>
 
     <el-dialog v-model="dialogFormVisible" :before-close="closeDialog" :title="dialogTitle">

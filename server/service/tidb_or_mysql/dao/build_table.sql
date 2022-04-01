@@ -66,8 +66,8 @@ CREATE TABLE IF NOT EXISTS `owl_exec_item`
   COLLATE = utf8mb4_bin
   AUTO_INCREMENT = 7077 COMMENT '子任务里的一条sql，执行单位';
 
-DROP TABLE IF EXISTS `owl_rule_status`;
-CREATE TABLE IF NOT EXISTS `owl_rule_status`
+DROP TABLE IF EXISTS `owl_rule_statuses`;
+CREATE TABLE IF NOT EXISTS `owl_rule_statuses`
 (
     `id`      BIGINT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '自增主键',
     `name`    VARCHAR(120)     NOT NULL DEFAULT '' COMMENT '规则名',

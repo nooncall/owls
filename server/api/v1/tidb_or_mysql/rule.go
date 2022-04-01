@@ -2,26 +2,34 @@ package tidb_or_mysql
 
 import (
 	"fmt"
+
+	"github.com/flipped-aurora/gin-vue-admin/server/model/common/request"
 	"github.com/flipped-aurora/gin-vue-admin/server/model/common/response"
-
-	"github.com/gin-gonic/gin"
-
 	"github.com/flipped-aurora/gin-vue-admin/server/service/tidb_or_mysql/checker"
+	"github.com/flipped-aurora/gin-vue-admin/server/utils"
+	"github.com/gin-gonic/gin"
 )
 
-type RuleApi struct {}
+type RuleApi struct{}
 
-func (ruleApi *RuleApi)LisRule(ctx *gin.Context) {
-	rules := checker.ListRules()
+func (ruleApi *RuleApi) LisRule(ctx *gin.Context) {
+	var pageInfo request.SortPageInfo
+	ctx.ShouldBindJSON(&pageInfo)
+	if err := utils.Verify(pageInfo.PageInfo, utils.PageInfoVerify); err != nil {
+		response.FailWithMessage(err.Error(), ctx)
+		return
+	}
+
+	rules,total := checker.ListRules(pageInfo)
 	response.OkWithData(ListData{
 		List:   rules,
-		Total:  int64(len(rules)),
-		More:   false,
-		Offset: 0,
+		Total:  int64(total),
+		PageSize: pageInfo.PageSize,
+		Page: pageInfo.Page,
 	}, ctx)
 }
 
-func (ruleApi *RuleApi)UpdateRuleStatus(ctx *gin.Context) {
+func (ruleApi *RuleApi) UpdateRuleStatus(ctx *gin.Context) {
 	f := "UpdateRuleStatus()-->"
 
 	params := struct {

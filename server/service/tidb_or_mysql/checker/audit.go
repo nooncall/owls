@@ -33,7 +33,7 @@ func (CheckerService) SqlCheck(sql, charset, collation string, info *task.DBInfo
 
 	pass = true
 	for _, v := range Rules {
-		if v.Close {
+		if !v.Open {
 			continue
 		}
 

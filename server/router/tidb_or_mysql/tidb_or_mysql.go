@@ -51,7 +51,7 @@ func (s *TidbOrMysqlRouter) InitApiRouter(Router *gin.RouterGroup) {
 	{
 		ruleApi := v1.ApiGroupApp.TiDBOrMysqlGroup.RuleApi
 
-		apiRouterWithoutRecord.GET("/rule/list", ruleApi.LisRule)
+		apiRouterWithoutRecord.POST("/rule/list", ruleApi.LisRule)
 		apiRouter.PUT("/rule/status", ruleApi.UpdateRuleStatus)
 	}
 }

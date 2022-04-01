@@ -2,7 +2,9 @@ package checker
 
 import (
 	"fmt"
+	"strings"
 
+	"github.com/flipped-aurora/gin-vue-admin/server/model/common/request"
 	"github.com/flipped-aurora/gin-vue-admin/server/utils/logger"
 )
 
@@ -34,7 +36,7 @@ func InitRuleStatus() {
 	for _, ruleStatus := range ruleStatuses {
 		for idx, _ := range Rules {
 			if Rules[idx].Name == ruleStatus.Name && ruleStatus.Close == ruleClose {
-				Rules[idx].Close = true
+				Rules[idx].Open = false
 			}
 		}
 	}
@@ -57,14 +59,40 @@ func UpdateRuleStatus(name, action string) (err error) {
 	}
 }
 
-func ListRules() []Rule {
-	return Rules
+func ListRules(info request.SortPageInfo) ([]Rule,int) {
+	// todo, support sort
+	limit := info.PageSize
+	offset := info.PageSize * (info.Page - 1)
+
+	result := Rules
+	if info.Key != ""{
+		result = filterRule(info.Key)
+	}
+
+	if offset > len(result){
+		return  nil, len(result)
+	}
+	if offset + limit > len(result){
+		limit = len(result) - offset
+	}
+
+	return result[offset:offset+limit], len(result)
+}
+
+func filterRule(key string) []Rule {
+	var rules []Rule
+	for _, v := range Rules{
+		if strings.Contains(v.Name, key) || strings.Contains(v.Summary, key){
+			rules = append(rules, v)
+		}
+	}
+	return rules
 }
 
 func updateCacheRuleStatus(name string, close bool) {
 	for i, v := range Rules {
 		if v.Name == name {
-			Rules[i].Close = close
+			Rules[i].Open = !close
 		}
 	}
 }
