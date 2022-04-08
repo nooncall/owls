@@ -8,6 +8,13 @@ export const listCluster = (data) => {
   })
 }
 
+export const listDatabase = (data) => {
+  return service({
+    url: '/db/cluster/db/list?cluster=' + data,
+    method: 'get'
+  })
+}
+
 export const deleteCluster = (data) => {
   return service({
     url: '/db/cluster?id=' + data.id,

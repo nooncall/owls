@@ -2,89 +2,91 @@ package tidb_or_mysql
 
 import (
 	"fmt"
+	"github.com/flipped-aurora/gin-vue-admin/server/model/common/request"
 	"github.com/flipped-aurora/gin-vue-admin/server/model/common/response"
+	"github.com/flipped-aurora/gin-vue-admin/server/utils"
 	"strconv"
 	"time"
 
 	"github.com/gin-gonic/gin"
 
-	service "github.com/flipped-aurora/gin-vue-admin/server/service/tidb_or_mysql"
 	"github.com/flipped-aurora/gin-vue-admin/server/service/tidb_or_mysql/task"
 	"github.com/flipped-aurora/gin-vue-admin/server/utils/logger"
 )
 
-type TaskApi struct {}
+type TaskApi struct{}
 
-func (taskApi *TaskApi)ListExecTask(ctx *gin.Context) {
+func (taskApi *TaskApi) ListExecTask(ctx *gin.Context) {
 	f := "ListExecTask() -->"
-	var page service.Pagination
+	var page request.SortPageInfo
 	if err := ctx.BindJSON(&page); err != nil {
 		response.FailWithMessage(fmt.Sprintf("%s, parse param failed :%s ", f, err.Error()), ctx)
 		return
 	}
 
 	page.Operator = ctx.MustGet("user").(string)
-	task, count, err := task.ListTask(&page, task.ExecStatus())
+	task, count, err := task.ListTask(page, task.ExecStatus())
 	if err != nil {
 		response.FailWithMessage(fmt.Sprintf("%s: list ListExecTask err: %s", f, err.Error()), ctx)
 		return
 	}
 
 	response.OkWithData(ListData{
-		List:   setTypeNameForTasks(task),
-		Total:  count,
-		More:   count > int64(page.Offset+page.Limit),
-		Offset: page.Offset,
-	},ctx)
-}
-
-func (taskApi *TaskApi)ListReviewerTask(ctx *gin.Context) {
-	f := "ListExecTask() -->"
-	var page service.Pagination
-	if err := ctx.BindJSON(&page); err != nil {
-		response.FailWithMessage(fmt.Sprintf("%s, parse param failed :%s ", f, err.Error()), ctx)
-		return
-	}
-
-	page.Operator = ctx.MustGet("user").(string)
-	task, count, err := task.ListTask(&page, task.ReviewerStatus())
-	if err != nil {
-		response.FailWithMessage(fmt.Sprintf("%s: list ListExecTask err: %s", f, err.Error()), ctx)
-		return
-	}
-
-	response.OkWithData(ListData{
-		List:   setTypeNameForTasks(task),
-		Total:  count,
-		More:   count > int64(page.Offset+page.Limit),
-		Offset: page.Offset,
+		List:     setTypeNameForTasks(task),
+		Total:    count,
+		PageSize: page.PageSize,
+		Page:     page.Page,
 	}, ctx)
 }
 
-func (taskApi *TaskApi)ListHistoryTask(ctx *gin.Context) {
+func (taskApi *TaskApi) ListReviewerTask(ctx *gin.Context) {
+	f := "ListExecTask() -->"
+	var page request.SortPageInfo
+	if err := ctx.BindJSON(&page); err != nil {
+		response.FailWithMessage(fmt.Sprintf("%s, parse param failed :%s ", f, err.Error()), ctx)
+		return
+	}
+
+	claims, _ := utils.GetClaims(ctx)
+	page.Operator = claims.Username
+	task, count, err := task.ListTask(page, task.ReviewerStatus())
+	if err != nil {
+		response.FailWithMessage(fmt.Sprintf("%s: list ListExecTask err: %s", f, err.Error()), ctx)
+		return
+	}
+
+	response.OkWithData(ListData{
+		List:     setTypeNameForTasks(task),
+		Total:    count,
+		Page:     page.Page,
+		PageSize: page.PageSize,
+	}, ctx)
+}
+
+func (taskApi *TaskApi) ListHistoryTask(ctx *gin.Context) {
 	f := "ListHistoryTask() -->"
-	var page service.Pagination
+	var page request.SortPageInfo
 	if err := ctx.BindJSON(&page); err != nil {
 		response.FailWithMessage(fmt.Sprintf("%s, parse param failed :%s ", f, err.Error()), ctx)
 		return
 	}
 
 	page.Operator = ctx.MustGet("user").(string)
-	task, count, err := task.ListHistoryTask(&page)
+	task, count, err := task.ListHistoryTask(page)
 	if err != nil {
 		response.FailWithMessage(fmt.Sprintf("%s: list ListHistoryTask err: %s", f, err.Error()), ctx)
 		return
 	}
 
 	response.OkWithData(ListData{
-		List:   setTypeNameForTasks(task),
-		Total:  count,
-		More:   count > int64(page.Offset+page.Limit),
-		Offset: page.Offset,
-	},ctx)
+		List:     setTypeNameForTasks(task),
+		Total:    count,
+		Page:     page.Page,
+		PageSize: page.PageSize,
+	}, ctx)
 }
 
-func (taskApi *TaskApi)GetTask(ctx *gin.Context) {
+func (taskApi *TaskApi) GetTask(ctx *gin.Context) {
 	f := "GetTask() -->"
 
 	user := ctx.MustGet("user").(string)
@@ -104,7 +106,7 @@ func (taskApi *TaskApi)GetTask(ctx *gin.Context) {
 	response.OkWithData(setTypeNameForTask(task), ctx)
 }
 
-func (taskApi *TaskApi)UpdateTask(ctx *gin.Context) {
+func (taskApi *TaskApi) UpdateTask(ctx *gin.Context) {
 	f := "UpdateTask()-->"
 	var taskParam task.OwlTask
 	if err := ctx.BindJSON(&taskParam); err != nil {
@@ -112,15 +114,21 @@ func (taskApi *TaskApi)UpdateTask(ctx *gin.Context) {
 		return
 	}
 
-	taskParam.Executor = ctx.MustGet("user").(string)
+	claims, err := utils.GetClaims(ctx)
+	if err != nil{
+		response.FailWithMessage("get user err: " + err.Error(), ctx)
+		return
+	}
+
+	taskParam.Executor = claims.Username
 	if err := task.UpdateTask(&taskParam); err != nil {
-		response.FailWithMessage(fmt.Sprintf("%s, update task failed :%s", f, err.Error()),  ctx)
+		response.FailWithMessage(fmt.Sprintf("%s, update task failed :%s", f, err.Error()), ctx)
 		return
 	}
 	response.Ok(ctx)
 }
 
-func (taskApi *TaskApi)AddTask(ctx *gin.Context) {
+func (taskApi *TaskApi) AddTask(ctx *gin.Context) {
 	f := "AddTask()-->"
 	var taskParam task.OwlTask
 	if err := ctx.BindJSON(&taskParam); err != nil {
@@ -133,7 +141,13 @@ func (taskApi *TaskApi)AddTask(ctx *gin.Context) {
 		return
 	}
 
-	taskParam.Creator = ctx.MustGet("user").(string)
+	claims, err := utils.GetClaims(ctx)
+	if err != nil{
+		response.FailWithMessage("get user err: " + err.Error(), ctx)
+		return
+	}
+
+	taskParam.Creator = claims.Username
 	id, err := task.AddTask(&taskParam)
 	if err != nil {
 		response.FailWithMessage(fmt.Sprintf("%s, add task failed :%s", f, err.Error()), ctx)

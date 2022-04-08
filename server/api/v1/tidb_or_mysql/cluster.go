@@ -17,7 +17,13 @@ type ClusterApi struct {}
 func (clusterApi *ClusterApi)ListDB(ctx *gin.Context) {
 	f := "ListDB()-->"
 
-	dbInfo, err := db_info.ListAllDB()
+	cluster := ctx.Query("cluster")
+	if cluster == ""{
+		response.FailWithMessage("need cluster param: cluster name", ctx)
+		return
+	}
+
+	dbInfo, err := db_info.ListAllDB(cluster)
 	if err != nil {
 		response.FailWithMessage(fmt.Sprintf("%s,list db failed :%s ", f, err.Error()), ctx)
 		return

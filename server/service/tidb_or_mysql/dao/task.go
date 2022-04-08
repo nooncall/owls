@@ -2,9 +2,9 @@ package dao
 
 import (
 	"fmt"
-	"github.com/flipped-aurora/gin-vue-admin/server/service/tidb_or_mysql"
 	"gorm.io/gorm"
 
+	"github.com/flipped-aurora/gin-vue-admin/server/model/common/request"
 	"github.com/flipped-aurora/gin-vue-admin/server/service/tidb_or_mysql/task"
 )
 
@@ -45,7 +45,7 @@ func (TaskDaoImpl) UpdateTask(task *task.OwlTask) error {
 	return GetDB().Model(task).Where("id = ?", task.ID).Updates(task).Error
 }
 
-func (TaskDaoImpl) ListTask(page *tidb_or_mysql.Pagination, isDBA bool, status []task.ItemStatus) ([]task.OwlTask, int64, error) {
+func (TaskDaoImpl) ListTask(page request.SortPageInfo, isDBA bool, status []task.ItemStatus) ([]task.OwlTask, int64, error) {
 	condition := "(name like ? or creator like ?) and !(status = ? and creator != ?) and status in (?)"
 	if !isDBA {
 		condition = fmt.Sprintf("(creator = '%s' or reviewer = '%s') and ", page.Operator, page.Operator) + condition
@@ -58,8 +58,10 @@ func (TaskDaoImpl) ListTask(page *tidb_or_mysql.Pagination, isDBA bool, status [
 		return nil, 0, err
 	}
 
+	limit := page.PageSize
+	offset := page.PageSize * (page.Page - 1)
 	var tasks []task.OwlTask
-	if err := GetDB().Order("ct desc").Offset(page.Offset).Limit(page.Limit).
+	if err := GetDB().Order("ct desc").Offset(offset).Limit(limit).
 		Find(&tasks, condition, page.Key, page.Key, task.CheckFailed, page.Operator, status).Error; err != nil {
 		return nil, 0, err
 	}
@@ -76,7 +78,7 @@ func (TaskDaoImpl) ListTask(page *tidb_or_mysql.Pagination, isDBA bool, status [
 	return tasks, count, nil
 }
 
-func (TaskDaoImpl) ListHistoryTask(page *tidb_or_mysql.Pagination, isDBA bool) ([]task.OwlTask, int64, error) {
+func (TaskDaoImpl) ListHistoryTask(page request.SortPageInfo, isDBA bool) ([]task.OwlTask, int64, error) {
 	condition := "(name like ? or creator like ?) and status in (?)"
 	if !isDBA {
 		condition = condition + fmt.Sprintf(" and (creator = '%s' or reviewer = '%s')", page.Operator, page.Operator)
@@ -89,8 +91,10 @@ func (TaskDaoImpl) ListHistoryTask(page *tidb_or_mysql.Pagination, isDBA bool) (
 		return nil, 0, err
 	}
 
+	limit := page.PageSize
+	offset := page.PageSize * (page.Page - 1)
 	var tasks []task.OwlTask
-	if err := GetDB().Order("ct desc").Offset(page.Offset).Limit(page.Limit).
+	if err := GetDB().Order("ct desc").Offset(offset).Limit(limit).
 		Find(&tasks, condition, page.Key, page.Key, task.HistoryStatus()).Error; err != nil {
 		return nil, 0, err
 	}

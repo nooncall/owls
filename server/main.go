@@ -6,6 +6,7 @@ import (
 	"github.com/flipped-aurora/gin-vue-admin/server/global"
 	"github.com/flipped-aurora/gin-vue-admin/server/initialize"
 	"github.com/flipped-aurora/gin-vue-admin/server/service/tidb_or_mysql/injection"
+	"github.com/flipped-aurora/gin-vue-admin/server/utils/logger"
 	"go.uber.org/zap"
 )
 
@@ -38,6 +39,7 @@ func main() {
 	// todo refactor to db
 	config.InitConfig("")
 	injection.Injection()
+	logger.InitLog(config.Conf.Server.LogDir, "owl.log", config.Conf.Server.LogLevel)
 
 	core.RunWindowsServer()
 }

@@ -3,7 +3,7 @@ package task
 import (
 	"errors"
 	"fmt"
-	"github.com/flipped-aurora/gin-vue-admin/server/service/tidb_or_mysql"
+	"github.com/flipped-aurora/gin-vue-admin/server/model/common/request"
 	"strings"
 	"time"
 
@@ -37,10 +37,10 @@ type OwlTask struct {
 type TaskDao interface {
 	AddTask(task *OwlTask) (int64, error)
 	UpdateTask(task *OwlTask) error
-	ListTask(pagination *tidb_or_mysql.Pagination, isDBA bool, status []ItemStatus) ([]OwlTask, int64, error)
-	ListHistoryTask(page *tidb_or_mysql.Pagination, isDBA bool) ([]OwlTask, int64, error)
+	ListTask(pageInfo request.SortPageInfo, isDBA bool, status []ItemStatus) ([]OwlTask, int64, error)
+	ListHistoryTask(pageInfo request.SortPageInfo, isDBA bool) ([]OwlTask, int64, error)
 	GetTask(id int64) (*OwlTask, error)
-	GetExecWaitTask() ([]OwlTask, int, error)
+	GetExecWaitTask() ([]OwlTask, int64, error)
 }
 
 var taskDao TaskDao
@@ -171,16 +171,21 @@ func refreshTaskStatus(taskId int64, et, ft int64, executor, execInfo string) er
 }
 
 func UpdateTask(task *OwlTask) error {
+	if task.ID == 0 && task.ExecItem != nil {
+		task.ID = task.ExecItem.TaskID
+	}
+
 	dbTask, err := taskDao.GetTask(task.ID)
 	if err != nil {
 		return err
 	}
-
-	isReviewer := strings.Contains(dbTask.Reviewer, task.Executor)
+	/*isReviewer := strings.Contains(dbTask.Reviewer, task.Executor)
 	isDba, err := AuthTool.IsDba(task.Executor)
 	if err != nil {
 		return err
-	}
+	}*/
+	// todo, use system role
+	isReviewer, isDba := true, true
 
 	//对于执行变更，检查权限
 	if task.Action == BeginAt || task.Action == SkipAt || (dbTask.Status == DBAPass && task.Action == Progress) {
@@ -308,30 +313,30 @@ func ProgressEdit(task, dbTask *OwlTask) error {
 	})
 }
 
-func ListTask(pagination *tidb_or_mysql.Pagination, status []ItemStatus) ([]OwlTask, int64, error) {
-	isDba, err := AuthTool.IsDba(pagination.Operator)
+func ListTask(pageInfo request.SortPageInfo, status []ItemStatus) ([]OwlTask, int64, error) {
+	isDba, err := AuthTool.IsDba(pageInfo.Operator)
 	if err != nil {
 		return nil, 0, err
 	}
-	tasks, count, err := taskDao.ListTask(pagination, isDba, status)
+	tasks, count, err := taskDao.ListTask(pageInfo, isDba, status)
 	if err != nil {
 		return nil, 0, err
 	}
 
 	for i, v := range tasks {
 		tasks[i].StatusName = StatusName(v.Status)
-		tasks[i].EditAuth = GetTaskOperateAuth(false, v.Creator == pagination.Operator, strings.Contains(v.Reviewer, pagination.Operator), isDba, &v)
+		// tasks[i].EditAuth = GetTaskOperateAuth(false, v.Creator == pagination.Operator, strings.Contains(v.Reviewer, pagination.Operator), isDba, &v)
 	}
 
 	return tasks, count, nil
 }
 
-func ListHistoryTask(pagination *tidb_or_mysql.Pagination) ([]OwlTask, int64, error) {
-	isDba, err := AuthTool.IsDba(pagination.Operator)
+func ListHistoryTask(page request.SortPageInfo) ([]OwlTask, int64, error) {
+	isDba, err := AuthTool.IsDba(page.Operator)
 	if err != nil {
 		return nil, 0, err
 	}
-	tasks, count, err := taskDao.ListHistoryTask(pagination, isDba)
+	tasks, count, err := taskDao.ListHistoryTask(page, isDba)
 	if err != nil {
 		return nil, 0, err
 	}
@@ -362,7 +367,7 @@ func GetTask(id int64, operator string) (*OwlTask, error) {
 	return task, nil
 }
 
-func GetExecWaitTask() ([]OwlTask, int, error) {
+func GetExecWaitTask() ([]OwlTask, int64, error) {
 	tasks, count, err := taskDao.GetExecWaitTask()
 	if err != nil {
 		return nil, 0, err
@@ -390,7 +395,7 @@ func CheckTaskType(task *OwlTask) error {
 func checkTaskType(sql string, taskType TaskType) error {
 	sql = strings.TrimSpace(sql)
 	parts := strings.SplitN(sql, " ", 2)
-	if len(parts) == 0 {
+	if len(parts) < 2 {
 		return fmt.Errorf("sql error")
 	}
 

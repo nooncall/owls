@@ -37,7 +37,9 @@ func AddAdmin(admin *OwlAdmin) (int64, error) {
 }
 
 func ListAdmin(pagination *tidb_or_mysql.Pagination) ([]OwlAdmin, int64, error) {
-	return adminDao.ListAdmin(pagination)
+	return nil, 0, nil
+	// todo, del or refactor
+	// return adminDao.ListAdmin(pagination)
 }
 
 func DelAdmin(id int64) error {

@@ -1,5 +1,5 @@
-DROP TABLE IF EXISTS `owl_task`;
-CREATE TABLE IF NOT EXISTS `owl_task`
+DROP TABLE IF EXISTS `owl_tasks`;
+CREATE TABLE IF NOT EXISTS `owl_tasks`
 (
     `id`             BIGINT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '自增主键',
     `name`           VARCHAR(150)     NOT NULL DEFAULT '' COMMENT '名称',
@@ -24,8 +24,8 @@ CREATE TABLE IF NOT EXISTS `owl_task`
   COLLATE = utf8mb4_bin
   AUTO_INCREMENT = 7077 COMMENT '任务表';
 
-DROP TABLE IF EXISTS `owl_subtask`;
-CREATE TABLE IF NOT EXISTS `owl_subtask`
+DROP TABLE IF EXISTS `owl_subtasks`;
+CREATE TABLE IF NOT EXISTS `owl_subtasks`
 (
     `id`           BIGINT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '自增主键',
     `task_id`      BIGINT UNSIGNED NOT NULL COMMENT 'task id',
@@ -40,8 +40,8 @@ CREATE TABLE IF NOT EXISTS `owl_subtask`
   COLLATE = utf8mb4_bin
   AUTO_INCREMENT = 7077 COMMENT '子任务表';
 
-DROP TABLE IF EXISTS `owl_exec_item`;
-CREATE TABLE IF NOT EXISTS `owl_exec_item`
+DROP TABLE IF EXISTS `owl_exec_items`;
+CREATE TABLE IF NOT EXISTS `owl_exec_items`
 (
     `id`            BIGINT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '自增主键',
     `task_id`       BIGINT UNSIGNED NOT NULL COMMENT 'task id',
