@@ -39,8 +39,8 @@ func (taskApi *TaskApi) ListExecTask(ctx *gin.Context) {
 	}, ctx)
 }
 
-func (taskApi *TaskApi) ListReviewerTask(ctx *gin.Context) {
-	f := "ListExecTask() -->"
+func (taskApi *TaskApi) ListTask(ctx *gin.Context) {
+	f := "ListTask() -->"
 	var page request.SortPageInfo
 	if err := ctx.BindJSON(&page); err != nil {
 		response.FailWithMessage(fmt.Sprintf("%s, parse param failed :%s ", f, err.Error()), ctx)

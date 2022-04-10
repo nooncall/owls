@@ -8,10 +8,10 @@ export const listTask = (data) => {
   })
 }
 
-export const deleteTask = (data) => {
+export const cancelTask = (data) => {
   return service({
     url: '/db/task',
-    method: 'delete',
+    method: 'put',
     data
   })
 }

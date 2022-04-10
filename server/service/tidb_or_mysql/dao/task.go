@@ -45,7 +45,49 @@ func (TaskDaoImpl) UpdateTask(task *task.OwlTask) error {
 	return GetDB().Model(task).Where("id = ?", task.ID).Updates(task).Error
 }
 
-func (TaskDaoImpl) ListTask(page request.SortPageInfo, isDBA bool, status []task.ItemStatus) ([]task.OwlTask, int64, error) {
+func (TaskDaoImpl) ListTask(info request.SortPageInfo, isDBA bool, status []task.ItemStatus) ([]task.OwlTask, int64, error) {
+	limit := info.PageSize
+	offset := info.PageSize * (info.Page - 1)
+
+	db := GetDB().Offset(offset)
+	if info.Key != "" {
+		fmtKey := "%" + info.Key + "%"
+		db = db.Where("id like ? or name like ? or status like ? or creator like ?",
+			fmtKey, fmtKey, fmtKey, fmtKey)
+	}
+	db = db.Where("status in (?) and creator = ?", status, info.Operator)
+
+	var count int64
+	if err := db.Model(&task.OwlTask{}).Count(&count).Error; err != nil {
+		return nil, 0, err
+	}
+
+	db.Limit(limit)
+	if info.OrderKey != "" {
+		db = db.Order(generateOrderField(info.OrderKey, info.Desc))
+	}else {
+		db = db.Order("ct desc")
+	}
+
+	var tasks []task.OwlTask
+	if err := db.Find(&tasks).Error; err != nil {
+		return nil, 0, err
+	}
+
+	for idx, taskV := range tasks {
+		formattedItems, _, err := getTaskExecItems(GetDB(), &taskV)
+		if err != nil {
+			return nil, 0, err
+		}
+
+		tasks[idx].ExecItems = formattedItems
+	}
+
+	return tasks, count, nil
+}
+
+
+func (TaskDaoImpl) ListExecTask(page request.SortPageInfo, isDBA bool, status []task.ItemStatus) ([]task.OwlTask, int64, error) {
 	condition := "(name like ? or creator like ?) and !(status = ? and creator != ?) and status in (?)"
 	if !isDBA {
 		condition = fmt.Sprintf("(creator = '%s' or reviewer = '%s') and ", page.Operator, page.Operator) + condition

@@ -72,8 +72,8 @@
                 icon="delete"
                 size="small"
                 type="text"
-                @click="deleteClusterFunc(scope.row)"
-            >删除</el-button>
+                @click="cancelClusterFunc(scope.row)"
+            >撤销</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -184,7 +184,7 @@ import {
   listTask,
   createTask,
   updateTask,
-  deleteTask,
+  cancelTask,
 } from '@/api/db/submit'
 import { toSQLLine } from '@/utils/stringFun'
 import warningBar from '@/components/warningBar/warningBar.vue'
@@ -381,7 +381,6 @@ const enterEditDialog = async() => {
             exec_item: form.value,
             action: "editItem"
           }
-          console.log("edit value is : ", params)
           const res = await updateTask(params)
           if (res.code === 0) {
             ElMessage({
@@ -475,18 +474,19 @@ const enterDialog = async() => {
   })
 }
 
-const deleteClusterFunc = async(row) => {
+const cancelClusterFunc = async(row) => {
   ElMessageBox.confirm('确定删除吗?', '提示', {
     confirmButtonText: '确定',
     cancelButtonText: '取消',
     type: 'warning'
   })
       .then(async() => {
-        const res = await deleteTask(row)
+        row.action = "cancel"
+        const res = await cancelTask(row)
         if (res.code === 0) {
           ElMessage({
             type: 'success',
-            message: '删除成功!'
+            message: '撤销成功!'
           })
           if (tableData.value.length === 1 && page.value > 1) {
             page.value--
@@ -558,8 +558,6 @@ const createFilter = (queryString: string) => {
 }
 
 const handleSelect = async (item: clusterItem) => {
-  // 从这里查db===
-  console.log("value is : ", item.value) // todo , del
   db.value = await loadDB(item.value)
 }
 
