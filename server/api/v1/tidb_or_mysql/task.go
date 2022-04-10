@@ -16,8 +16,8 @@ import (
 
 type TaskApi struct{}
 
-func (taskApi *TaskApi) ListExecTask(ctx *gin.Context) {
-	f := "ListExecTask() -->"
+func (taskApi *TaskApi) ListReviewTask(ctx *gin.Context) {
+	f := "ListReviewTask() -->"
 	var page request.SortPageInfo
 	if err := ctx.BindJSON(&page); err != nil {
 		response.FailWithMessage(fmt.Sprintf("%s, parse param failed :%s ", f, err.Error()), ctx)
@@ -27,7 +27,7 @@ func (taskApi *TaskApi) ListExecTask(ctx *gin.Context) {
 	page.Operator = ctx.MustGet("user").(string)
 	task, count, err := task.ListTask(page, task.ExecStatus())
 	if err != nil {
-		response.FailWithMessage(fmt.Sprintf("%s: list ListExecTask err: %s", f, err.Error()), ctx)
+		response.FailWithMessage(fmt.Sprintf("%s: list ListReviewTask err: %s", f, err.Error()), ctx)
 		return
 	}
 
@@ -49,9 +49,9 @@ func (taskApi *TaskApi) ListTask(ctx *gin.Context) {
 
 	claims, _ := utils.GetClaims(ctx)
 	page.Operator = claims.Username
-	task, count, err := task.ListTask(page, task.ReviewerStatus())
+	task, count, err := task.ListTask(page, task.SubmitStatus())
 	if err != nil {
-		response.FailWithMessage(fmt.Sprintf("%s: list ListExecTask err: %s", f, err.Error()), ctx)
+		response.FailWithMessage(fmt.Sprintf("%s: list ListReviewTask err: %s", f, err.Error()), ctx)
 		return
 	}
 

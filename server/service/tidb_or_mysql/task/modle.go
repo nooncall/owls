@@ -134,8 +134,8 @@ func HistoryStatus() []ItemStatus {
 	return []ItemStatus{Reject, Cancel, ExecCancel, ExecFailed, ExecSuccess}
 }
 
-func ReviewerStatus() []ItemStatus {
-	return []ItemStatus{CheckPass, CheckFailed}
+func SubmitStatus() []ItemStatus {
+	return []ItemStatus{CheckPass, CheckFailed, Reject}
 }
 
 func ExecStatus() []ItemStatus {

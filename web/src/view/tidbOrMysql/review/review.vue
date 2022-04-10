@@ -12,9 +12,6 @@
       </el-form>
     </div>
     <div class="gva-table-box">
-      <div class="gva-btn-list">
-        <el-button size="small" type="primary" icon="plus" @click="openDialog('add')">新增</el-button>
-      </div>
       <el-table :data="tableData" @sort-change="sortChange" row-key="id" @selection-change="handleSelectionChange">
         <el-table-column type="expand">
           <template #default="scope">
@@ -34,16 +31,16 @@
                 </template>
               </el-table-column>
               <el-table-column prop="remark" label="备注" width="200"></el-table-column>
-               <el-table-column prop="cat_id" label="操作">
-                 <template #default="scope">
-                   <el-button
-                       icon="edit"
-                       size="small"
-                       type="text"
-                       @click="editTaskFunc(scope.row)"
-                   >编辑</el-button>
-                 </template>
-               </el-table-column>
+              <el-table-column prop="cat_id" label="操作">
+                <template #default="scope">
+                  <el-button
+                      icon="edit"
+                      size="small"
+                      type="text"
+                      @click="editTaskFunc(scope.row)"
+                  >编辑</el-button>
+                </template>
+              </el-table-column>
             </el-table>
           </template>
         </el-table-column>
@@ -52,15 +49,20 @@
         <el-table-column align="left" label="状态" min-width="150" prop="status" sortable="custom" />
         <el-table-column align="left" label="创建者" min-width="150" prop="creator" sortable="custom" />
         <el-table-column align="left" label="创建时间" min-width="150" prop="ct" :formatter="dateFormatter" sortable="custom" />
-        <el-table-column align="left" label="说明" min-width="150" prop="reject_content" sortable="custom" />
         <el-table-column align="left" fixed="right" label="操作" width="200">
           <template #default="scope">
             <el-button
                 icon="delete"
                 size="small"
                 type="text"
-                @click="cancelClusterFunc(scope.row)"
-            >撤销</el-button>
+                @click="rejectFunc(scope.row)"
+            >驳回</el-button>
+            <el-button
+                icon="delete"
+                size="small"
+                type="text"
+                @click="detail(scope.row)"
+            >审核</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -77,74 +79,12 @@
       </div>
     </div>
 
-    <el-dialog v-model="dialogFormVisible" :before-close="closeDialog" :title="dialogTitle">
-      <warning-bar title="提交SQL，查数据请到此处：XXX" />
+    <el-dialog v-model="rejectDialogFormVisible" :before-close="closeDialog" :title="驳回">
       <el-form ref="apiForm" :model="form" :rules="rules" label-width="80px">
-        <el-form-item label="名称" prop="path">
-          <el-input v-model="form.name" input-style="width:350px" autocomplete="off" />
-        </el-form-item>
-        <el-form-item label="集群" prop="path">
-          <el-autocomplete
-              v-model="form.cluster_name"
-              :fetch-suggestions="querySearchAsync"
-              placeholder="请选择"
-              @select="handleSelect"
-          />
-        </el-form-item>
-        <el-form-item label="库名" prop="apiGroup">
-          <el-autocomplete
-              v-model="form.db_name"
-              :fetch-suggestions="querySearchDBAsync"
-              placeholder="请选择"
-          />
-        </el-form-item>
-        <el-form-item>
-          <el-radio-group v-model="form.task_type">
-            <el-radio  label="CREATE">建表</el-radio>
-            <el-radio label="UPDATE">改表</el-radio>
-            <el-radio label="DML">操作数据</el-radio>
-          </el-radio-group>
-        </el-form-item>
-        <el-form-item label="SQL" prop="description">
+        <el-form-item label="驳回原因" prop="description">
           <el-input
-              v-model="form.sql_content"
+              v-model="form.reject_content"
               :autosize="{ minRows: 3, maxRows: 5000 }"
-              type="textarea"
-              placeholder="Please input"
-          />
-        </el-form-item>
-        <el-form-item label="备注" prop="description">
-          <el-input
-              v-model="form.remark"
-              :autosize="{ minRows: 3, maxRows: 500 }"
-              type="textarea"
-              placeholder="Please input"
-          />
-        </el-form-item>
-      </el-form>
-      <template #footer>
-        <div class="dialog-footer">
-          <el-button size="small" @click="closeDialog">取 消</el-button>
-          <el-button size="small" type="primary" @click="enterDialog">确 定</el-button>
-        </div>
-      </template>
-    </el-dialog>
-
-    <el-dialog v-model="editDialogFormVisible" :before-close="closeDialog" :title="编辑">
-      <warning-bar title="编辑仅可提交单条SQL" />
-      <el-form ref="apiForm" :model="form" :rules="rules" label-width="80px">
-        <el-form-item label="SQL" prop="description">
-          <el-input
-              v-model="form.sql_content"
-              :autosize="{ minRows: 3, maxRows: 5000 }"
-              type="textarea"
-              placeholder="Please input"
-          />
-        </el-form-item>
-        <el-form-item label="备注" prop="description">
-          <el-input
-              v-model="form.remark"
-              :autosize="{ minRows: 3, maxRows: 500 }"
               type="textarea"
               placeholder="Please input"
           />
@@ -329,26 +269,16 @@ const initForm = () => {
 }
 
 const dialogTitle = ref('新增')
-const dialogFormVisible = ref(false)
-const editDialogFormVisible = ref(false)
-const openDialog = (key) => {
-  switch (key) {
-    case 'add':
-      dialogTitle.value = '新增'
-      break
-    case 'edit':
-      editDialogFormVisible.value = true
-      break
-    default:
-      break
-  }
-  type.value = key
-  dialogFormVisible.value = true
+const handleId = ref('');
+const rejectDialogFormVisible = ref(false)
+const openDialog = (id) => {
+  rejectDialogFormVisible.value = true
+  handleId.value = id
 }
+
 const closeDialog = () => {
   initForm()
-  dialogFormVisible.value = false
-  editDialogFormVisible.value = false
+  rejectDialogFormVisible.value = false
 }
 
 const editTaskFunc = async(row) => {
@@ -358,40 +288,21 @@ const editTaskFunc = async(row) => {
 
 const enterEditDialog = async() => {
   apiForm.value.validate(async valid => {
-    if (valid) {
-      switch (type.value) {
-        case 'edit':
-        {
-          // 这里不传task id，后端判断是否包含id。
-          // todo, refactor
-          let params = {
-            exec_item: form.value,
-            action: "editItem"
-          }
-          const res = await updateTask(params)
-          if (res.code === 0) {
-            ElMessage({
-              type: 'success',
-              message: '编辑成功',
-              showClose: true
-            })
-          }
-          getTableData()
-          closeDialog()
-        }
-          break
-        default:
-          // eslint-disable-next-line no-lone-blocks
-        {
-          ElMessage({
-            type: 'error',
-            message: '未知操作',
-            showClose: true
-          })
-        }
-          break
-      }
+    let params = {
+      id: handleId.value,
+      reject_content: form.value.reject_content,
+      action: "reject"
     }
+    const res = await updateTask(params)
+    if (res.code === 0) {
+      ElMessage({
+        type: 'success',
+        message: '操作成功',
+        showClose: true
+      })
+    }
+    getTableData()
+    closeDialog()
   })
 }
 
@@ -461,26 +372,9 @@ const enterDialog = async() => {
   })
 }
 
-const cancelClusterFunc = async(row) => {
-  ElMessageBox.confirm('确定删除吗?', '提示', {
-    confirmButtonText: '确定',
-    cancelButtonText: '取消',
-    type: 'warning'
-  })
-      .then(async() => {
-        row.action = "cancel"
-        const res = await cancelTask(row)
-        if (res.code === 0) {
-          ElMessage({
-            type: 'success',
-            message: '撤销成功!'
-          })
-          if (tableData.value.length === 1 && page.value > 1) {
-            page.value--
-          }
-          getTableData()
-        }
-      })
+const rejectFunc = async(row) => {
+  handleId.value = row.id
+  rejectDialogFormVisible.value = true
 }
 
 const state = ref('')
