@@ -31,16 +31,6 @@
                 </template>
               </el-table-column>
               <el-table-column prop="remark" label="备注" width="200"></el-table-column>
-              <el-table-column prop="cat_id" label="操作">
-                <template #default="scope">
-                  <el-button
-                      icon="edit"
-                      size="small"
-                      type="text"
-                      @click="editTaskFunc(scope.row)"
-                  >编辑</el-button>
-                </template>
-              </el-table-column>
             </el-table>
           </template>
         </el-table-column>
@@ -61,7 +51,7 @@
                 icon="delete"
                 size="small"
                 type="text"
-                @click="detail(scope.row)"
+                @click="toTarget('exec')"
             >审核</el-button>
           </template>
         </el-table-column>
@@ -122,10 +112,18 @@ import {
   listCluster,
   listDatabase,
 } from '@/api/db/cluster'
+import { useRouter } from 'vue-router'
+
 
 const methodFiletr = (value) => {
   const target = methodOptions.value.filter(item => item.value === value)[0]
   return target && `${target.label}`
+}
+
+const router = useRouter()
+const toTarget = (name) => {
+  console.log("name is : ", name)
+  router.push(name)
 }
 
 const newLineFormatter = (row, column) =>{
