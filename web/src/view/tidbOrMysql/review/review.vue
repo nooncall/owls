@@ -382,70 +382,7 @@ interface clusterItem {
   value: string
 }
 
-const clusters = ref<clusterItem[]>([])
-const db = ref<clusterItem[]>([])
-
-const loadCluster = async () => {
-  const resp = await listCluster({page: 1, pageSize: 5})
-  let result = []
-  for (let cluster of resp.data.list){
-    result.push({value: cluster.name, name: cluster.name})
-  }
-
-  return result
-}
-
-const loadDB = async (cluster) => {
-  const resp = await listDatabase(cluster)
-  let result = []
-  for (let db of resp.data){
-    result.push({value: db, name: db})
-  }
-
-  return result
-}
-
-let timeout: NodeJS.Timeout
-const querySearchAsync = (queryString: string, cb: (arg: any) => void) => {
-  const results = queryString
-      ? clusters.value.filter(createFilter(queryString))
-      : clusters.value
-
-  clearTimeout(timeout)
-  timeout = setTimeout(() => {
-    cb(results)
-  }, 3000 * Math.random())
-}
-
-const querySearchDBAsync = async(queryString: string, cb: (arg: any) => void) => {
-  const results = queryString
-      ? db.value.filter(createFilter(queryString))
-      : db.value
-
-  clearTimeout(timeout)
-  timeout = setTimeout(() => {
-    cb(results)
-  }, 3000 * Math.random())
-}
-
-const createFilter = (queryString: string) => {
-  return (restaurant: clusterItem) => {
-    return (
-        restaurant.name.toLowerCase().indexOf(queryString.toLowerCase()) === 0
-    )
-  }
-}
-
-const handleSelect = async (item: clusterItem) => {
-  db.value = await loadDB(item.value)
-}
-
-onMounted(async () => {
-  clusters.value = await loadCluster()
-})
-
 </script>
-
 
 <style scoped lang="scss">
 .button-box {
