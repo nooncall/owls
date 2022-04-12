@@ -172,7 +172,7 @@ import {
   createTask,
   updateTask,
   cancelTask,
-} from '@/api/db/submit'
+} from '@/api/db/task'
 import { toSQLLine } from '@/utils/stringFun'
 import warningBar from '@/components/warningBar/warningBar.vue'
 import { onMounted, ref } from 'vue'

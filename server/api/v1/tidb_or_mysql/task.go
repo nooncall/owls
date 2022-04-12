@@ -89,7 +89,12 @@ func (taskApi *TaskApi) ListHistoryTask(ctx *gin.Context) {
 func (taskApi *TaskApi) GetTask(ctx *gin.Context) {
 	f := "GetTask() -->"
 
-	user := ctx.MustGet("user").(string)
+	claims, err := utils.GetClaims(ctx)
+	if err != nil{
+		response.FailWithMessage("get user err: " + err.Error(), ctx)
+		return
+	}
+
 	idStr := ctx.Query("id")
 	id, err := strconv.ParseInt(idStr, 10, 64)
 	if err != nil {
@@ -97,7 +102,7 @@ func (taskApi *TaskApi) GetTask(ctx *gin.Context) {
 		return
 	}
 
-	task, err := task.GetTask(id, user)
+	task, err := task.GetTask(id, claims.Username)
 	if err != nil {
 		response.FailWithMessage(fmt.Sprintf("%s: get task failed, err: %s", f, err.Error()), ctx)
 		return

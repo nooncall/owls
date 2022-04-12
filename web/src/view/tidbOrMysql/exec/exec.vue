@@ -5,34 +5,32 @@
         <div class="gva-top-card-left">
           <div class="gva-top-card-left-title">任务信息</div>
           <!--<div class="gva-top-card-left-dot">今日晴，0℃ - 10℃，天气寒冷，注意添加衣物。</div>-->
-          <div class="gva-top-card-left-rows">
-          </div>
           <div >
             <el-row >
-              <el-col :span="18" :xs="24" :sm="8" style="font-size: 88px">
+              <el-col :span="18" :xs="24" :sm="6" style="font-size: 88px">
                 <div class="flex-center">
-                  ID: 777
+                  ID: {{task.id}}
                 </div>
               </el-col>
-              <el-col :span="18" :xs="24" :sm="8">
+              <el-col :span="18" :xs="24" :sm="12">
                 <div class="flex-center">
-                  任务名： fix user type
+                  任务名： {{task.name}}
                 </div>
               </el-col>
-              <el-col :span="18" :xs="24" :sm="8">
+              <el-col :span="18" :xs="24" :sm="6">
                 <div class="flex-center">
-                  状态：审核通过
+                  状态：{{task.status}}
                 </div>
               </el-col>
               <br><br><br><br>
-              <el-col :span="18" :xs="24" :sm="8">
+              <el-col :span="18" :xs="24" :sm="6">
                 <div class="flex-center">
-                  创建者：叶凡
+                  创建者：{{task.creator}}
                 </div>
               </el-col>
-              <el-col :span="18" :xs="24" :sm="8">
+              <el-col :span="18" :xs="24" :sm="12">
                 <div class="flex-center">
-                  创建时间：去年今日
+                  创建时间: {{dateFormatter(task.ct)}}
                 </div>
               </el-col>
             </el-row>
@@ -59,13 +57,13 @@
               </template>
             </el-popover>
           </div>
-          <el-table :data="exec_items" style="width: calc(100% - 47px)" class="two-list">
+          <el-table :data="tableData" style="width: calc(100% - 47px)" class="two-list">
             <el-table-column prop="id" label="序号"></el-table-column>
             <el-table-column prop="cluster_name" label="集群"></el-table-column>
             <el-table-column prop="db_name" label="库名"></el-table-column>
             <el-table-column prop="task_type" label="类型"></el-table-column>
             <el-table-column prop="affect_rows" label="影响行数"></el-table-column>
-            <el-table-column prop="status" label="状态"></el-table-column>
+            <el-table-column prop="status" label="状态" min-width="110%"></el-table-column>
             <el-table-column prop="exec_info" label="执行信息"></el-table-column>
             <el-table-column class="cell" prop="cat_id" width="600"  label="SQL语句">
               <template class="cell" style="white-space: pre-line;" #default="scope">
@@ -92,10 +90,13 @@
   </div>
 </template>
 
-<script setup>
-import { useRouter } from 'vue-router'
+<script setup lang="ts">
+import { useRouter,useRoute } from 'vue-router'
 import { onMounted, ref } from 'vue'
-import { ElMessage, ElMessageBox } from 'element-plus'
+import {
+  getTask
+} from '@/api/db/task'
+import moment from "moment";
 
 const toolCards = ref([
   {
@@ -104,52 +105,35 @@ const toolCards = ref([
     name: 'user',
     color: '#ff9c6e',
     bg: 'rgba(255, 156, 110,.3)'
-  },
-  {
-    label: '角色管理',
-    icon: 'setting',
-    name: 'authority',
-    color: '#69c0ff',
-    bg: 'rgba(105, 192, 255,.3)'
-  },
-  {
-    label: '菜单管理',
-    icon: 'menu',
-    name: 'menu',
-    color: '#b37feb',
-    bg: 'rgba(179, 127, 235,.3)'
-  },
-  {
-    label: '代码生成器',
-    icon: 'cpu',
-    name: 'autoCode',
-    color: '#ffd666',
-    bg: 'rgba(255, 214, 102,.3)'
-  },
-  {
-    label: '表单生成器',
-    icon: 'document-checked',
-    name: 'formCreate',
-    color: '#ff85c0',
-    bg: 'rgba(255, 133, 192,.3)'
-  },
-  {
-    label: '关于我们',
-    icon: 'user',
-    name: 'about',
-    color: '#5cdbd3',
-    bg: 'rgba(92, 219, 211,.3)'
   }
 ])
 
 const router = useRouter()
+const rout = useRoute()
 
-const toTarget = (name) => {
-  router.push({ name })
+const dateFormatter = (seconds) =>{
+  return moment( seconds *1000).format('YYYY-MM-DD HH:mm');
 }
 
+const newLineFormatter = (row, column) =>{
+  return row.sql_content.replaceAll("\n", "<br>")
+}
+
+const task = ref({})
+const tableData = ref([])
+
+
+const getData = async() => {
+  const response = await getTask(rout.params.id)
+  task.value = response.data
+  tableData.value = response.data.exec_items
+  console.log("table data is ", tableData.value)
+}
+
+getData()
+
 </script>
-<script>
+<script lang="ts">
 export default {
   name: 'Dashboard'
 }

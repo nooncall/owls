@@ -51,7 +51,7 @@
                 icon="delete"
                 size="small"
                 type="text"
-                @click="toTarget('exec')"
+                @click="toTarget('exec',scope.row.id)"
             >审核</el-button>
           </template>
         </el-table-column>
@@ -102,18 +102,12 @@ import {
   createTask,
   updateTask,
   cancelTask,
-} from '@/api/db/submit'
+} from '@/api/db/task'
 import { toSQLLine } from '@/utils/stringFun'
-import warningBar from '@/components/warningBar/warningBar.vue'
-import { onMounted, ref } from 'vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import moment from 'moment'
-import {
-  listCluster,
-  listDatabase,
-} from '@/api/db/cluster'
+import { ref } from 'vue'
 import { useRouter } from 'vue-router'
-
 
 const methodFiletr = (value) => {
   const target = methodOptions.value.filter(item => item.value === value)[0]
@@ -121,9 +115,13 @@ const methodFiletr = (value) => {
 }
 
 const router = useRouter()
-const toTarget = (name) => {
-  console.log("name is : ", name)
-  router.push(name)
+const toTarget = (name,id) => {
+  router.push({
+    name: name,
+    params: {
+      id: id,
+    },
+  })
 }
 
 const newLineFormatter = (row, column) =>{
