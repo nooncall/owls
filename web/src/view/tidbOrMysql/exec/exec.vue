@@ -6,6 +6,7 @@
           <div class="gva-top-card-left-title">任务信息</div>
           <!--<div class="gva-top-card-left-dot">今日晴，0℃ - 10℃，天气寒冷，注意添加衣物。</div>-->
           <div >
+            <br><br>
             <el-row >
               <el-col :span="18" :xs="24" :sm="6" style="font-size: 88px">
                 <div class="flex-center">
@@ -47,10 +48,10 @@
           <div class="gva-btn-list">
             <el-button size="small" type="primary" icon="plus" @click="openDialog('add')">执行</el-button>
             <el-popover v-model:visible="deleteVisible" placement="top" width="160">
-              <p>确定要删除吗？</p>
+              <p>确定要驳回吗？</p>
               <div style="text-align: right; margin-top: 8px;">
                 <el-button size="small" type="text" @click="deleteVisible = false">取消</el-button>
-                <el-button size="small" type="primary" @click="onDelete">确定</el-button>
+                <el-button size="small" type="primary" @click="openRejectDialog">确定</el-button>
               </div>
               <template #reference>
                 <el-button icon="delete" size="small" style="margin-left: 10px;" @click="deleteVisible = true">驳回</el-button>
@@ -73,20 +74,40 @@
               </template>
             </el-table-column>
             <el-table-column prop="remark" label="备注" width="200"></el-table-column>
-            <el-table-column prop="cat_id" label="操作">
+            <el-table-column prop="cat_id" fixed="right" label="操作">
               <template #default="scope">
                 <el-button
                     icon="edit"
                     size="small"
                     type="text"
                     @click="editTaskFunc(scope.row)"
-                >从这里开始</el-button>
+                >此处开始</el-button>
               </template>
             </el-table-column>
           </el-table>
         </div>
       </div>
     </div>
+
+    <el-dialog v-model="rejectDialogFormVisible" :before-close="closeDialog" :title="驳回">
+      <el-form ref="apiForm" :model="form" :rules="rules" label-width="80px">
+        <el-form-item label="驳回原因" prop="description">
+          <el-input
+              v-model="form.reject_content"
+              :autosize="{ minRows: 3, maxRows: 5000 }"
+              type="textarea"
+              placeholder="Please input"
+          />
+        </el-form-item>
+      </el-form>
+      <template #footer>
+        <div class="dialog-footer">
+          <el-button size="small" @click="closeDialog">取 消</el-button>
+          <el-button size="small" type="primary" @click="onReject">确 定</el-button>
+        </div>
+      </template>
+    </el-dialog>
+
   </div>
 </template>
 
@@ -94,19 +115,17 @@
 import { useRouter,useRoute } from 'vue-router'
 import { onMounted, ref } from 'vue'
 import {
-  getTask
+  getTask,
+  updateTask,
 } from '@/api/db/task'
 import moment from "moment";
+import {ElMessage} from "element-plus";
 
-const toolCards = ref([
-  {
-    label: '用户管理',
-    icon: 'monitor',
-    name: 'user',
-    color: '#ff9c6e',
-    bg: 'rgba(255, 156, 110,.3)'
-  }
-])
+const form = ref({
+  reject_content: ''
+})
+
+// contionue  下半部分的按钮实现
 
 const router = useRouter()
 const rout = useRoute()
@@ -122,15 +141,37 @@ const newLineFormatter = (row, column) =>{
 const task = ref({})
 const tableData = ref([])
 
-
 const getData = async() => {
   const response = await getTask(rout.params.id)
   task.value = response.data
   tableData.value = response.data.exec_items
-  console.log("table data is ", tableData.value)
 }
 
 getData()
+
+const onReject = async() => {
+  let params = {
+    id: rout.params.id,
+    reject_content: form.value.reject_content,
+    action: 'reject'
+  }
+  const res = await updateTask(params)
+  if (res.code === 0) {
+    ElMessage({
+      type: 'success',
+      message: '操作成功',
+      showClose: true
+    })
+  }
+  rejectDialogFormVisible.value = false
+
+  router.push({name: 'taskHistory'})
+}
+
+const rejectDialogFormVisible = ref(false)
+const openRejectDialog = () => {
+  rejectDialogFormVisible.value = true
+}
 
 </script>
 <script lang="ts">

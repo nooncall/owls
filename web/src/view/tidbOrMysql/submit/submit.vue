@@ -34,7 +34,7 @@
                 </template>
               </el-table-column>
               <el-table-column prop="remark" label="备注" width="200"></el-table-column>
-               <el-table-column prop="cat_id" label="操作">
+               <el-table-column prop="cat_id" fixed="right"  label="操作">
                  <template #default="scope">
                    <el-button
                        icon="edit"
@@ -61,6 +61,13 @@
                 type="text"
                 @click="cancelClusterFunc(scope.row)"
             >撤销</el-button>
+            <el-button
+                icon="delete"
+                size="small"
+                type="text"
+                v-if="scope.row.status == 'reject'"
+                @click="cancelClusterFunc(scope.row)"
+            >再次提交</el-button>
           </template>
         </el-table-column>
       </el-table>

@@ -293,9 +293,7 @@ func doCancel(task, dbTask *OwlTask, isDba bool) error {
 
 func ProgressEdit(task, dbTask *OwlTask) error {
 	switch dbTask.Status {
-	case CheckPass:
-		task.Status = ReviewPass
-	case DBAPass, ReviewPass, ExecWait:
+	case DBAPass, ReviewPass, ExecWait, CheckPass:
 		return Exec(task, dbTask)
 	default:
 		// new cron task

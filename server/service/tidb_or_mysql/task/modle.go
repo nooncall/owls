@@ -37,6 +37,7 @@ type OwlExecItem struct {
 type Status = string
 
 const (
+	// todo, del useless status; 从写只使用了很少的状态
 	//顺序递进
 	CheckFailed Status = "checkFailed"
 	CheckPass          = "checkPass"
@@ -139,5 +140,5 @@ func SubmitStatus() []ItemStatus {
 }
 
 func ExecStatus() []ItemStatus {
-	return []ItemStatus{ReviewPass, DBAPass, ExecCancel, Executing, ExecWait}
+	return []ItemStatus{ReviewPass,CheckPass, DBAPass, ExecCancel, Executing, ExecWait}
 }

@@ -8,6 +8,14 @@ export const listTask = (data) => {
   })
 }
 
+export const listReviewTask = (data) => {
+  return service({
+    url: '/db/task/review',
+    method: 'post',
+    data
+  })
+}
+
 export const getTask = (data) => {
   return service({
     url: '/db/task?id=' + data,
