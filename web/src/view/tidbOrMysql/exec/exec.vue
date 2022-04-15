@@ -46,15 +46,15 @@
         </div>
         <div class="gva-table-box">
           <div class="gva-btn-list">
-            <el-button size="small" type="primary" icon="plus" @click="openDialog('add')">执行</el-button>
+            <el-button size="small" type="primary" icon="plus" @click="openRejectDialog">驳回</el-button>
             <el-popover v-model:visible="deleteVisible" placement="top" width="160">
-              <p>确定要驳回吗？</p>
+              <p>确定要执行吗？</p>
               <div style="text-align: right; margin-top: 8px;">
                 <el-button size="small" type="text" @click="deleteVisible = false">取消</el-button>
                 <el-button size="small" type="primary" @click="openRejectDialog">确定</el-button>
               </div>
               <template #reference>
-                <el-button icon="delete" size="small" style="margin-left: 10px;" @click="deleteVisible = true">驳回</el-button>
+                <el-button icon="delete" size="small" style="margin-left: 10px;" @click="deleteVisible = true">执行</el-button>
               </template>
             </el-popover>
           </div>
@@ -151,7 +151,7 @@ getData()
 
 const onReject = async() => {
   let params = {
-    id: rout.params.id,
+    id: Number(rout.params.id),
     reject_content: form.value.reject_content,
     action: 'reject'
   }
@@ -165,12 +165,16 @@ const onReject = async() => {
   }
   rejectDialogFormVisible.value = false
 
-  router.push({name: 'taskHistory'})
+  router.push({name: 'DBHistory'})
 }
 
 const rejectDialogFormVisible = ref(false)
 const openRejectDialog = () => {
   rejectDialogFormVisible.value = true
+}
+
+const closeDialog = () =>{
+  rejectDialogFormVisible.value = false
 }
 
 </script>
