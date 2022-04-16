@@ -38,7 +38,6 @@ type TaskDao interface {
 	AddTask(task *OwlTask) (int64, error)
 	UpdateTask(task *OwlTask) error
 	ListTask(pageInfo request.SortPageInfo, isDBA bool, status []ItemStatus) ([]OwlTask, int64, error)
-	ListHistoryTask(pageInfo request.SortPageInfo, isDBA bool) ([]OwlTask, int64, error)
 	GetTask(id int64) (*OwlTask, error)
 	GetExecWaitTask() ([]OwlTask, int64, error)
 }
@@ -312,24 +311,6 @@ func ListTask(pageInfo request.SortPageInfo, status []ItemStatus) ([]OwlTask, in
 	for i, v := range tasks {
 		tasks[i].StatusName = StatusName(v.Status)
 		// tasks[i].EditAuth = GetTaskOperateAuth(false, v.Creator == pagination.Operator, strings.Contains(v.Reviewer, pagination.Operator), isDba, &v)
-	}
-
-	return tasks, count, nil
-}
-
-func ListHistoryTask(page request.SortPageInfo) ([]OwlTask, int64, error) {
-	isDba, err := AuthTool.IsDba(page.Operator)
-	if err != nil {
-		return nil, 0, err
-	}
-	tasks, count, err := taskDao.ListHistoryTask(page, isDba)
-	if err != nil {
-		return nil, 0, err
-	}
-
-	for i, v := range tasks {
-		tasks[i].StatusName = StatusName(v.Status)
-		//tasks[i].EditAuth = GetTaskOperateAuth(false, v.Creator == pagination.Operator, strings.Contains(v.Reviewer, pagination.Operator), isDba, &v)
 	}
 
 	return tasks, count, nil

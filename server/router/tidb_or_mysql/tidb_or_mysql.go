@@ -20,7 +20,7 @@ func (s *TidbOrMysqlRouter) InitApiRouter(Router *gin.RouterGroup) {
 		apiRouterWithoutRecord.GET("/task", taskApi.GetTask)
 		apiRouterWithoutRecord.POST("/task/list", taskApi.ListTask)
 		apiRouterWithoutRecord.POST("/task/review", taskApi.ListReviewTask)
-		apiRouterWithoutRecord.GET("/task/history", taskApi.ListHistoryTask)
+		apiRouterWithoutRecord.POST("/task/history", taskApi.ListHistoryTask)
 	}
 
 	{

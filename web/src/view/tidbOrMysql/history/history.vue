@@ -12,9 +12,6 @@
       </el-form>
     </div>
     <div class="gva-table-box">
-      <div class="gva-btn-list">
-        <el-button size="small" type="primary" icon="plus" @click="openDialog('add')">新增</el-button>
-      </div>
       <el-table :data="tableData" @sort-change="sortChange" row-key="id" @selection-change="handleSelectionChange">
         <el-table-column type="expand">
           <template #default="scope">
@@ -66,87 +63,6 @@
         />
       </div>
     </div>
-
-    <el-dialog v-model="dialogFormVisible" :before-close="closeDialog" :title="dialogTitle">
-      <warning-bar title="提交SQL，查数据请到此处：XXX" />
-      <el-form ref="apiForm" :model="form" :rules="rules" label-width="80px">
-        <el-form-item label="名称" prop="path">
-          <el-input v-model="form.name" input-style="width:350px" autocomplete="off" />
-        </el-form-item>
-        <el-form-item label="集群" prop="path">
-          <el-autocomplete
-              v-model="form.cluster_name"
-              :fetch-suggestions="querySearchAsync"
-              placeholder="请选择"
-              @select="handleSelect"
-          />
-        </el-form-item>
-        <el-form-item label="库名" prop="apiGroup">
-          <el-autocomplete
-              v-model="form.db_name"
-              :fetch-suggestions="querySearchDBAsync"
-              placeholder="请选择"
-          />
-        </el-form-item>
-        <el-form-item>
-          <el-radio-group v-model="form.task_type">
-            <el-radio  label="CREATE">建表</el-radio>
-            <el-radio label="UPDATE">改表</el-radio>
-            <el-radio label="DML">操作数据</el-radio>
-          </el-radio-group>
-        </el-form-item>
-        <el-form-item label="SQL" prop="description">
-          <el-input
-              v-model="form.sql_content"
-              :autosize="{ minRows: 3, maxRows: 5000 }"
-              type="textarea"
-              placeholder="Please input"
-          />
-        </el-form-item>
-        <el-form-item label="备注" prop="description">
-          <el-input
-              v-model="form.remark"
-              :autosize="{ minRows: 3, maxRows: 500 }"
-              type="textarea"
-              placeholder="Please input"
-          />
-        </el-form-item>
-      </el-form>
-      <template #footer>
-        <div class="dialog-footer">
-          <el-button size="small" @click="closeDialog">取 消</el-button>
-          <el-button size="small" type="primary" @click="enterDialog">确 定</el-button>
-        </div>
-      </template>
-    </el-dialog>
-
-    <el-dialog v-model="editDialogFormVisible" :before-close="closeDialog" :title="编辑">
-      <warning-bar title="编辑仅可提交单条SQL" />
-      <el-form ref="apiForm" :model="form" :rules="rules" label-width="80px">
-        <el-form-item label="SQL" prop="description">
-          <el-input
-              v-model="form.sql_content"
-              :autosize="{ minRows: 3, maxRows: 5000 }"
-              type="textarea"
-              placeholder="Please input"
-          />
-        </el-form-item>
-        <el-form-item label="备注" prop="description">
-          <el-input
-              v-model="form.remark"
-              :autosize="{ minRows: 3, maxRows: 500 }"
-              type="textarea"
-              placeholder="Please input"
-          />
-        </el-form-item>
-      </el-form>
-      <template #footer>
-        <div class="dialog-footer">
-          <el-button size="small" @click="closeDialog">取 消</el-button>
-          <el-button size="small" type="primary" @click="enterEditDialog">确 定</el-button>
-        </div>
-      </template>
-    </el-dialog>
   </div>
 </template>
 
@@ -158,10 +74,7 @@ export default {
 
 <script lang="ts" setup>
 import {
-  listTask,
-  createTask,
-  updateTask,
-  cancelTask,
+  listHistoryTask,
 } from '@/api/db/task'
 import { toSQLLine } from '@/utils/stringFun'
 import warningBar from '@/components/warningBar/warningBar.vue'
@@ -273,7 +186,7 @@ const sortChange = ({ prop, order }) => {
 
 // 查询
 const getTableData = async() => {
-  const table = await listTask({ page: page.value, pageSize: pageSize.value, ...searchInfo.value })
+  const table = await listHistoryTask({ page: page.value, pageSize: pageSize.value, ...searchInfo.value })
   if (table.code === 0) {
     tableData.value = table.data.list
     total.value = table.data.total
@@ -290,21 +203,6 @@ const handleSelectionChange = (val) => {
 }
 
 const deleteVisible = ref(false)
-const onDelete = async() => {
-  const ids = apis.value.map(item => item.ID)
-  const res = await deleteApisByIds({ ids })
-  if (res.code === 0) {
-    ElMessage({
-      type: 'success',
-      message: res.msg
-    })
-    if (tableData.value.length === ids.length && page.value > 1) {
-      page.value--
-    }
-    deleteVisible.value = false
-    getTableData()
-  }
-}
 
 // 弹窗相关
 const apiForm = ref(null)

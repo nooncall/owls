@@ -16,6 +16,13 @@ export const listReviewTask = (data) => {
   })
 }
 
+export const listHistoryTask = (data) => {
+  return service({
+    url: '/db/task/history',
+    method: 'post',
+    data
+  })
+}
 export const getTask = (data) => {
   return service({
     url: '/db/task?id=' + data,

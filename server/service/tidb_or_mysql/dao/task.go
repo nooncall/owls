@@ -1,7 +1,6 @@
 package dao
 
 import (
-	"fmt"
 	"gorm.io/gorm"
 
 	"github.com/flipped-aurora/gin-vue-admin/server/model/common/request"
@@ -71,73 +70,6 @@ func (TaskDaoImpl) ListTask(info request.SortPageInfo, isDBA bool, status []task
 
 	var tasks []task.OwlTask
 	if err := db.Find(&tasks).Error; err != nil {
-		return nil, 0, err
-	}
-
-	for idx, taskV := range tasks {
-		formattedItems, _, err := getTaskExecItems(GetDB(), &taskV)
-		if err != nil {
-			return nil, 0, err
-		}
-
-		tasks[idx].ExecItems = formattedItems
-	}
-
-	return tasks, count, nil
-}
-
-
-func (TaskDaoImpl) ListExecTask(page request.SortPageInfo, isDBA bool, status []task.ItemStatus) ([]task.OwlTask, int64, error) {
-	condition := "(name like ? or creator like ?) and !(status = ? and creator != ?) and status in (?)"
-	if !isDBA {
-		condition = fmt.Sprintf("(creator = '%s' or reviewer = '%s') and ", page.Operator, page.Operator) + condition
-	}
-
-	page.Key = "%" + page.Key + "%"
-	var count int64
-	if err := GetDB().Model(&task.OwlTask{}).Where(condition,
-		page.Key, page.Key, task.CheckFailed, page.Operator, status).Count(&count).Error; err != nil {
-		return nil, 0, err
-	}
-
-	limit := page.PageSize
-	offset := page.PageSize * (page.Page - 1)
-	var tasks []task.OwlTask
-	if err := GetDB().Order("ct desc").Offset(offset).Limit(limit).
-		Find(&tasks, condition, page.Key, page.Key, task.CheckFailed, page.Operator, status).Error; err != nil {
-		return nil, 0, err
-	}
-
-	for idx, taskV := range tasks {
-		formattedItems, _, err := getTaskExecItems(GetDB(), &taskV)
-		if err != nil {
-			return nil, 0, err
-		}
-
-		tasks[idx].ExecItems = formattedItems
-	}
-
-	return tasks, count, nil
-}
-
-func (TaskDaoImpl) ListHistoryTask(page request.SortPageInfo, isDBA bool) ([]task.OwlTask, int64, error) {
-	condition := "(name like ? or creator like ?) and status in (?)"
-	if !isDBA {
-		condition = condition + fmt.Sprintf(" and (creator = '%s' or reviewer = '%s')", page.Operator, page.Operator)
-	}
-
-	page.Key = "%" + page.Key + "%"
-	var count int64
-	if err := GetDB().Model(&task.OwlTask{}).Where(condition,
-		page.Key, page.Key, task.HistoryStatus()).Count(&count).Error; err != nil {
-		return nil, 0, err
-	}
-
-	limit := page.PageSize
-	offset := page.PageSize * (page.Page - 1)
-	var tasks []task.OwlTask
-	if err := GetDB().Order("ct desc").Offset(offset).Limit(limit).
-		Find(&tasks, condition, page.Key, page.Key, task.HistoryStatus()).Error; err != nil {
 		return nil, 0, err
 	}
 

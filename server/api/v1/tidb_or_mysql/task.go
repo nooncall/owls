@@ -89,8 +89,14 @@ func (taskApi *TaskApi) ListHistoryTask(ctx *gin.Context) {
 	}
 	page.OrderKey = convertOrderKey(page.OrderKey)
 
-	page.Operator = ctx.MustGet("user").(string)
-	task, count, err := task.ListHistoryTask(page)
+	claims, err := utils.GetClaims(ctx)
+	if err != nil{
+		response.FailWithMessage("get user err: " + err.Error(), ctx)
+		return
+	}
+
+	page.Operator = claims.Username
+	task, count, err := task.ListTask(page, task.HistoryStatus())
 	if err != nil {
 		response.FailWithMessage(fmt.Sprintf("%s: list ListHistoryTask err: %s", f, err.Error()), ctx)
 		return
