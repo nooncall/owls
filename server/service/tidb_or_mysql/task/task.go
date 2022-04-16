@@ -221,6 +221,14 @@ func UpdateTask(task *OwlTask) error {
 			RejectContent: task.RejectContent,
 			Ut:            time.Now().Unix(),
 		})
+	case Resubmit:
+		return taskDao.UpdateTask(&OwlTask{
+			ID:            task.ID,
+			Status:        CheckPass,
+			Executor:      task.Executor,
+			RejectContent: task.RejectContent,
+			Ut:            time.Now().Unix(),
+		})
 	default:
 		return fmt.Errorf("action type not found, action: %s", task.Action)
 	}

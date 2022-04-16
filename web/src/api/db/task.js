@@ -23,14 +23,6 @@ export const getTask = (data) => {
   })
 }
 
-export const cancelTask = (data) => {
-  return service({
-    url: '/db/task',
-    method: 'put',
-    data
-  })
-}
-
 export const updateTask = (data) => {
   return service({
     url: '/db/task',

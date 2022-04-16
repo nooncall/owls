@@ -23,6 +23,7 @@ func (taskApi *TaskApi) ListReviewTask(ctx *gin.Context) {
 		response.FailWithMessage(fmt.Sprintf("%s, parse param failed :%s ", f, err.Error()), ctx)
 		return
 	}
+	page.OrderKey = convertOrderKey(page.OrderKey)
 
 	claims, err := utils.GetClaims(ctx)
 	if err != nil{
@@ -45,6 +46,15 @@ func (taskApi *TaskApi) ListReviewTask(ctx *gin.Context) {
 	}, ctx)
 }
 
+func convertOrderKey(key string) string {
+	switch key {
+	case "status_name":
+		return "status"
+	default:
+		return key
+	}
+}
+
 func (taskApi *TaskApi) ListTask(ctx *gin.Context) {
 	f := "ListTask() -->"
 	var page request.SortPageInfo
@@ -52,6 +62,7 @@ func (taskApi *TaskApi) ListTask(ctx *gin.Context) {
 		response.FailWithMessage(fmt.Sprintf("%s, parse param failed :%s ", f, err.Error()), ctx)
 		return
 	}
+	page.OrderKey = convertOrderKey(page.OrderKey)
 
 	claims, _ := utils.GetClaims(ctx)
 	page.Operator = claims.Username
@@ -76,6 +87,7 @@ func (taskApi *TaskApi) ListHistoryTask(ctx *gin.Context) {
 		response.FailWithMessage(fmt.Sprintf("%s, parse param failed :%s ", f, err.Error()), ctx)
 		return
 	}
+	page.OrderKey = convertOrderKey(page.OrderKey)
 
 	page.Operator = ctx.MustGet("user").(string)
 	task, count, err := task.ListHistoryTask(page)

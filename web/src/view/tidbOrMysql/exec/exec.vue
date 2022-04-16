@@ -20,7 +20,7 @@
               </el-col>
               <el-col :span="18" :xs="24" :sm="6">
                 <div class="flex-center">
-                  状态：{{task.status}}
+                  状态：{{task.status_name}}
                 </div>
               </el-col>
               <br><br><br><br>
@@ -165,7 +165,7 @@ const onReject = async() => {
   }
   rejectDialogFormVisible.value = false
 
-  router.push({name: 'DBHistory'})
+  router.push({name: 'review'})
 }
 
 const rejectDialogFormVisible = ref(false)

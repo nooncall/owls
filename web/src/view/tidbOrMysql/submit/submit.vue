@@ -49,7 +49,7 @@
         </el-table-column>
         <el-table-column align="left" label="ID" min-width="150" prop="id" sortable="custom" />
         <el-table-column align="left" label="任务名" min-width="150" prop="name" sortable="custom" />
-        <el-table-column align="left" label="状态" min-width="150" prop="status" sortable="custom" />
+        <el-table-column align="left" label="状态" min-width="150" prop="status_name" sortable="custom" />
         <el-table-column align="left" label="创建者" min-width="150" prop="creator" sortable="custom" />
         <el-table-column align="left" label="创建时间" min-width="150" prop="ct" :formatter="dateFormatter" sortable="custom" />
         <el-table-column align="left" label="说明" min-width="150" prop="reject_content" sortable="custom" />
@@ -66,7 +66,7 @@
                 size="small"
                 type="text"
                 v-if="scope.row.status == 'reject'"
-                @click="cancelClusterFunc(scope.row)"
+                @click="ResubmitFunc(scope.row)"
             >再次提交</el-button>
           </template>
         </el-table-column>
@@ -178,7 +178,6 @@ import {
   listTask,
   createTask,
   updateTask,
-  cancelTask,
 } from '@/api/db/task'
 import { toSQLLine } from '@/utils/stringFun'
 import warningBar from '@/components/warningBar/warningBar.vue'
@@ -469,18 +468,40 @@ const enterDialog = async() => {
 }
 
 const cancelClusterFunc = async(row) => {
-  ElMessageBox.confirm('确定删除吗?', '提示', {
+  ElMessageBox.confirm('确定撤销吗?', '提示', {
     confirmButtonText: '确定',
     cancelButtonText: '取消',
     type: 'warning'
   })
       .then(async() => {
         row.action = "cancel"
-        const res = await cancelTask(row)
+        const res = await updateTask(row)
         if (res.code === 0) {
           ElMessage({
             type: 'success',
             message: '撤销成功!'
+          })
+          if (tableData.value.length === 1 && page.value > 1) {
+            page.value--
+          }
+          getTableData()
+        }
+      })
+}
+
+const ResubmitFunc = async(row) => {
+  ElMessageBox.confirm('确定提交吗?', '提示', {
+    confirmButtonText: '确定',
+    cancelButtonText: '取消',
+    type: 'warning'
+  })
+      .then(async() => {
+        row.action = "resubmit"
+        const res = await updateTask(row)
+        if (res.code === 0) {
+          ElMessage({
+            type: 'success',
+            message: '提交成功!'
           })
           if (tableData.value.length === 1 && page.value > 1) {
             page.value--

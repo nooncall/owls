@@ -62,7 +62,7 @@ func StatusName(status Status) string {
 	case CheckFailed:
 		return "系统检测失败"
 	case CheckPass:
-		return "待审核"
+		return "待DBA审核"
 	case ReviewPass, ExecWait:
 		return "待执行"
 	case Executing:
@@ -129,6 +129,7 @@ const (
 	BeginAt         = "beginAt"
 	Progress        = "progress"
 	DoReject        = "reject"
+	Resubmit        = "resubmit"
 )
 
 func HistoryStatus() []ItemStatus {
@@ -140,5 +141,5 @@ func SubmitStatus() []ItemStatus {
 }
 
 func ExecStatus() []ItemStatus {
-	return []ItemStatus{ReviewPass,CheckPass, DBAPass, ExecCancel, Executing, ExecWait}
+	return []ItemStatus{ReviewPass, CheckPass, DBAPass, ExecCancel, Executing, ExecWait}
 }

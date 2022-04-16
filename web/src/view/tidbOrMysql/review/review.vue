@@ -36,7 +36,7 @@
         </el-table-column>
         <el-table-column align="left" label="ID" min-width="150" prop="id" sortable="custom" />
         <el-table-column align="left" label="任务名" min-width="150" prop="name" sortable="custom" />
-        <el-table-column align="left" label="状态" min-width="150" prop="status" sortable="custom" />
+        <el-table-column align="left" label="状态" min-width="150" prop="status_name" sortable="custom" />
         <el-table-column align="left" label="创建者" min-width="150" prop="creator" sortable="custom" />
         <el-table-column align="left" label="创建时间" min-width="150" prop="ct" :formatter="dateFormatter" sortable="custom" />
         <el-table-column align="left" fixed="right" label="操作" width="200">
