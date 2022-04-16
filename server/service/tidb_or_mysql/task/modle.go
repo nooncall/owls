@@ -127,7 +127,7 @@ const (
 	DoCancel        = "cancel"
 	SkipAt          = "skipAt"
 	BeginAt         = "beginAt"
-	Progress        = "progress"
+	DoExec          = "exec"
 	DoReject        = "reject"
 	Resubmit        = "resubmit"
 )

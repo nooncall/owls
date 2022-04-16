@@ -46,15 +46,15 @@
         </div>
         <div class="gva-table-box">
           <div class="gva-btn-list">
-            <el-button size="small" type="primary" icon="plus" @click="openRejectDialog">驳回</el-button>
-            <el-popover v-model:visible="deleteVisible" placement="top" width="160">
+            <el-button size="small" icon="delete"  @click="openRejectDialog">驳回</el-button>
+            <el-popover v-model:visible="execVisible" placement="top" width="160">
               <p>确定要执行吗？</p>
               <div style="text-align: right; margin-top: 8px;">
-                <el-button size="small" type="text" @click="deleteVisible = false">取消</el-button>
-                <el-button size="small" type="primary" @click="openRejectDialog">确定</el-button>
+                <el-button size="small" type="text" @click="execVisible = false">取消</el-button>
+                <el-button size="small" type="primary" @click="onExec">确定</el-button>
               </div>
               <template #reference>
-                <el-button icon="delete" size="small" style="margin-left: 10px;" @click="deleteVisible = true">执行</el-button>
+                <el-button icon="CaretRight" type="primary" size="small" style="margin-left: 10px;" @click="execVisible = true">执行</el-button>
               </template>
             </el-popover>
           </div>
@@ -80,7 +80,7 @@
                     icon="edit"
                     size="small"
                     type="text"
-                    @click="editTaskFunc(scope.row)"
+                    @click="onExecAt(scope.row)"
                 >此处开始</el-button>
               </template>
             </el-table-column>
@@ -129,6 +129,7 @@ const form = ref({
 
 const router = useRouter()
 const rout = useRoute()
+const execVisible = ref(false)
 
 const dateFormatter = (seconds) =>{
   return moment( seconds *1000).format('YYYY-MM-DD HH:mm');
@@ -166,6 +167,52 @@ const onReject = async() => {
   rejectDialogFormVisible.value = false
 
   router.push({name: 'review'})
+}
+
+const onExec = async() => {
+  execVisible.value = false
+  let params = {
+    id: Number(rout.params.id),
+    action: 'exec'
+  }
+  const res = await updateTask(params)
+  if (res.code === 0) {
+    ElMessage({
+      type: 'success',
+      message: '操作成功',
+      showClose: true
+    })
+  }
+
+  await syncUntilFinish()
+}
+
+const onExecAt = async(row) => {
+  execVisible.value = false
+  let params = {
+    id: Number(rout.params.id),
+    exec_item: row,
+    action: 'beginAt'
+  }
+  const res = await updateTask(params)
+  if (res.code === 0) {
+    ElMessage({
+      type: 'success',
+      message: '操作成功',
+      showClose: true
+    })
+  }
+
+  await syncUntilFinish()
+}
+
+const syncUntilFinish = async() =>{
+  for (;;){
+    await getData()
+    if (task.value.status == 'execSuccess' || task.value.status == 'execFailed'){
+      break
+    }
+  }
 }
 
 const rejectDialogFormVisible = ref(false)

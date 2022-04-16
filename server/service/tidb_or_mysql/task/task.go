@@ -188,7 +188,7 @@ func UpdateTask(task *OwlTask) error {
 	isReviewer, isDba := true, true
 
 	//对于执行变更，检查权限
-	if task.Action == BeginAt || task.Action == SkipAt || (dbTask.Status == DBAPass && task.Action == Progress) {
+	if task.Action == BeginAt || task.Action == SkipAt || (dbTask.Status == DBAPass && task.Action == DoExec) {
 		if !(isReviewer && allIsDmlTask(task)) && !isDba {
 			return errors.New("auth invalid")
 		}
@@ -211,8 +211,8 @@ func UpdateTask(task *OwlTask) error {
 		return doCancel(task, dbTask, isDba)
 	case SkipAt, BeginAt:
 		return Exec(task, dbTask)
-	case Progress:
-		return ProgressEdit(task, dbTask)
+	case DoExec:
+		return Exec(task, dbTask)
 	case DoReject:
 		return taskDao.UpdateTask(&OwlTask{
 			ID:            task.ID,
@@ -295,26 +295,6 @@ func doCancel(task, dbTask *OwlTask, isDba bool) error {
 	return taskDao.UpdateTask(&OwlTask{
 		ID:       task.ID,
 		Status:   task.Status,
-		Executor: task.Executor,
-	})
-}
-
-func ProgressEdit(task, dbTask *OwlTask) error {
-	switch dbTask.Status {
-	case DBAPass, ReviewPass, ExecWait, CheckPass:
-		return Exec(task, dbTask)
-	default:
-		// new cron task
-		if task.Et > time.Now().Unix() {
-			return Exec(task, dbTask)
-		}
-		return fmt.Errorf("progress failed, task status invalid, status: %s", dbTask.Status)
-	}
-
-	return taskDao.UpdateTask(&OwlTask{
-		ID:       task.ID,
-		Status:   task.Status,
-		Ut:       time.Now().Unix(),
 		Executor: task.Executor,
 	})
 }

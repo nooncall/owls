@@ -156,7 +156,7 @@ func fmtExecInfo(result sql.Result) string {
 
 func getExecStartId(action Action, subItems []OwlExecItem, targetItem *OwlExecItem) (int64, error) {
 	switch action {
-	case Progress:
+	case DoExec:
 		for _, v := range subItems {
 			if v.Status != ItemSuccess {
 				return v.ID, nil

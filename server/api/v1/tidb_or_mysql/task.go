@@ -200,7 +200,7 @@ func ExecWaitTask() {
 		for _, waitTask := range waitTasks {
 			countDown := waitTask.Et - time.Now().Unix()
 			if countDown <= 0 {
-				waitTask.Action = task.Progress
+				waitTask.Action = task.DoExec
 				if err := task.ExecTaskDirectly(&waitTask, &waitTask); err != nil {
 					logger.Errorf("while exec task in cron err: %s", err.Error())
 				}
