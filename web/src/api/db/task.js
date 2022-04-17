@@ -45,3 +45,11 @@ export const createTask = (data) => {
     data
   })
 }
+
+export const listBackup = (data) => {
+  return service({
+    url: '/db/backup/list',
+    method: 'post',
+    data
+  })
+}

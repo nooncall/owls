@@ -27,7 +27,7 @@ func (s *TidbOrMysqlRouter) InitApiRouter(Router *gin.RouterGroup) {
 		backupApi := v1.ApiGroupApp.TiDBOrMysqlGroup.BackupApi
 
 		apiRouter.POST("/backup/rollback", backupApi.Rollback)
-		apiRouterWithoutRecord.GET("/backup/list", backupApi.ListRollbackData)
+		apiRouterWithoutRecord.POST("/backup/list", backupApi.ListRollbackData)
 	}
 
 	{

@@ -65,7 +65,7 @@
             <el-table-column prop="task_type" label="类型"></el-table-column>
             <el-table-column prop="affect_rows" label="影响行数"></el-table-column>
             <el-table-column prop="status" label="状态" min-width="110%"></el-table-column>
-            <el-table-column prop="exec_info" label="执行信息"></el-table-column>
+            <el-table-column prop="exec_info" width="200" label="执行信息"></el-table-column>
             <el-table-column class="cell" prop="cat_id" width="600"  label="SQL语句">
               <template class="cell" style="white-space: pre-line;" #default="scope">
                 <code>

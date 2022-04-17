@@ -98,8 +98,8 @@ CREATE TABLE IF NOT EXISTS `owl_clusters`
   COLLATE = utf8mb4_bin
   AUTO_INCREMENT = 7077 COMMENT '集群信息表';
 
-DROP TABLE IF EXISTS `owl_backup`;
-CREATE TABLE IF NOT EXISTS `owl_backup`
+DROP TABLE IF EXISTS `owl_backups`;
+CREATE TABLE IF NOT EXISTS `owl_backups`
 (
     `id`             BIGINT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '自增主键',
     `data`           MEDIUMTEXT      NOT NULL COMMENT '备份数据',

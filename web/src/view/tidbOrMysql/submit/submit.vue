@@ -24,8 +24,8 @@
               <el-table-column prop="db_name" label="库名"></el-table-column>
               <el-table-column prop="task_type" label="类型"></el-table-column>
               <el-table-column prop="affect_rows" label="影响行数"></el-table-column>
-              <el-table-column prop="status" label="状态"></el-table-column>
-              <el-table-column prop="exec_info" label="执行信息"></el-table-column>
+              <el-table-column prop="status" width="120" label="状态"></el-table-column>
+              <el-table-column prop="rule_comments" width="180" label="规范信息"></el-table-column>
               <el-table-column class="cell" prop="cat_id" width="600"  label="SQL语句">
                 <template class="cell" style="white-space: pre-line;" #default="scope">
                   <code>
@@ -85,7 +85,7 @@
     </div>
 
     <el-dialog v-model="dialogFormVisible" :before-close="closeDialog" :title="dialogTitle">
-      <warning-bar title="提交SQL，查数据请到此处：XXX" />
+      <warning-bar title="提交写SQL" />
       <el-form ref="apiForm" :model="form" :rules="rules" label-width="80px">
         <el-form-item label="名称" prop="path">
           <el-input v-model="form.name" input-style="width:350px" autocomplete="off" />
