@@ -100,18 +100,13 @@ export default {
 
 <script lang="ts" setup>
 import {
-  listHistoryTask,
-} from '@/api/db/task'
+  listHistoryTask,} from '@/api/db/task'
 import {toSQLLine} from '@/utils/stringFun'
 import warningBar from '@/components/warningBar/warningBar.vue'
 import {onMounted, ref} from 'vue'
 import {ElMessage, ElMessageBox} from 'element-plus'
 import moment from 'moment'
-import {
-  listCluster,
-  listDatabase,
-} from '@/api/db/cluster'
-import {listBackup} from "../../../api/db/task";
+import {listBackup, rollback} from "../../../api/db/task";
 
 const methodFiletr = (value) => {
   const target = methodOptions.value.filter(item => item.value === value)[0]
@@ -257,6 +252,7 @@ const closeDialog = () => {
 const rollbackColumn = ref([])
 const rollbackData = ref([])
 const rollbackUpdateIdx = ref([])
+const rollbackParam = ref({})
 
 const rollbackFunc = async (row) => {
   // 获取回滚数据，展示及设置数据标志，确认执行回宫
@@ -266,12 +262,14 @@ const rollbackFunc = async (row) => {
     origin_sql: row.sql_content,
     backup_id: row.backup_id
   }
+  rollbackParam.value = params
+
   let resp = await listBackup(params)
-  console.log('resp is : ', resp)
   rollbackData.value = resp.data.data_items
   rollbackColumn.value = resp.data.columns
   rollbackUpdateIdx.value = resp.data.index
-  openDialog('rollback')
+
+  openDialog(params)
 }
 
 const updatedIdx = (idx) => {
@@ -324,161 +322,18 @@ const enterEditDialog = async () => {
 
 
 const enterDialog = async () => {
-  apiForm.value.validate(async valid => {
-    if (valid) {
-      switch (type.value) {
-        case 'add': {
-          //todo, refactor
-          let paramas = {
-            name: form.value.name,
-            sub_tasks: [
-              {
-                cluster_name: form.value.cluster_name,
-                db_name: form.value.db_name,
-                task_type: form.value.task_type,
-                exec_items: [
-                  {
-                    remark: form.value.remark,
-                    sql_content: form.value.sql_content,
-                  }
-                ]
-              }
-            ]
-          }
-          const res = await createTask(paramas)
-          if (res.code === 0) {
-            ElMessage({
-              type: 'success',
-              message: '添加成功',
-              showClose: true
-            })
-          }
-          getTableData()
-          closeDialog()
-        }
-
-          break
-        case 'edit': {
-          const res = await updateTask(form.value)
-          if (res.code === 0) {
-            ElMessage({
-              type: 'success',
-              message: '编辑成功',
-              showClose: true
-            })
-          }
-          getTableData()
-          closeDialog()
-        }
-          break
-        default:
-          // eslint-disable-next-line no-lone-blocks
-        {
-          ElMessage({
-            type: 'error',
-            message: '未知操作',
-            showClose: true
-          })
-        }
-          break
-      }
-    }
-  })
-}
-
-const cancelClusterFunc = async (row) => {
-  ElMessageBox.confirm('确定删除吗?', '提示', {
-    confirmButtonText: '确定',
-    cancelButtonText: '取消',
-    type: 'warning'
-  })
-      .then(async () => {
-        row.action = "cancel"
-        const res = await cancelTask(row)
-        if (res.code === 0) {
-          ElMessage({
-            type: 'success',
-            message: '撤销成功!'
-          })
-          if (tableData.value.length === 1 && page.value > 1) {
-            page.value--
-          }
-          getTableData()
-        }
-      })
-}
-
-const state = ref('')
-
-interface clusterItem {
-  name: string
-  value: string
-}
-
-const clusters = ref<clusterItem[]>([])
-const db = ref<clusterItem[]>([])
-
-const loadCluster = async () => {
-  const resp = await listCluster({page: 1, pageSize: 5})
-  let result = []
-  for (let cluster of resp.data.list) {
-    result.push({value: cluster.name, name: cluster.name})
+  const res = await rollback(rollbackParam.value)
+  if (res.code === 0) {
+    ElMessage({
+      type: 'success',
+      message: '回滚成功',
+      showClose: true
+    })
   }
-
-  return result
+  getTableData()
+  closeDialog()
 }
-
-const loadDB = async (cluster) => {
-  const resp = await listDatabase(cluster)
-  let result = []
-  for (let db of resp.data) {
-    result.push({value: db, name: db})
-  }
-
-  return result
-}
-
-let timeout: NodeJS.Timeout
-const querySearchAsync = (queryString: string, cb: (arg: any) => void) => {
-  const results = queryString
-      ? clusters.value.filter(createFilter(queryString))
-      : clusters.value
-
-  clearTimeout(timeout)
-  timeout = setTimeout(() => {
-    cb(results)
-  }, 3000 * Math.random())
-}
-
-const querySearchDBAsync = async (queryString: string, cb: (arg: any) => void) => {
-  const results = queryString
-      ? db.value.filter(createFilter(queryString))
-      : db.value
-
-  clearTimeout(timeout)
-  timeout = setTimeout(() => {
-    cb(results)
-  }, 3000 * Math.random())
-}
-
-const createFilter = (queryString: string) => {
-  return (restaurant: clusterItem) => {
-    return (
-        restaurant.name.toLowerCase().indexOf(queryString.toLowerCase()) === 0
-    )
-  }
-}
-
-const handleSelect = async (item: clusterItem) => {
-  db.value = await loadDB(item.value)
-}
-
-onMounted(async () => {
-  clusters.value = await loadCluster()
-})
-
 </script>
-
 
 <style scoped lang="scss">
 .button-box {

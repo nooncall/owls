@@ -2,11 +2,12 @@ package tidb_or_mysql
 
 import (
 	"fmt"
-	"github.com/flipped-aurora/gin-vue-admin/server/model/common/response"
 
 	"github.com/gin-gonic/gin"
 
+	"github.com/flipped-aurora/gin-vue-admin/server/model/common/response"
 	"github.com/flipped-aurora/gin-vue-admin/server/service/tidb_or_mysql/task"
+	"github.com/flipped-aurora/gin-vue-admin/server/utils"
 )
 
 type BackupApi struct{}
@@ -37,7 +38,13 @@ func (backupApi *BackupApi) Rollback(ctx *gin.Context) {
 		return
 	}
 
-	req.Executor = ctx.MustGet("user").(string)
+	claims, err := utils.GetClaims(ctx)
+	if err != nil {
+		response.FailWithMessage("get user err: "+err.Error(), ctx)
+		return
+	}
+
+	req.Executor = claims.Username
 	if err := task.Rollback(&req); err != nil {
 		response.FailWithMessage(fmt.Sprintf("%s: rollback failed, err: %s", f, err.Error()), ctx)
 		return

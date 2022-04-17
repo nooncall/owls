@@ -53,3 +53,11 @@ export const listBackup = (data) => {
     data
   })
 }
+
+export const rollback = (data) => {
+  return service({
+    url: '/db/backup/rollback',
+    method: 'post',
+    data
+  })
+}
