@@ -9,6 +9,9 @@ import (
 	"github.com/flipped-aurora/gin-vue-admin/server/model/example"
 	"github.com/flipped-aurora/gin-vue-admin/server/model/system"
 	"github.com/flipped-aurora/gin-vue-admin/server/model/system/request"
+	"github.com/flipped-aurora/gin-vue-admin/server/service/tidb_or_mysql/checker"
+	"github.com/flipped-aurora/gin-vue-admin/server/service/tidb_or_mysql/db_info"
+	"github.com/flipped-aurora/gin-vue-admin/server/service/tidb_or_mysql/task"
 )
 
 type InitDBService struct{}
@@ -51,6 +54,13 @@ func (initDBService *InitDBService) initTables() error {
 		example.ExaCustomer{},
 		example.ExaFileChunk{},
 		example.ExaFileUploadAndDownload{},
+
+		task.OwlTask{},
+		task.OwlBackup{},
+		task.OwlSubtask{},
+		task.OwlExecItem{},
+		checker.OwlRuleStatus{},
+		db_info.OwlCluster{},
 	)
 }
 

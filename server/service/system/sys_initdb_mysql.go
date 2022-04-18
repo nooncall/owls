@@ -8,6 +8,7 @@ import (
 	"github.com/flipped-aurora/gin-vue-admin/server/model/system/request"
 	"github.com/flipped-aurora/gin-vue-admin/server/source/example"
 	"github.com/flipped-aurora/gin-vue-admin/server/source/system"
+	"github.com/flipped-aurora/gin-vue-admin/server/source/tidb_or_mysql"
 	"github.com/flipped-aurora/gin-vue-admin/server/utils"
 	uuid "github.com/satori/go.uuid"
 	"gorm.io/driver/mysql"
@@ -67,6 +68,8 @@ func (initDBService *InitDBService) initMysqlDB(conf request.InitDB) error {
 		global.GVA_DB = db
 	}
 
+	// todo, here to init
+
 	if err := initDBService.initTables(); err != nil {
 		global.GVA_DB = nil
 		return err
@@ -102,5 +105,7 @@ func (initDBService *InitDBService) initMysqlData() error {
 		system.DictionaryDetail,
 		system.ViewAuthorityMenuMysql,
 		example.FileMysql,
+
+		tidb_or_mysql.Cluster,
 	)
 }
