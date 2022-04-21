@@ -14,27 +14,17 @@ export const viteLogo = (env) => {
     const chalk = require('chalk')
     console.log(
       chalk.green(
-        `> 欢迎使用Gin-Vue-Admin，开源地址：https://github.com/flipped-aurora/gin-vue-admin`
+        `> 欢迎使用Owls，开源地址：https://github.com/qingfeng777/owls`
       )
     )
     console.log(
       chalk.green(
-        `> 当前版本:V2.5.0`
+        `> 当前版本:V0.0.1`
       )
     )
     console.log(
       chalk.green(
-        `> 加群方式:微信：shouzi_1994 QQ群：622360840`
-      )
-    )
-    console.log(
-      chalk.green(
-        `> GVA讨论社区：https://support.qq.com/products/371961`
-      )
-    )
-    console.log(
-      chalk.green(
-        `> 默认自动化文档地址:http://127.0.0.1:${env.VITE_SERVER_PORT}/swagger/index.html`
+        `> 加群方式:微信：xxxx QQ群：xxxx`
       )
     )
     console.log(
@@ -49,7 +39,7 @@ export const viteLogo = (env) => {
     )
     console.log(
       chalk.green(
-        `> 如果项目让您获得了收益，希望您能请团队喝杯可乐:https://www.github.com/flipped-aurora/gin-vue-admin/server.com/docs/coffee`
+        `> 如果项目让您获得了收益，那就帮忙宣传一下吧！`
       )
     )
     console.log('\n')
