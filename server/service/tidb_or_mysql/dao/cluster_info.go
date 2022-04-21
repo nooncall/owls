@@ -2,8 +2,8 @@ package dao
 
 import (
 	"fmt"
-	"github.com/flipped-aurora/gin-vue-admin/server/model/common/request"
-	"github.com/flipped-aurora/gin-vue-admin/server/service/tidb_or_mysql/db_info"
+	"github.com/qingfeng777/owls/server/model/common/request"
+	"github.com/qingfeng777/owls/server/service/tidb_or_mysql/db_info"
 )
 
 type ClusterImpl struct {

@@ -6,7 +6,7 @@ import (
 
 	jwt "github.com/dgrijalva/jwt-go"
 
-	"github.com/flipped-aurora/gin-vue-admin/server/config"
+	"github.com/qingfeng777/owls/server/config"
 )
 
 func Login(userName, Pwd string) (string, error) {

@@ -3,8 +3,8 @@ package utils
 import (
 	"testing"
 
-	"github.com/flipped-aurora/gin-vue-admin/server/config"
-	"github.com/flipped-aurora/gin-vue-admin/server/utils/logger"
+	"github.com/qingfeng777/owls/server/config"
+	"github.com/qingfeng777/owls/server/utils/logger"
 )
 
 func TestCryPto(t *testing.T) {

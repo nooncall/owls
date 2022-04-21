@@ -1,7 +1,7 @@
 package initialize
 
 import (
-	"github.com/flipped-aurora/gin-vue-admin/server/global"
+	"github.com/qingfeng777/owls/server/global"
 	"gorm.io/gorm"
 )
 

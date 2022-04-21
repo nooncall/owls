@@ -9,8 +9,8 @@ import (
 
 	tidb "github.com/pingcap/parser/ast"
 
-	"github.com/flipped-aurora/gin-vue-admin/server/service/tidb_or_mysql/sql_util"
-	"github.com/flipped-aurora/gin-vue-admin/server/utils/logger"
+	"github.com/qingfeng777/owls/server/service/tidb_or_mysql/sql_util"
+	"github.com/qingfeng777/owls/server/utils/logger"
 )
 
 type BackupDataResp struct {

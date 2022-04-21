@@ -4,7 +4,7 @@ import (
 	"errors"
 	"strings"
 
-	"github.com/flipped-aurora/gin-vue-admin/server/config"
+	"github.com/qingfeng777/owls/server/config"
 )
 
 type ConfAuthToolImpl struct {

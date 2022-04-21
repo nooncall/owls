@@ -3,9 +3,9 @@ package db_info
 import (
 	"time"
 
-	"github.com/flipped-aurora/gin-vue-admin/server/model/common/request"
-	"github.com/flipped-aurora/gin-vue-admin/server/service/tidb_or_mysql"
-	"github.com/flipped-aurora/gin-vue-admin/server/utils"
+	"github.com/qingfeng777/owls/server/model/common/request"
+	"github.com/qingfeng777/owls/server/service/tidb_or_mysql"
+	"github.com/qingfeng777/owls/server/utils"
 )
 
 type OwlCluster struct {

@@ -3,9 +3,9 @@ package example
 import (
 	"os"
 
-	"github.com/flipped-aurora/gin-vue-admin/server/global"
-	"github.com/flipped-aurora/gin-vue-admin/server/model/common/response"
-	"github.com/flipped-aurora/gin-vue-admin/server/model/example"
+	"github.com/qingfeng777/owls/server/global"
+	"github.com/qingfeng777/owls/server/model/common/response"
+	"github.com/qingfeng777/owls/server/model/example"
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
 )

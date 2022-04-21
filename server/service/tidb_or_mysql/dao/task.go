@@ -3,8 +3,8 @@ package dao
 import (
 	"gorm.io/gorm"
 
-	"github.com/flipped-aurora/gin-vue-admin/server/model/common/request"
-	"github.com/flipped-aurora/gin-vue-admin/server/service/tidb_or_mysql/task"
+	"github.com/qingfeng777/owls/server/model/common/request"
+	"github.com/qingfeng777/owls/server/service/tidb_or_mysql/task"
 )
 
 type TaskDaoImpl struct {

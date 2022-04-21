@@ -7,14 +7,14 @@ aliyun-oss:
   base-path: yourBasePath
 autocode:
   transfer-restart: true
-  root: /Users/mingbai/openS/vue/gin-vue-admin
+  root: /Users/mingbai/openS/vue/database-manager
   server: /server
-  server-api: /api/v1/autocode
+  server-api: /api/v1/%s
   server-initialize: /initialize
-  server-model: /model/autocode
-  server-request: /model/autocode/request/
-  server-router: /router/autocode
-  server-service: /service/autocode
+  server-model: /model/%s
+  server-request: /model/%s/request/
+  server-router: /router/%s
+  server-service: /service/%s
   web: /web/src
   web-api: /api
   web-form: /view
@@ -28,7 +28,7 @@ aws-s3:
   secret-id: xxxxxxxx
   secret-key: xxxxxxxx
   base-url: https://gin.vue.admin
-  path-prefix: github.com/flipped-aurora/gin-vue-admin/server
+  path-prefix: github.com/qingfeng777/owls/server
 captcha:
   key-long: 6
   img-width: 240
@@ -84,14 +84,14 @@ jwt:
   buffer-time: 86400
   expires-time: 604800
   issuer: qmPlus
-  signing-key: 79d48b06-fe70-404d-8f6f-740424878374
+  signing-key: 385149e2-f60b-4d83-942e-07b2ca3d5f04
 local:
   path: uploads/file
 mysql:
   path: 127.0.0.1
   port: "3306"
   config: charset=utf8mb4&parseTime=True&loc=Local
-  db-name: gva
+  db-name: gvc
   username: root
   password: aaaaaa
   max-idle-conns: 10
@@ -136,7 +136,7 @@ tencent-cos:
   secret-id: xxxxxxxx
   secret-key: xxxxxxxx
   base-url: https://gin.vue.admin
-  path-prefix: github.com/flipped-aurora/gin-vue-admin/server
+  path-prefix: github.com/qingfeng777/owls/server
 timer:
   start: true
   spec: '@daily'
@@ -150,7 +150,7 @@ timer:
 zap:
   level: info
   format: console
-  prefix: '[github.com/flipped-aurora/gin-vue-admin/server]'
+  prefix: '[github.com/qingfeng777/owls/server]'
   director: log
   showLine: true
   encode-level: LowercaseColorLevelEncoder

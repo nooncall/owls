@@ -2,7 +2,7 @@ package admin
 
 import (
 	"fmt"
-	"github.com/flipped-aurora/gin-vue-admin/server/service/tidb_or_mysql"
+	"github.com/qingfeng777/owls/server/service/tidb_or_mysql"
 	"time"
 
 	"gorm.io/gorm"

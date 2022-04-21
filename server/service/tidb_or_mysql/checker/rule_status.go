@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/flipped-aurora/gin-vue-admin/server/model/common/request"
-	"github.com/flipped-aurora/gin-vue-admin/server/utils/logger"
+	"github.com/qingfeng777/owls/server/model/common/request"
+	"github.com/qingfeng777/owls/server/utils/logger"
 )
 
 const ruleClose = 1

@@ -5,13 +5,13 @@ import (
 	"fmt"
 
 	adapter "github.com/casbin/gorm-adapter/v3"
-	"github.com/flipped-aurora/gin-vue-admin/server/global"
-	"github.com/flipped-aurora/gin-vue-admin/server/model/example"
-	"github.com/flipped-aurora/gin-vue-admin/server/model/system"
-	"github.com/flipped-aurora/gin-vue-admin/server/model/system/request"
-	"github.com/flipped-aurora/gin-vue-admin/server/service/tidb_or_mysql/checker"
-	"github.com/flipped-aurora/gin-vue-admin/server/service/tidb_or_mysql/db_info"
-	"github.com/flipped-aurora/gin-vue-admin/server/service/tidb_or_mysql/task"
+	"github.com/qingfeng777/owls/server/global"
+	"github.com/qingfeng777/owls/server/model/example"
+	"github.com/qingfeng777/owls/server/model/system"
+	"github.com/qingfeng777/owls/server/model/system/request"
+	"github.com/qingfeng777/owls/server/service/tidb_or_mysql/checker"
+	"github.com/qingfeng777/owls/server/service/tidb_or_mysql/db_info"
+	"github.com/qingfeng777/owls/server/service/tidb_or_mysql/task"
 )
 
 type InitDBService struct{}

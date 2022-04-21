@@ -3,8 +3,8 @@ package tidb_or_mysql
 import (
 	"time"
 
-	"github.com/flipped-aurora/gin-vue-admin/server/config"
-	"github.com/flipped-aurora/gin-vue-admin/server/utils/logger"
+	"github.com/qingfeng777/owls/server/config"
+	"github.com/qingfeng777/owls/server/utils/logger"
 )
 
 type Pagination struct {

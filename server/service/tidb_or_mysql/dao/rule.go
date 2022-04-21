@@ -1,7 +1,7 @@
 package dao
 
 import (
-	"github.com/flipped-aurora/gin-vue-admin/server/service/tidb_or_mysql/checker"
+	"github.com/qingfeng777/owls/server/service/tidb_or_mysql/checker"
 	"gorm.io/gorm"
 )
 

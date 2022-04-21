@@ -6,9 +6,9 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 	"gorm.io/gorm"
 
-	"github.com/flipped-aurora/gin-vue-admin/server/config"
-	"github.com/flipped-aurora/gin-vue-admin/server/global"
-	"github.com/flipped-aurora/gin-vue-admin/server/utils/logger"
+	"github.com/qingfeng777/owls/server/config"
+	"github.com/qingfeng777/owls/server/global"
+	"github.com/qingfeng777/owls/server/utils/logger"
 )
 
 var DB *gorm.DB

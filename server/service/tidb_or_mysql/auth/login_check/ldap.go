@@ -6,8 +6,8 @@ import (
 
 	ldap "github.com/jtblin/go-ldap-client"
 
-	"github.com/flipped-aurora/gin-vue-admin/server/config"
-	"github.com/flipped-aurora/gin-vue-admin/server/utils/logger"
+	"github.com/qingfeng777/owls/server/config"
+	"github.com/qingfeng777/owls/server/utils/logger"
 )
 
 type LoginServiceImpl struct {

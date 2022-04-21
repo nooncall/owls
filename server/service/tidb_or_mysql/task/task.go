@@ -6,9 +6,9 @@ import (
 	"strings"
 	"time"
 
-	"github.com/flipped-aurora/gin-vue-admin/server/config"
-	"github.com/flipped-aurora/gin-vue-admin/server/model/common/request"
-	"github.com/flipped-aurora/gin-vue-admin/server/service/tidb_or_mysql/sql_util"
+	"github.com/qingfeng777/owls/server/config"
+	"github.com/qingfeng777/owls/server/model/common/request"
+	"github.com/qingfeng777/owls/server/service/tidb_or_mysql/sql_util"
 )
 
 type OwlTask struct {

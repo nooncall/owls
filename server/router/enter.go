@@ -1,10 +1,10 @@
 package router
 
 import (
-	"github.com/flipped-aurora/gin-vue-admin/server/router/autocode"
-	"github.com/flipped-aurora/gin-vue-admin/server/router/example"
-	"github.com/flipped-aurora/gin-vue-admin/server/router/system"
-	"github.com/flipped-aurora/gin-vue-admin/server/router/tidb_or_mysql"
+	"github.com/qingfeng777/owls/server/router/autocode"
+	"github.com/qingfeng777/owls/server/router/example"
+	"github.com/qingfeng777/owls/server/router/system"
+	"github.com/qingfeng777/owls/server/router/tidb_or_mysql"
 )
 
 type RouterGroup struct {

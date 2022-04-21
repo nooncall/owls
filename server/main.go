@@ -1,12 +1,13 @@
 package main
 
 import (
-	"github.com/flipped-aurora/gin-vue-admin/server/config"
-	"github.com/flipped-aurora/gin-vue-admin/server/core"
-	"github.com/flipped-aurora/gin-vue-admin/server/global"
-	"github.com/flipped-aurora/gin-vue-admin/server/initialize"
-	"github.com/flipped-aurora/gin-vue-admin/server/service/tidb_or_mysql/injection"
-	"github.com/flipped-aurora/gin-vue-admin/server/utils/logger"
+	"github.com/qingfeng777/owls/server/config"
+	"github.com/qingfeng777/owls/server/core"
+	"github.com/qingfeng777/owls/server/global"
+	"github.com/qingfeng777/owls/server/initialize"
+	"github.com/qingfeng777/owls/server/service/tidb_or_mysql/injection"
+	"github.com/qingfeng777/owls/server/utils/logger"
+
 	"go.uber.org/zap"
 )
 

@@ -3,10 +3,10 @@ package auth
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/flipped-aurora/gin-vue-admin/server/utils"
+	"github.com/qingfeng777/owls/server/utils"
 	"net/http"
 
-	"github.com/flipped-aurora/gin-vue-admin/server/config"
+	"github.com/qingfeng777/owls/server/config"
 )
 
 type NetAuthToolImpl struct {

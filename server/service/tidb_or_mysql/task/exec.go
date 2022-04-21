@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/flipped-aurora/gin-vue-admin/server/config"
-	"github.com/flipped-aurora/gin-vue-admin/server/utils/logger"
+	"github.com/qingfeng777/owls/server/config"
+	"github.com/qingfeng777/owls/server/utils/logger"
 )
 
 func Exec(paramTask, dbTask *OwlTask) error {

@@ -5,9 +5,9 @@ import (
 
 	"github.com/gin-gonic/gin"
 
-	"github.com/flipped-aurora/gin-vue-admin/server/model/common/response"
-	"github.com/flipped-aurora/gin-vue-admin/server/service/tidb_or_mysql/task"
-	"github.com/flipped-aurora/gin-vue-admin/server/utils"
+	"github.com/qingfeng777/owls/server/model/common/response"
+	"github.com/qingfeng777/owls/server/service/tidb_or_mysql/task"
+	"github.com/qingfeng777/owls/server/utils"
 )
 
 type BackupApi struct{}

@@ -7,10 +7,10 @@ import (
 
 	"github.com/pkg/errors"
 
-	"github.com/flipped-aurora/gin-vue-admin/server/global"
-	"github.com/flipped-aurora/gin-vue-admin/server/model/system"
-	"github.com/flipped-aurora/gin-vue-admin/server/service/tidb_or_mysql/db_info"
-	"github.com/flipped-aurora/gin-vue-admin/server/utils"
+	"github.com/qingfeng777/owls/server/global"
+	"github.com/qingfeng777/owls/server/model/system"
+	"github.com/qingfeng777/owls/server/service/tidb_or_mysql/db_info"
+	"github.com/qingfeng777/owls/server/utils"
 )
 
 var Cluster = new(cluster)

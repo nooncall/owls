@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/flipped-aurora/gin-vue-admin/server/service/tidb_or_mysql/service"
+	"github.com/qingfeng777/owls/server/service/tidb_or_mysql/service"
 )
 
 func TestIndexMatchCondition(t *testing.T) {

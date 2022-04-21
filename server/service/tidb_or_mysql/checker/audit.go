@@ -8,9 +8,9 @@ import (
 
 	"vitess.io/vitess/go/vt/sqlparser"
 
-	"github.com/flipped-aurora/gin-vue-admin/server/service/tidb_or_mysql/task"
-	"github.com/flipped-aurora/gin-vue-admin/server/utils"
-	"github.com/flipped-aurora/gin-vue-admin/server/utils/logger"
+	"github.com/qingfeng777/owls/server/service/tidb_or_mysql/task"
+	"github.com/qingfeng777/owls/server/utils"
+	"github.com/qingfeng777/owls/server/utils/logger"
 )
 
 // Audit 待评审的SQL结构体，由原SQL和其对应的抽象语法树组成

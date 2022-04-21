@@ -4,7 +4,7 @@ import (
 	"database/sql"
 	"fmt"
 
-	"github.com/flipped-aurora/gin-vue-admin/server/service/tidb_or_mysql/task"
+	"github.com/qingfeng777/owls/server/service/tidb_or_mysql/task"
 )
 
 const defaultDBName = "information_schema"

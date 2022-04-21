@@ -14,7 +14,7 @@ import (
 	"github.com/pingcap/parser/format"
 	_ "github.com/pingcap/tidb/types/parser_driver"
 
-	"github.com/flipped-aurora/gin-vue-admin/server/utils/logger"
+	"github.com/qingfeng777/owls/server/utils/logger"
 )
 
 //取出数据的顺序同建表语句的顺序

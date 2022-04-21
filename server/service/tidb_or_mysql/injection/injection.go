@@ -1,15 +1,15 @@
 package injection
 
 import (
-	"github.com/flipped-aurora/gin-vue-admin/server/config"
-	service "github.com/flipped-aurora/gin-vue-admin/server/service/tidb_or_mysql"
-	"github.com/flipped-aurora/gin-vue-admin/server/service/tidb_or_mysql/admin"
-	"github.com/flipped-aurora/gin-vue-admin/server/service/tidb_or_mysql/auth"
-	"github.com/flipped-aurora/gin-vue-admin/server/service/tidb_or_mysql/auth/login_check"
-	"github.com/flipped-aurora/gin-vue-admin/server/service/tidb_or_mysql/checker"
-	"github.com/flipped-aurora/gin-vue-admin/server/service/tidb_or_mysql/dao"
-	"github.com/flipped-aurora/gin-vue-admin/server/service/tidb_or_mysql/db_info"
-	"github.com/flipped-aurora/gin-vue-admin/server/service/tidb_or_mysql/task"
+	"github.com/qingfeng777/owls/server/config"
+	service "github.com/qingfeng777/owls/server/service/tidb_or_mysql"
+	"github.com/qingfeng777/owls/server/service/tidb_or_mysql/admin"
+	"github.com/qingfeng777/owls/server/service/tidb_or_mysql/auth"
+	"github.com/qingfeng777/owls/server/service/tidb_or_mysql/auth/login_check"
+	"github.com/qingfeng777/owls/server/service/tidb_or_mysql/checker"
+	"github.com/qingfeng777/owls/server/service/tidb_or_mysql/dao"
+	"github.com/qingfeng777/owls/server/service/tidb_or_mysql/db_info"
+	"github.com/qingfeng777/owls/server/service/tidb_or_mysql/task"
 )
 
 func Injection()  {

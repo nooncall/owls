@@ -3,7 +3,7 @@ package task
 import (
 	"database/sql"
 
-	"github.com/flipped-aurora/gin-vue-admin/server/utils/logger"
+	"github.com/qingfeng777/owls/server/utils/logger"
 )
 
 type DBInfo struct {

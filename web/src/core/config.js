@@ -3,8 +3,9 @@
  */
 
 const config = {
-  appName: 'Gin-Vue-Admin',
-  appLogo: 'https://www.gin-vue-admin.com/img/logo.png',
+  appName: 'Owl',
+  // todo, set a better image addr
+  appLogo: 'https://img0.baidu.com/it/u=2822765666,2555722031&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=501',
   showViteLogo: true
 }
 

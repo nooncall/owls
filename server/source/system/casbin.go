@@ -2,7 +2,7 @@ package system
 
 import (
 	adapter "github.com/casbin/gorm-adapter/v3"
-	"github.com/flipped-aurora/gin-vue-admin/server/global"
+	"github.com/qingfeng777/owls/server/global"
 	"github.com/pkg/errors"
 	"gorm.io/gorm"
 )
