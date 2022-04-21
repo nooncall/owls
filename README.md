@@ -1,6 +1,6 @@
 
 <div align=center>
-<img src="http://qmplusimg.henrongyi.top/gvalogo.jpg" width=300" height="300" />
+<img src="https://img0.baidu.com/it/u=2822765666,2555722031&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=501" width=300" height="300" />
 </div>
 <div align=center>
 <img src="https://img.shields.io/badge/golang-1.16-blue"/>
@@ -12,60 +12,46 @@
 
 [English](./README-en.md) | 简体中文
 
-## 不同版本
+## 版本
 
-我们会对以下四个版本持续维护，请选择适合自己的版本使用。最新技术栈为组合式api版本，已支持多语言（I18N）
-
-[组合式API版（主）](https://github.com/flipped-aurora/gin-vue-admin) | 
-[组合式API多语言(i18n)版](https://github.com/flipped-aurora/gin-vue-admin/tree/i18n-dev-new) | 
-[声明式API版](https://github.com/flipped-aurora/gin-vue-admin/tree/v2.4.x) | 
-[声明式API多语言(i18n)版](https://github.com/flipped-aurora/gin-vue-admin/tree/i18n-dev)
+开发中，目前仅tidb、mysql的sql审核可用
 
 # 项目文档
-[在线文档](https://www.gin-vue-admin.com) : https://www.gin-vue-admin.com
+[在线文档]() : 
 
-[初始化](https://www.gin-vue-admin.com/docs/first_master)
+[初始化]()
 						       
-[从环境到部署教学视频](https://www.bilibili.com/video/BV1Rg411u7xH)
-
-[开发教学](https://www.gin-vue-admin.com/docs/help) (贡献者:  <a href="https://github.com/LLemonGreen">LLemonGreen</a> And <a href="https://github.com/fkk0509">Fann</a>)
-
-[交流社区](https://support.qq.com/products/371961)
+[交流社区]()
 
 # 重要提示
 
-1.本项目从起步到开发到部署均有文档和详细视频教程
+1.本项目从起步到开发到部署均会有文档和详细视频教程
 
-2.本项目需要您有一定的golang和vue基础
+.如果您将此项目用于商业用途，请遵守Apache2.0协议并保留作者技术支持声明。您需保留如下版权声明信息，其余信息功能不做任何限制。如需剔除请联系微信：xxx
 
-3.您完全可以通过我们的教程和文档完成一切操作，因此我们不再提供免费的技术服务，如需服务请进行[付费支持](https://www.gin-vue-admin.com/docs/payment)
 
-4.如果您将此项目用于商业用途，请遵守Apache2.0协议并保留作者技术支持声明。您需保留如下版权声明信息，其余信息功能不做任何限制。如需剔除请联系微信：shouzi_1994
-
-<img src="https://qmplusimg.henrongyi.top/%E6%8E%88%E6%9D%83.png" width="1000">
-
-5.如果您需要服务器的话 2C4G8M 80GB 腾讯云 一年74 三年222 在这里购买：https://curl.qcloud.com/Rm5Rhd4k
+5.如果您需要服务器的话 2C4G8M 80GB 腾讯云 一年74 三年222 在这里购买：
 									      
-阿里云服务器 1c2g1m 38一年 在这里购买:https://www.aliyun.com/minisite/goods?userCode=xqe01uob
+阿里云服务器 1c2g1m 38一年 在这里购买:
 
 ## 1. 基本介绍
 
 ### 1.1 项目介绍
 
-> Gin-vue-admin是一个基于 [vue](https://vuejs.org) 和 [gin](https://gin-gonic.com) 开发的全栈前后端分离的开发基础平台，集成jwt鉴权，动态路由，动态菜单，casbin鉴权，表单生成器，代码生成器等功能，提供多种示例文件，让您把更多时间专注在业务开发上。
+> Owls是一个基于 [vue](https://vuejs.org) 和 [gin](https://gin-gonic.com) 开发的全栈前后端分离的XXXX平台，集成jwt鉴权，动态路由，动态菜单，casbin鉴权，表单生成器，代码生成器等功能，提供多种示例文件，让您把更多时间专注在业务开发上。
 
-[在线预览](http://demo.gin-vue-admin.com): http://demo.gin-vue-admin.com
+[在线预览]():
 
 测试用户名：admin
 
 测试密码：123456
 
 ### 1.2 贡献指南
-Hi! 首先感谢你使用 gin-vue-admin。
+Hi! 首先感谢你使用 Owls。
 
-Gin-vue-admin 是一套为快速研发准备的一整套前后端分离架构式的开源框架，旨在快速搭建中小型项目。
+Owls 是一套为快速研发准备的一整套前后端分离架构式的XXXX, 旨在xxx。
 
-Gin-vue-admin 的成长离不开大家的支持，如果你愿意为 gin-vue-admin 贡献代码或提供建议，请阅读以下内容。
+Owls 的成长离不开大家的支持，如果你愿意为 Owls 贡献代码或提供建议，请阅读以下内容。
 
 #### 1.2.1 Issue 规范
 - issue 仅用于提交 Bug 或 Feature 以及设计相关的内容，其它内容可能会被直接关闭。如果你在使用时产生了疑问，请到 Slack 或 [Gitter](https://gitter.im/ElemeFE/element) 里咨询。
@@ -87,18 +73,18 @@ Gin-vue-admin 的成长离不开大家的支持，如果你愿意为 gin-vue-adm
 - node版本 > v12.18.3
 - golang版本 >= v1.16
 - IDE推荐：Goland
-- 初始化项目： 不同版本数据库初始化不通 参见 https://www.gin-vue-admin.com/docs/first_master
+- 初始化项目： mysql数据库
 - 替换掉项目中的七牛云公钥，私钥，仓名和默认url地址，以免发生测试文件数据错乱
 ```
 
 ### 2.1 server项目
 
-使用 `Goland` 等编辑工具，打开server目录，不可以打开 gin-vue-admin 根目录
+使用 `Goland` 等编辑工具，打开server目录，不可以打开 Owls 根目录
 
 ```bash
 
 # 克隆项目
-git clone https://github.com/flipped-aurora/gin-vue-admin.git
+git clone https://github.com/qingfeng777/owls.git
 # 进入server文件夹
 cd server
 
@@ -238,30 +224,21 @@ swag init
 - 配置管理：配置文件可前台修改(在线体验站点不开放此功能)。
 - 条件搜索：增加条件搜索示例。
 - restful示例：可以参考用户管理模块中的示例API。
-	- 前端文件参考: [web/src/view/superAdmin/api/api.vue](https://github.com/flipped-aurora/gin-vue-admin/blob/master/web/src/view/superAdmin/api/api.vue)
-    - 后台文件参考: [server/router/sys_api.go](https://github.com/flipped-aurora/gin-vue-admin/blob/master/server/router/sys_api.go)
+	- 前端文件参考: [web/src/view/superAdmin/api/api.vue](https://github.com/qingfeng777/owls/blob/master/web/src/view/superAdmin/api/api.vue)
+    - 后台文件参考: [server/router/sys_api.go](https://github.com/qingfeng777/owls/blob/master/server/router/sys_api.go)
 - 多点登录限制：需要在`config.yaml`中把`system`中的`use-multipoint`修改为true(需要自行配置Redis和Config中的Redis参数，测试阶段，有bug请及时反馈)。
 - 分片长传：提供文件分片上传和大文件分片上传功能示例。
 - 表单生成器：表单生成器借助 [@form-generator](https://github.com/JakHuang/form-generator) 。
 - 代码生成器：后台基础逻辑以及简单curd的代码生成器。
 
-## 6. 知识库 
+## 6. 知识库
 
 ## 6.1 团队博客
 
-> https://www.yuque.com/flipped-aurora
 >
->内有前端框架教学视频。如果觉得项目对您有所帮助可以添加我的个人微信:shouzi_1994，欢迎您提出宝贵的需求。
+>内有前端框架教学视频。如果觉得项目对您有所帮助可以添加我的个人微信:xxxxx，欢迎您提出宝贵的需求。
 
 ## 6.2 教学视频
-
-（1）手把手教学视频
-
-> https://www.bilibili.com/video/BV1Rg411u7xH/
-
-（2）后端目录结构调整介绍以及使用方法
-
-> https://www.bilibili.com/video/BV1x44y117TT/
 
 （3）golang基础教学视频
 
@@ -271,45 +248,36 @@ swag init
 
 > bilibili：https://space.bilibili.com/322210472/channel/detail?cid=126418&ctype=0
 
-（5）gin-vue-admin 版本更新介绍视频
-
-> bilibili：https://space.bilibili.com/322210472/channel/detail?cid=126418&ctype=0
 
 ## 7. 联系方式
 
 ### 7.1 技术群
 
-### QQ交流群：622360840
+### QQ交流群：
 | QQ 群 |
 |  :---:  |
-| <img src="http://qmplusimg.henrongyi.top/qq.jpg" width="180"/> |
 
 ### 微信交流群
 | 微信 |
 |  :---:  | 
-| <img width="150" src="http://qmplusimg.henrongyi.top/qrjjz.png"> 
 
-添加微信，备注"加入gin-vue-admin交流群"
+添加微信，备注"交流群"
 
-### [关于我们](https://www.gin-vue-admin.com/about/)
+### [关于我们]()
 
 ## 8. 贡献者
 
-感谢您对gin-vue-admin的贡献!
+感谢您对Owls的贡献!
 
-<a href="https://github.com/flipped-aurora/gin-vue-admin/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=flipped-aurora/gin-vue-admin" />
+<a href="https://github.com/qingfeng777/owls/graphs/contributors">
+    XXXXX
+  <img src="" />
 </a>
-
-## 9. 捐赠
-
-如果你觉得这个项目对你有帮助，你可以请作者喝饮料 :tropical_drink: [点我](https://www.gin-vue-admin.com/docs/coffee)
 
 ## 10. 友情链接
 
 [H5-Dooring ｜ H5页面制作神器](https://github.com/MrXujiang/h5-Dooring)	
 
-[go-zero 微服务框架｜缩短从需求到上线的距离](https://github.com/zeromicro/go-zero)
 
 ## 11. 商用注意事项
 
