@@ -14,9 +14,7 @@ import (
 
 // 初始化总路由
 
-func Routers() *gin.Engine {
-	Router := gin.Default()
-
+func Routers(Router *gin.Engine) *gin.Engine {
 	// 如果想要不使用nginx代理前端网页，可以修改 web/.env.production 下的
 	// VUE_APP_BASE_API = /
 	// VUE_APP_BASE_PATH = http://localhost

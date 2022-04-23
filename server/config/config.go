@@ -93,7 +93,7 @@ func newConfig(configPath string) (*Config, error) {
 
 const (
 	configPathEnv = "config_path"
-	configPath    = "./config/config.yml"
+	configPath    = "./config/config.yaml"
 )
 
 func getConfigPath() string {

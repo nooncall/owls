@@ -9,7 +9,7 @@ import (
 
 func TestCryPto(t *testing.T) {
 	logger.InitLog(".", "test.log", "debug")
-	config.InitConfig("../config/config.yml")
+	config.InitConfig("../config/config.yaml")
 
 	f := "TestCryPto"
 	pwd := "aaaaaa"

@@ -2,12 +2,19 @@ package core
 
 import (
 	"fmt"
+	"net/http"
+	"os"
+	"path/filepath"
+	"strings"
 	"time"
 
+	"go.uber.org/zap"
+
+	"github.com/gin-gonic/gin"
 	"github.com/qingfeng777/owls/server/global"
 	"github.com/qingfeng777/owls/server/initialize"
 	"github.com/qingfeng777/owls/server/service/system"
-	"go.uber.org/zap"
+	"github.com/qingfeng777/owls/server/utils/logger"
 )
 
 type server interface {
@@ -25,8 +32,11 @@ func RunWindowsServer() {
 		system.LoadAll()
 	}
 
-	Router := initialize.Routers()
+	Router := gin.Default()
+
+	initialize.Routers(Router)
 	Router.Static("/form-generator", "./resource/page")
+	frontRouter(Router)
 
 	address := fmt.Sprintf(":%d", global.GVA_CONFIG.System.Addr)
 	s := initServer(address, Router)
@@ -44,4 +54,34 @@ func RunWindowsServer() {
 	如果项目让您获得了收益，那就帮忙宣传一下吧！
 `, address)
 	global.GVA_LOG.Error(s.ListenAndServe().Error())
+}
+
+func frontRouter(r *gin.Engine) {
+	currentDir := getCurrentDirectory()
+	currentDir = "/Users/mingbai/openS/vue/database-manager/web"
+	logger.Info("current dir is: ", currentDir)
+	r.Static("/owls", filepath.Join(currentDir, "./dist"))
+
+	r.GET("/", func(c *gin.Context) {
+		c.Redirect(http.StatusMovedPermanently, "owls/")
+	})
+
+	r.NoRoute(func(c *gin.Context) {
+		if !strings.Contains(c.Request.RequestURI, "/api") {
+			path := strings.Split(c.Request.URL.Path, "/")
+			if len(path) > 1 {
+				c.File(filepath.Join(currentDir, "./dist") + "/index.html")
+				return
+			}
+		}
+	})
+}
+
+func getCurrentDirectory() string {
+	dir, err := filepath.Abs(filepath.Dir(os.Args[0]))
+	if err != nil {
+		logger.Errorf("get current dir err: %s", err.Error())
+		return ""
+	}
+	return strings.Replace(dir, "\\", "/", -1)
 }
