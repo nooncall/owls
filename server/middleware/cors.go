@@ -1,9 +1,9 @@
 package middleware
 
 import (
+	"github.com/gin-gonic/gin"
 	"github.com/qingfeng777/owls/server/config"
 	"github.com/qingfeng777/owls/server/global"
-	"github.com/gin-gonic/gin"
 	"net/http"
 )
 

@@ -12,7 +12,7 @@ import (
 	"github.com/qingfeng777/owls/server/service/tidb_or_mysql/task"
 )
 
-func Injection()  {
+func Injection() {
 	task.SetBackupDao(dao.BackupDAO)
 	task.SetTaskDao(dao.Task)
 	task.SetSubTaskDao(dao.SubTask)

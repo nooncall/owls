@@ -4,9 +4,9 @@ import (
 	"errors"
 	"time"
 
+	"github.com/golang-jwt/jwt/v4"
 	"github.com/qingfeng777/owls/server/global"
 	"github.com/qingfeng777/owls/server/model/system/request"
-	"github.com/golang-jwt/jwt/v4"
 )
 
 type JWT struct {

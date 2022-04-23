@@ -1,12 +1,12 @@
 package initialize
 
 import (
-	"github.com/qingfeng777/owls/server/global"
 	email "github.com/flipped-aurora/gva-plugins/email" // 在线仓库模式go
+	"github.com/qingfeng777/owls/server/global"
 	//"github.com/qingfeng777/owls/server/plugin/email" // 本地插件仓库地址模式
+	"github.com/gin-gonic/gin"
 	"github.com/qingfeng777/owls/server/plugin/example_plugin"
 	"github.com/qingfeng777/owls/server/utils/plugin"
-	"github.com/gin-gonic/gin"
 )
 
 func PluginInit(group *gin.RouterGroup, Plugin ...plugin.Plugin) {

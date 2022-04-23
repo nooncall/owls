@@ -4,8 +4,8 @@ import (
 	"context"
 	"time"
 
-	"github.com/qingfeng777/owls/server/global"
 	"github.com/mojocn/base64Captcha"
+	"github.com/qingfeng777/owls/server/global"
 	"go.uber.org/zap"
 )
 

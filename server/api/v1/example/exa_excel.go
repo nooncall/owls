@@ -3,10 +3,10 @@ package example
 import (
 	"os"
 
+	"github.com/gin-gonic/gin"
 	"github.com/qingfeng777/owls/server/global"
 	"github.com/qingfeng777/owls/server/model/common/response"
 	"github.com/qingfeng777/owls/server/model/example"
-	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
 )
 

@@ -12,13 +12,13 @@ import (
 	"github.com/qingfeng777/owls/server/service/tidb_or_mysql/db_info"
 )
 
-type ClusterApi struct {}
+type ClusterApi struct{}
 
-func (clusterApi *ClusterApi)ListDB(ctx *gin.Context) {
+func (clusterApi *ClusterApi) ListDB(ctx *gin.Context) {
 	f := "ListDB()-->"
 
 	cluster := ctx.Query("cluster")
-	if cluster == ""{
+	if cluster == "" {
 		response.FailWithMessage("need cluster param: cluster name", ctx)
 		return
 	}
@@ -32,7 +32,7 @@ func (clusterApi *ClusterApi)ListDB(ctx *gin.Context) {
 	response.OkWithData(dbInfo, ctx)
 }
 
-func (clusterApi *ClusterApi)ListCluster(ctx *gin.Context) {
+func (clusterApi *ClusterApi) ListCluster(ctx *gin.Context) {
 	f := "ListCluster()-->"
 
 	var pageInfo request.SortPageInfo
@@ -49,16 +49,16 @@ func (clusterApi *ClusterApi)ListCluster(ctx *gin.Context) {
 	}
 
 	response.OkWithData(ListData{
-		List:   clusters,
-		Total:  int64(len(clusters)),
-		More:   false,
-		Offset: 0,
-		Page: pageInfo.Page,
+		List:     clusters,
+		Total:    int64(len(clusters)),
+		More:     false,
+		Offset:   0,
+		Page:     pageInfo.Page,
 		PageSize: pageInfo.PageSize,
 	}, ctx)
 }
 
-func (clusterApi *ClusterApi)AddCluster(ctx *gin.Context) {
+func (clusterApi *ClusterApi) AddCluster(ctx *gin.Context) {
 	f := "AddCluster()-->"
 
 	var cluster db_info.OwlCluster
@@ -76,12 +76,12 @@ func (clusterApi *ClusterApi)AddCluster(ctx *gin.Context) {
 	response.OkWithData(id, ctx)
 }
 
-func (clusterApi *ClusterApi)UpdateCluster(ctx *gin.Context) {
+func (clusterApi *ClusterApi) UpdateCluster(ctx *gin.Context) {
 	f := "UpdateCluster()-->"
 
 	var cluster db_info.OwlCluster
 	if err := ctx.BindJSON(&cluster); err != nil {
-		response.FailWithMessage(fmt.Sprintf("%s, parse param failed :%s ", f, err.Error()),  ctx)
+		response.FailWithMessage(fmt.Sprintf("%s, parse param failed :%s ", f, err.Error()), ctx)
 		return
 	}
 
@@ -93,13 +93,13 @@ func (clusterApi *ClusterApi)UpdateCluster(ctx *gin.Context) {
 	response.Ok(ctx)
 }
 
-func (clusterApi *ClusterApi)DelCluster(ctx *gin.Context) {
+func (clusterApi *ClusterApi) DelCluster(ctx *gin.Context) {
 	f := "DelCluster()-->"
 
 	idStr := ctx.Query("id")
 	id, err := strconv.ParseInt(idStr, 10, 64)
 	if err != nil {
-		response.FailWithMessage(fmt.Sprintf("%s, get param failed :%s, id: %s ", f, err.Error(), idStr),ctx)
+		response.FailWithMessage(fmt.Sprintf("%s, get param failed :%s, id: %s ", f, err.Error(), idStr), ctx)
 		return
 	}
 

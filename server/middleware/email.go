@@ -8,10 +8,10 @@ import (
 	"github.com/qingfeng777/owls/server/plugin/email/utils"
 	utils2 "github.com/qingfeng777/owls/server/utils"
 
+	"github.com/gin-gonic/gin"
 	"github.com/qingfeng777/owls/server/global"
 	"github.com/qingfeng777/owls/server/model/system"
 	"github.com/qingfeng777/owls/server/service"
-	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
 )
 

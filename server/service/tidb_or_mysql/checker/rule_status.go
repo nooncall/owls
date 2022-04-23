@@ -59,30 +59,30 @@ func UpdateRuleStatus(name, action string) (err error) {
 	}
 }
 
-func ListRules(info request.SortPageInfo) ([]Rule,int) {
+func ListRules(info request.SortPageInfo) ([]Rule, int) {
 	// todo, support sort
 	limit := info.PageSize
 	offset := info.PageSize * (info.Page - 1)
 
 	result := Rules
-	if info.Key != ""{
+	if info.Key != "" {
 		result = filterRule(info.Key)
 	}
 
-	if offset > len(result){
-		return  nil, len(result)
+	if offset > len(result) {
+		return nil, len(result)
 	}
-	if offset + limit > len(result){
+	if offset+limit > len(result) {
 		limit = len(result) - offset
 	}
 
-	return result[offset:offset+limit], len(result)
+	return result[offset : offset+limit], len(result)
 }
 
 func filterRule(key string) []Rule {
 	var rules []Rule
-	for _, v := range Rules{
-		if strings.Contains(v.Name, key) || strings.Contains(v.Summary, key){
+	for _, v := range Rules {
+		if strings.Contains(v.Name, key) || strings.Contains(v.Summary, key) {
 			rules = append(rules, v)
 		}
 	}

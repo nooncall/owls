@@ -1,13 +1,13 @@
 package system
 
 import (
+	"github.com/gin-gonic/gin"
 	"github.com/qingfeng777/owls/server/global"
 	"github.com/qingfeng777/owls/server/model/common/request"
 	"github.com/qingfeng777/owls/server/model/common/response"
 	"github.com/qingfeng777/owls/server/model/system"
 	systemReq "github.com/qingfeng777/owls/server/model/system/request"
 	"github.com/qingfeng777/owls/server/utils"
-	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
 )
 

@@ -30,7 +30,7 @@ func (u *cluster) Initialize() error {
 
 	Pwd := utils.StringifyByteDirectly(cryptoData)
 	entities := []db_info.OwlCluster{
-		{Name: "self cluster", Description: "cluster this project using", Addr: conf.Path +conf.Port, User: conf.Username, Pwd: Pwd,Ct: time.Now().Unix(), Operator: "init"},
+		{Name: "self cluster", Description: "cluster this project using", Addr: conf.Path + conf.Port, User: conf.Username, Pwd: Pwd, Ct: time.Now().Unix(), Operator: "init"},
 	}
 	if err := global.GVA_DB.Create(&entities).Error; err != nil {
 		return errors.Wrap(err, u.TableName()+"表数据初始化失败!")

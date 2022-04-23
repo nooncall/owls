@@ -3,11 +3,11 @@ package tidb_or_mysql
 import (
 	"fmt"
 
+	"github.com/gin-gonic/gin"
 	"github.com/qingfeng777/owls/server/model/common/request"
 	"github.com/qingfeng777/owls/server/model/common/response"
 	"github.com/qingfeng777/owls/server/service/tidb_or_mysql/checker"
 	"github.com/qingfeng777/owls/server/utils"
-	"github.com/gin-gonic/gin"
 )
 
 type RuleApi struct{}
@@ -20,12 +20,12 @@ func (ruleApi *RuleApi) LisRule(ctx *gin.Context) {
 		return
 	}
 
-	rules,total := checker.ListRules(pageInfo)
+	rules, total := checker.ListRules(pageInfo)
 	response.OkWithData(ListData{
-		List:   rules,
-		Total:  int64(total),
+		List:     rules,
+		Total:    int64(total),
 		PageSize: pageInfo.PageSize,
-		Page: pageInfo.Page,
+		Page:     pageInfo.Page,
 	}, ctx)
 }
 

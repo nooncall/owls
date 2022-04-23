@@ -1,9 +1,9 @@
 package email
 
 import (
+	"github.com/gin-gonic/gin"
 	"github.com/qingfeng777/owls/server/plugin/email/global"
 	"github.com/qingfeng777/owls/server/plugin/email/router"
-	"github.com/gin-gonic/gin"
 )
 
 type emailPlugin struct{}

@@ -23,13 +23,13 @@ func InitDB() {
 		config.Conf.DB.Password, config.Conf.DB.Address, config.Conf.DB.Port, config.Conf.DB.DBName)
 
 	logger.Info(conn)
-/*	var err error
-	gorm.Open()
-	DB, err = gorm.Open("mysql", conn)
-	if err != nil {
-		logger.Errorf("init DB error : %s", err.Error())
-		log.Fatal("init DB error : ", err.Error())
-	}*/
+	/*	var err error
+		gorm.Open()
+		DB, err = gorm.Open("mysql", conn)
+		if err != nil {
+			logger.Errorf("init DB error : %s", err.Error())
+			log.Fatal("init DB error : ", err.Error())
+		}*/
 
 	/*if config.Conf.DB.MaxIdleConn > 0 {
 		DB.DB().SetMaxIdleConns(config.Conf.DB.MaxIdleConn)

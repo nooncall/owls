@@ -8,8 +8,8 @@ import (
 	"runtime/debug"
 	"strings"
 
-	"github.com/qingfeng777/owls/server/global"
 	"github.com/gin-gonic/gin"
+	"github.com/qingfeng777/owls/server/global"
 	"go.uber.org/zap"
 )
 

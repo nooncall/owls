@@ -1,9 +1,9 @@
 package system
 
 import (
+	"github.com/gin-gonic/gin"
 	v1 "github.com/qingfeng777/owls/server/api/v1"
 	"github.com/qingfeng777/owls/server/middleware"
-	"github.com/gin-gonic/gin"
 )
 
 type DictionaryDetailRouter struct{}

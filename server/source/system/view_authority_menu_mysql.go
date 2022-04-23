@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"strings"
 
+	"github.com/pkg/errors"
 	"github.com/qingfeng777/owls/server/global"
 	"github.com/qingfeng777/owls/server/model/system"
-	"github.com/pkg/errors"
 )
 
 var ViewAuthorityMenuMysql = new(viewAuthorityMenuMysql)

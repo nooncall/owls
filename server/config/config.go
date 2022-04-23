@@ -1,6 +1,5 @@
 package config
 
-
 import (
 	"fmt"
 	"log"
@@ -104,7 +103,6 @@ func getConfigPath() string {
 	}
 	return configPath
 }
-
 
 type Server struct {
 	JWT     JWT     `mapstructure:"jwt" json:"jwt" yaml:"jwt"`

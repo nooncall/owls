@@ -3,8 +3,8 @@ package utils
 import (
 	"os"
 
-	"github.com/qingfeng777/owls/server/global"
 	"github.com/natefinch/lumberjack"
+	"github.com/qingfeng777/owls/server/global"
 	"go.uber.org/zap/zapcore"
 )
 

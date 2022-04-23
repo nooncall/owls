@@ -3,11 +3,11 @@ package initialize
 import (
 	"net/http"
 
+	"github.com/gin-gonic/gin"
 	_ "github.com/qingfeng777/owls/server/docs"
 	"github.com/qingfeng777/owls/server/global"
 	"github.com/qingfeng777/owls/server/middleware"
 	"github.com/qingfeng777/owls/server/router"
-	"github.com/gin-gonic/gin"
 	"github.com/swaggo/gin-swagger"
 	"github.com/swaggo/gin-swagger/swaggerFiles"
 )

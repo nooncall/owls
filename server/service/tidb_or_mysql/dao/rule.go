@@ -17,7 +17,7 @@ func (RuleDaoImpl) ListAllStatus() ([]checker.OwlRuleStatus, error) {
 
 func (RuleDaoImpl) UpdateRuleStatus(ruleStatus *checker.OwlRuleStatus) error {
 	err := GetDB().Where("name = ?", ruleStatus.Name).First(&checker.OwlRuleStatus{}).Error
-	if err == gorm.ErrRecordNotFound{
+	if err == gorm.ErrRecordNotFound {
 		return GetDB().Create(ruleStatus).Error
 	}
 	if err != nil {

@@ -60,7 +60,7 @@ func (adminApi *AdminApi) DelAdmin(ctx *gin.Context) {
 	idStr := ctx.Query("id")
 	id, err := strconv.ParseInt(idStr, 10, 64)
 	if err != nil {
-		response.FailWithMessage( fmt.Sprintf("%s, get param failed :%s, id: %s ", f, err.Error(), idStr), ctx)
+		response.FailWithMessage(fmt.Sprintf("%s, get param failed :%s, id: %s ", f, err.Error(), idStr), ctx)
 		return
 	}
 

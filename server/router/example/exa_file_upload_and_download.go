@@ -1,8 +1,8 @@
 package example
 
 import (
-	v1 "github.com/qingfeng777/owls/server/api/v1"
 	"github.com/gin-gonic/gin"
+	v1 "github.com/qingfeng777/owls/server/api/v1"
 )
 
 type FileUploadAndDownloadRouter struct{}

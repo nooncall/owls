@@ -59,8 +59,8 @@ func (initDBService *InitDBService) initMysqlDB(conf request.InitDB) error {
 			logger.Config{
 				//SlowThreshold:             time.Second,   // Slow SQL threshold
 				LogLevel:                  logger.Info, // Log level
-				IgnoreRecordNotFoundError: true,          // Ignore ErrRecordNotFound error for logger
-				Colorful:                  true,         // Disable color
+				IgnoreRecordNotFoundError: true,        // Ignore ErrRecordNotFound error for logger
+				Colorful:                  true,        // Disable color
 			},
 		)}); err != nil {
 		return nil

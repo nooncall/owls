@@ -26,8 +26,8 @@ func (taskApi *TaskApi) ListReviewTask(ctx *gin.Context) {
 	page.OrderKey = convertOrderKey(page.OrderKey)
 
 	claims, err := utils.GetClaims(ctx)
-	if err != nil{
-		response.FailWithMessage("get user err: " + err.Error(), ctx)
+	if err != nil {
+		response.FailWithMessage("get user err: "+err.Error(), ctx)
 		return
 	}
 
@@ -90,8 +90,8 @@ func (taskApi *TaskApi) ListHistoryTask(ctx *gin.Context) {
 	page.OrderKey = convertOrderKey(page.OrderKey)
 
 	claims, err := utils.GetClaims(ctx)
-	if err != nil{
-		response.FailWithMessage("get user err: " + err.Error(), ctx)
+	if err != nil {
+		response.FailWithMessage("get user err: "+err.Error(), ctx)
 		return
 	}
 
@@ -114,8 +114,8 @@ func (taskApi *TaskApi) GetTask(ctx *gin.Context) {
 	f := "GetTask() -->"
 
 	claims, err := utils.GetClaims(ctx)
-	if err != nil{
-		response.FailWithMessage("get user err: " + err.Error(), ctx)
+	if err != nil {
+		response.FailWithMessage("get user err: "+err.Error(), ctx)
 		return
 	}
 
@@ -144,8 +144,8 @@ func (taskApi *TaskApi) UpdateTask(ctx *gin.Context) {
 	}
 
 	claims, err := utils.GetClaims(ctx)
-	if err != nil{
-		response.FailWithMessage("get user err: " + err.Error(), ctx)
+	if err != nil {
+		response.FailWithMessage("get user err: "+err.Error(), ctx)
 		return
 	}
 
@@ -171,8 +171,8 @@ func (taskApi *TaskApi) AddTask(ctx *gin.Context) {
 	}
 
 	claims, err := utils.GetClaims(ctx)
-	if err != nil{
-		response.FailWithMessage("get user err: " + err.Error(), ctx)
+	if err != nil {
+		response.FailWithMessage("get user err: "+err.Error(), ctx)
 		return
 	}
 

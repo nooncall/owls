@@ -64,7 +64,7 @@ func (TaskDaoImpl) ListTask(info request.SortPageInfo, isDBA bool, status []task
 	db.Limit(limit)
 	if info.OrderKey != "" {
 		db = db.Order(generateOrderField(info.OrderKey, info.Desc))
-	}else {
+	} else {
 		db = db.Order("ct desc")
 	}
 

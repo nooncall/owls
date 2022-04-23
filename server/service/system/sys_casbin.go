@@ -6,9 +6,9 @@ import (
 
 	"github.com/casbin/casbin/v2"
 	gormadapter "github.com/casbin/gorm-adapter/v3"
+	_ "github.com/go-sql-driver/mysql"
 	"github.com/qingfeng777/owls/server/global"
 	"github.com/qingfeng777/owls/server/model/system/request"
-	_ "github.com/go-sql-driver/mysql"
 )
 
 //@author: [piexlmax](https://github.com/piexlmax)
