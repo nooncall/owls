@@ -58,9 +58,9 @@ func RunWindowsServer() {
 
 func frontRouter(r *gin.Engine) {
 	currentDir := getCurrentDirectory()
-	currentDir = "/Users/mingbai/openS/vue/database-manager/web"
+	// currentDir = "/Users/mingbai/openS/vue/database-manager/bin"
 	logger.Info("current dir is: ", currentDir)
-	r.Static("/owls", filepath.Join(currentDir, "./dist"))
+	r.Static("/owls", filepath.Join(currentDir, "./static"))
 
 	r.GET("/", func(c *gin.Context) {
 		c.Redirect(http.StatusMovedPermanently, "owls/")
@@ -70,7 +70,7 @@ func frontRouter(r *gin.Engine) {
 		if !strings.Contains(c.Request.RequestURI, "/api") {
 			path := strings.Split(c.Request.URL.Path, "/")
 			if len(path) > 1 {
-				c.File(filepath.Join(currentDir, "./dist") + "/index.html")
+				c.File(filepath.Join(currentDir, "./static") + "/index.html")
 				return
 			}
 		}

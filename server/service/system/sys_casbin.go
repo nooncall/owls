@@ -2,6 +2,7 @@ package system
 
 import (
 	"errors"
+	"fmt"
 	"sync"
 
 	"github.com/casbin/casbin/v2"
@@ -91,8 +92,14 @@ var (
 
 func (casbinService *CasbinService) Casbin() *casbin.SyncedEnforcer {
 	once.Do(func() {
-		a, _ := gormadapter.NewAdapterByDB(global.GVA_DB)
-		syncedEnforcer, _ = casbin.NewSyncedEnforcer(global.GVA_CONFIG.Casbin.ModelPath, a)
+		a, err := gormadapter.NewAdapterByDB(global.GVA_DB)
+		if err != nil{
+			panic(fmt.Sprintf("casbin err: ", err.Error()))
+		}
+		syncedEnforcer, err = casbin.NewSyncedEnforcer(global.GVA_CONFIG.Casbin.ModelPath, a)
+		if err != nil{
+			panic(fmt.Sprintf("casbin err: ", err.Error()))
+		}
 	})
 	_ = syncedEnforcer.LoadPolicy()
 	return syncedEnforcer

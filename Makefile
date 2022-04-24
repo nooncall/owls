@@ -6,9 +6,11 @@ test: fmt
 
 config:
 	mkdir -p ./bin/config
+	mkdir -p ./bin/resource
 	cp server/config.yaml ./bin/
 	cp server/config/config.yaml ./bin/config/config.yaml
-	
+	cp server/resource/rbac_model.conf ./bin/resource/rbac_model.conf
+
 build: fmt config
 	cd server && \
 	go build -o ../bin/owl ./cmd/owl/  &&\
@@ -26,7 +28,8 @@ run: build-front build
 .ONESHELL:
 build-front:
 	mkdir -p bin
-	cd web/ && npm run build && mv ./dist ../bin/static
+	rm -rf ./bin/static
+	cd web/ && npm run build && cp -r ./dist ../bin/static
 	cd ..
 
 build-docker: build-front build

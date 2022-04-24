@@ -14,7 +14,7 @@
 
 ## 版本
 
-开发中，目前仅tidb、mysql的sql审核可用
+初版开发中，目前tidb、mysql的sql审核功能可用。
 
 # 项目文档
 [在线文档]() : 
@@ -30,17 +30,13 @@
 .如果您将此项目用于商业用途，请遵守Apache2.0协议并保留作者技术支持声明。您需保留如下版权声明信息，其余信息功能不做任何限制。如需剔除请联系微信：xxx
 
 
-5.如果您需要服务器的话 2C4G8M 80GB 腾讯云 一年74 三年222 在这里购买：
-									      
-阿里云服务器 1c2g1m 38一年 在这里购买:
-
 ## 1. 基本介绍
 
 ### 1.1 项目介绍
 
 > Owls是一个基于 [vue](https://vuejs.org) 和 [gin](https://gin-gonic.com) 开发的全栈前后端分离的XXXX平台，集成jwt鉴权，动态路由，动态菜单，casbin鉴权，表单生成器，代码生成器等功能，提供多种示例文件，让您把更多时间专注在业务开发上。
 
-[在线预览]():
+[在线预览](http://106.13.50.14/owls): http://106.13.50.14/owls
 
 测试用户名：admin
 
@@ -61,11 +57,11 @@ Owls 的成长离不开大家的支持，如果你愿意为 Owls 贡献代码或
 #### 1.2.2 Pull Request 规范
 - 请先 fork 一份到自己的项目下，不要直接在仓库下建分支。
 
-- commit 信息要以`[文件名]: 描述信息` 的形式填写，例如 `README.md: fix xxx bug`。
+- commit 信息要以`[模块名]: 描述信息` 的形式填写，例如 `[readme] update xxx msg`。
 
 - 如果是修复 bug，请在 PR 中给出描述信息。
 
-- 合并代码需要两名维护人员参与：一人进行 review 后 approve，另一人再次 review，通过后即可合并。
+- 合并代码需要一人进行 review 后 approve，方可合并。
 
 ## 2. 使用说明
 
@@ -89,7 +85,7 @@ git clone https://github.com/qingfeng777/owls.git
 cd server
 
 # 使用 go mod 并安装go依赖包
-go generate
+go mod download
 
 # 编译 
 go build -o server main.go (windows编译命令为go build -o server.exe main.go )
@@ -166,57 +162,10 @@ swag init
 
 ![系统架构图](http://qmplusimg.henrongyi.top/gva/gin-vue-admin.png)
 
-### 4.2 前端详细设计图 （提供者:<a href="https://github.com/baobeisuper">baobeisuper</a>）
-
-![前端详细设计图](http://qmplusimg.henrongyi.top/naotu.png)
-
-### 4.3 目录结构
-
-```
-    ├── server
-        ├── api             (api层)
-        │   └── v1          (v1版本接口)
-        ├── config          (配置包)
-        ├── core            (核心文件)
-        ├── docs            (swagger文档目录)
-        ├── global          (全局对象)                    
-        ├── initialize      (初始化)                        
-        │   └── internal    (初始化内部函数)                            
-        ├── middleware      (中间件层)                        
-        ├── model           (模型层)                    
-        │   ├── request     (入参结构体)                        
-        │   └── response    (出参结构体)                            
-        ├── packfile        (静态文件打包)                        
-        ├── resource        (静态资源文件夹)                        
-        │   ├── excel       (excel导入导出默认路径)                        
-        │   ├── page        (表单生成器)                        
-        │   └── template    (模板)                            
-        ├── router          (路由层)                    
-        ├── service         (service层)                    
-        ├── source          (source层)                    
-        └── utils           (工具包)                    
-            ├── timer       (定时器接口封装)                        
-            └── upload      (oss接口封装)                        
-    
-    └─web            （前端文件）
-        ├─public        （发布模板）
-        └─src           （源码包）
-            ├─api       （向后台发送ajax的封装层）
-            ├─assets	（静态文件）
-            ├─components（组件）
-            ├─router	（前端路由）
-            ├─store     （vuex 状态管理仓）
-            ├─style     （通用样式文件）
-            ├─utils     （前端工具库）
-            └─view      （前端页面）
-
-```
 
 ## 5. 主要功能
 
 - 权限管理：基于`jwt`和`casbin`实现的权限管理。
-- 文件上传下载：实现基于`七牛云`, `阿里云`, `腾讯云` 的文件上传操作(请开发自己去各个平台的申请对应 `token` 或者对应`key`)。
-- 分页封装：前端使用 `mixins` 封装分页，分页方法调用 `mixins` 即可。
 - 用户管理：系统管理员分配用户角色和角色权限。
 - 角色管理：创建权限控制的主要对象，可以给角色分配不同api权限和菜单权限。
 - 菜单管理：实现用户动态菜单配置，实现不同角色不同菜单。
@@ -231,27 +180,10 @@ swag init
 - 表单生成器：表单生成器借助 [@form-generator](https://github.com/JakHuang/form-generator) 。
 - 代码生成器：后台基础逻辑以及简单curd的代码生成器。
 
-## 6. 知识库
 
-## 6.1 团队博客
+## 6. 联系方式
 
->
->内有前端框架教学视频。如果觉得项目对您有所帮助可以添加我的个人微信:xxxxx，欢迎您提出宝贵的需求。
-
-## 6.2 教学视频
-
-（3）golang基础教学视频
-
-> bilibili：https://space.bilibili.com/322210472/channel/detail?cid=108884
-
-（4）gin框架基础教学
-
-> bilibili：https://space.bilibili.com/322210472/channel/detail?cid=126418&ctype=0
-
-
-## 7. 联系方式
-
-### 7.1 技术群
+### 6.1 技术群
 
 ### QQ交流群：
 | QQ 群 |
@@ -265,20 +197,3 @@ swag init
 
 ### [关于我们]()
 
-## 8. 贡献者
-
-感谢您对Owls的贡献!
-
-<a href="https://github.com/qingfeng777/owls/graphs/contributors">
-    XXXXX
-  <img src="" />
-</a>
-
-## 10. 友情链接
-
-[H5-Dooring ｜ H5页面制作神器](https://github.com/MrXujiang/h5-Dooring)	
-
-
-## 11. 商用注意事项
-
-如果您将此项目用于商业用途，请遵守Apache2.0协议并保留作者技术支持声明。
