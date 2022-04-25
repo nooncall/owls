@@ -32,12 +32,14 @@
 ### 0.2 贡献指南
 Hi! 首先感谢你使用 Owls。
 
-Owls 是一套为快速研发准备的一整套前后端分离架构式的XXXX, 旨在xxx。
+Owls 是一套为快安全、规范准备的一整套前后端分离架构式的后端系统管理平台, 旨在简化、标准化DBA、研发等同学对数据库、MQ、缓存等系统的使用和管理。
 
 Owls 的成长离不开大家的支持，如果你愿意为 Owls 贡献代码或提供建议，请阅读以下内容。
 
 #### 0.2.1 Issue 规范
-- issue 仅用于提交 Bug 或 Feature 以及设计相关的内容，其它内容可能会被直接关闭。如果你在使用时产生了疑问，请到 Slack 或 [Gitter](https://gitter.im/ElemeFE/element) 里咨询。
+- 稍大的功能模块设计需要在文档目录（server/docs/design）中，参照[模板](./server/docs/design/template.md)添加设计说明，并进行review。
+
+- issue 仅用于提交 Bug 或 Feature 以及设计相关的内容。
 
 - 在提交 issue 之前，请搜索相关内容是否已被提出。
 
@@ -161,26 +163,23 @@ swag init
 
 
 ## 5. 主要功能
+### Sql审核
+- sql任务流审批。
+- sql执行及备份、回滚。
+- 规范化规则自动审批。
+- 集群管理。
 
+### 基础功能：
 - 权限管理：基于`jwt`和`casbin`实现的权限管理。
 - 用户管理：系统管理员分配用户角色和角色权限。
 - 角色管理：创建权限控制的主要对象，可以给角色分配不同api权限和菜单权限。
 - 菜单管理：实现用户动态菜单配置，实现不同角色不同菜单。
-- api管理：不同用户可调用的api接口的权限不同。
-- 配置管理：配置文件可前台修改(在线体验站点不开放此功能)。
 - 条件搜索：增加条件搜索示例。
-- restful示例：可以参考用户管理模块中的示例API。
-	- 前端文件参考: [web/src/view/superAdmin/api/api.vue](https://github.com/qingfeng777/owls/blob/master/web/src/view/superAdmin/api/api.vue)
-    - 后台文件参考: [server/router/sys_api.go](https://github.com/qingfeng777/owls/blob/master/server/router/sys_api.go)
 - 多点登录限制：需要在`config.yaml`中把`system`中的`use-multipoint`修改为true(需要自行配置Redis和Config中的Redis参数，测试阶段，有bug请及时反馈)。
-- 分片长传：提供文件分片上传和大文件分片上传功能示例。
-- 表单生成器：表单生成器借助 [@form-generator](https://github.com/JakHuang/form-generator) 。
-- 代码生成器：后台基础逻辑以及简单curd的代码生成器。
-
 
 ### [关于我们]()
 
 ## 6. 鸣谢
 
-### 感谢 [gin-vue-admin](https://github.com/flipped-aurora/gin-vue-admin) 项目，让我们得以轻松的实现前端页面。
-### 感谢 [伴鱼Owl](https://github.com/ibanyu/owl)项目，此项目脱胎于此。
+### 感谢 [gin-vue-admin](https://github.com/flipped-aurora/gin-vue-admin) 项目，是一个很好用的基础脚手架。
+### 感谢 [伴鱼Owl](https://github.com/ibanyu/owl)项目，此项目继承于伴鱼Owl。
