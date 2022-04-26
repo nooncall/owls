@@ -59,8 +59,8 @@ Owls 的成长离不开大家的支持，如果你愿意为 Owls 贡献代码或
 * mq使用管理设计及实现
 * redis使用管理设计及实现
 * etcd使用管理设计及实现
-* db代理设计及实现
-* 缓存代理设计及实现
+* online sql filter设计及实现
+* redis cmd filter设计及实现
 
 ## 2. 使用说明
 
