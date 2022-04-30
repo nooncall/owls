@@ -27,3 +27,11 @@ func ClearTable(db *gorm.DB, tableName string, compareField string, interval str
 	}
 	return db.Debug().Exec(fmt.Sprintf("DELETE FROM %s WHERE %s < ?", tableName, compareField), time.Now().Add(-duration)).Error
 }
+
+func GenerateOrderField(key string, desc bool) string {
+	if desc {
+		return fmt.Sprintf("%s desc", key)
+	}
+
+	return fmt.Sprintf("%s asc", key)
+}

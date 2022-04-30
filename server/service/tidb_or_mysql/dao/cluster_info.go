@@ -1,9 +1,9 @@
 package dao
 
 import (
-	"fmt"
 	"github.com/qingfeng777/owls/server/model/common/request"
 	"github.com/qingfeng777/owls/server/service/tidb_or_mysql/db_info"
+	"github.com/qingfeng777/owls/server/utils"
 )
 
 type ClusterImpl struct {
@@ -35,7 +35,7 @@ func (ClusterImpl) ListCluster(info request.SortPageInfo) ([]db_info.OwlCluster,
 
 	db := GetDB().Offset(offset).Limit(limit)
 	if info.OrderKey != "" {
-		db = db.Order(generateOrderField(info.OrderKey, info.Desc))
+		db = db.Order(utils.GenerateOrderField(info.OrderKey, info.Desc))
 	}
 	if info.Key != "" {
 		fmtKey := "%" + info.Key + "%"
@@ -45,12 +45,4 @@ func (ClusterImpl) ListCluster(info request.SortPageInfo) ([]db_info.OwlCluster,
 
 	var clusters []db_info.OwlCluster
 	return clusters, db.Find(&clusters).Error
-}
-
-func generateOrderField(key string, desc bool) string {
-	if desc {
-		return fmt.Sprintf("%s desc", key)
-	}
-
-	return fmt.Sprintf("%s asc", key)
 }
