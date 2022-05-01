@@ -8,17 +8,17 @@ import (
 	"github.com/qingfeng777/owls/server/utils"
 )
 
-type authTaskDaoImpl struct {
+type authDaoImpl struct {
 }
 
-var authTaskDao authTaskDaoImpl
+var authDao authDaoImpl
 
 func GetDB() *gorm.DB {
 	// todo, refactor to config
 	return global.GVA_DB.Debug()
 }
 
-func (authTaskDaoImpl) AddAuthTask(AuthTask *AuthTask) (int64, error) {
+func (authDaoImpl) AddAuth(AuthTask *Auth) (int64, error) {
 	tx := GetDB().Begin()
 	if err := tx.Create(AuthTask).Error; err != nil {
 		tx.Rollback()
@@ -28,11 +28,15 @@ func (authTaskDaoImpl) AddAuthTask(AuthTask *AuthTask) (int64, error) {
 	return AuthTask.ID, tx.Commit().Error
 }
 
-func (authTaskDaoImpl) UpdateAuthTask(AuthTask *AuthTask) error {
+func (authDaoImpl)DelAuth(id int64) error {
+	return GetDB().Delete(&Auth{}, "id = ?", id).Error
+}
+
+func (authDaoImpl) UpdateAuth(AuthTask *Auth) error {
 	return GetDB().Model(AuthTask).Where("id = ?", AuthTask.ID).Updates(AuthTask).Error
 }
 
-func (authTaskDaoImpl) ListAuthTask(info request.SortPageInfo, isDBA bool, status []string) ([]AuthTask, int64, error) {
+func (authDaoImpl) ListAuth(info request.SortPageInfo, status []string) ([]Auth, int64, error) {
 	limit := info.PageSize
 	offset := info.PageSize * (info.Page - 1)
 
@@ -45,7 +49,7 @@ func (authTaskDaoImpl) ListAuthTask(info request.SortPageInfo, isDBA bool, statu
 	db = db.Where("status in (?) and creator = ?", status, info.Operator)
 
 	var count int64
-	if err := db.Model(&AuthTask{}).Count(&count).Error; err != nil {
+	if err := db.Model(&Auth{}).Count(&count).Error; err != nil {
 		return nil, 0, err
 	}
 
@@ -56,7 +60,7 @@ func (authTaskDaoImpl) ListAuthTask(info request.SortPageInfo, isDBA bool, statu
 		db = db.Order("ct desc")
 	}
 
-	var AuthTasks []AuthTask
+	var AuthTasks []Auth
 	if err := db.Find(&AuthTasks).Error; err != nil {
 		return nil, 0, err
 	}
@@ -64,7 +68,7 @@ func (authTaskDaoImpl) ListAuthTask(info request.SortPageInfo, isDBA bool, statu
 	return AuthTasks, count, nil
 }
 
-func (authTaskDaoImpl) GetAuthTask(id int64) (*AuthTask, error) {
-	var AuthTask AuthTask
+func (authDaoImpl) GetAuth(id int64) (*Auth, error) {
+	var AuthTask Auth
 	return &AuthTask, GetDB().First(&AuthTask, "id = ?", id).Error
 }

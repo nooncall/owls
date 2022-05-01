@@ -2,7 +2,7 @@ package auth
 
 import "github.com/qingfeng777/owls/server/model/common/request"
 
-type AuthTask struct {
+type Auth struct {
 	ID       int64  `json:"id" gorm:"column:id"`
 	UserId   int64  `json:"user_id" gorm:"user_id"`
 	DataType string `json:"data_type"`
@@ -11,30 +11,30 @@ type AuthTask struct {
 	Status   string `json:"status"`
 }
 
-func (a AuthTask) AddTask() (int64, error) {
-	return authTaskDao.AddAuthTask(&a)
+func (a Auth) AddTask() (int64, error) {
+	return authDao.AddAuth(&a)
 }
 
 const authStatusOn = "ON"
 
 // give auth by set status
-func (a AuthTask) ExecTask() error {
+func (a Auth) ExecTask() error {
 	a.Status = authStatusOn
-	return authTaskDao.UpdateAuthTask(&a)
+	return authDao.UpdateAuth(&a)
 }
 
-func (a AuthTask) UpdateTask() error {
-	return authTaskDao.UpdateAuthTask(&a)
+func (a Auth) UpdateTask() error {
+	return authDao.UpdateAuth(&a)
 }
 
-func (a AuthTask) ListTask(pageInfo request.SortPageInfo, isDBA bool, status []string) ([]interface{}, int64, error) {
+func (a Auth) ListTask(pageInfo request.SortPageInfo, isDBA bool, status []string) ([]interface{}, int64, error) {
 	panic("implement me")
 }
 
-func (a AuthTask) GetTask(id int64) (interface{}, error) {
-	return authTaskDao.GetAuthTask(id)
+func (a Auth) GetTask(id int64) (interface{}, error) {
+	return authDao.GetAuth(id)
 }
 
-func (a AuthTask) GetExecWaitTask() ([]interface{}, int64, error) {
+func (a Auth) GetExecWaitTask() ([]interface{}, int64, error) {
 	panic("implement me")
 }

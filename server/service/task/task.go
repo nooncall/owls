@@ -83,7 +83,7 @@ func GetTask(id int64, operator string) (*Task, error) {
 	return task,nil
 }
 
-func GetExecWaitTask() ([]Task, int64, error) {
+func ListExecWaitTask() ([]Task, int64, error) {
 	tasks, count, err := taskDao.GetExecWaitTask()
 	if err != nil {
 		return nil, 0, err

@@ -15,3 +15,10 @@ type ApiGroup struct {
 }
 
 var ApiGroupApp = new(ApiGroup)
+
+type ListData struct {
+	Total    int64       `json:"total"`
+	List     interface{} `json:"list"`
+	Page     int         `json:"page"`
+	PageSize int         `json:"pageSize"`
+}

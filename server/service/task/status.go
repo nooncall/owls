@@ -1,0 +1,15 @@
+package task
+
+const (
+	WaitApproval = "wait_approval"
+	Pass         = "pass"
+	Failed       = "failed"
+)
+
+func ExecStatus() []string {
+	return []string{WaitApproval}
+}
+
+func HistoryStatus() []string {
+	return []string{Pass, Failed}
+}
