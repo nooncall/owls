@@ -3,6 +3,7 @@ package router
 import (
 	"github.com/qingfeng777/owls/server/router/autocode"
 	"github.com/qingfeng777/owls/server/router/example"
+	"github.com/qingfeng777/owls/server/router/routers"
 	"github.com/qingfeng777/owls/server/router/system"
 	"github.com/qingfeng777/owls/server/router/tidb_or_mysql"
 )
@@ -12,6 +13,7 @@ type RouterGroup struct {
 	Example     example.RouterGroup
 	Autocode    autocode.RouterGroup
 	TidbOrMysql tidb_or_mysql.RouterGroup
+	Routers     routers.Routers
 }
 
 var RouterGroupApp = new(RouterGroup)

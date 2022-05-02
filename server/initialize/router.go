@@ -40,6 +40,8 @@ func Routers(Router *gin.Engine) *gin.Engine {
 	exampleRouter := router.RouterGroupApp.Example
 	autocodeRouter := router.RouterGroupApp.Autocode
 	dbRouter := router.RouterGroupApp.TidbOrMysql
+	router := router.RouterGroupApp.Routers
+
 
 	PublicGroup := Router.Group("")
 	{
@@ -55,7 +57,8 @@ func Routers(Router *gin.Engine) *gin.Engine {
 	PrivateGroup := Router.Group("")
 	PrivateGroup.Use(middleware.JWTAuth()).Use(middleware.CasbinHandler())
 	{
-		dbRouter.InitApiRouter(PrivateGroup) // tidb or mysql routers .
+		dbRouter.InitApiRouter(PrivateGroup)
+		router.InitApiRouter(PrivateGroup)
 	}
 
 	{

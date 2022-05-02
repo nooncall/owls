@@ -5,7 +5,6 @@ import (
 	"strconv"
 
 	"github.com/gin-gonic/gin"
-	v1 "github.com/qingfeng777/owls/server/api/v1"
 	"github.com/qingfeng777/owls/server/model/common/request"
 	"github.com/qingfeng777/owls/server/model/common/response"
 	"github.com/qingfeng777/owls/server/service/auth/auth"
@@ -40,7 +39,7 @@ func (AuthApi *AuthApi) ListAuth(ctx *gin.Context) {
 		return
 	}
 
-	response.OkWithData(v1.ListData{
+	response.OkWithData(response.PageResult{
 		List:     auth,
 		Total:    count,
 		Page:     page.Page,
@@ -50,7 +49,7 @@ func (AuthApi *AuthApi) ListAuth(ctx *gin.Context) {
 
 func (AuthApi *AuthApi) ListDataType(ctx *gin.Context) {
 	types := auth.ListDataType()
-	response.OkWithData(v1.ListData{
+	response.OkWithData(response.PageResult{
 		List:     types,
 		Total:    int64(len(types)),
 		Page:     0,

@@ -5,7 +5,6 @@ import (
 	"strconv"
 
 	"github.com/gin-gonic/gin"
-	v1 "github.com/qingfeng777/owls/server/api/v1"
 	"github.com/qingfeng777/owls/server/model/common/request"
 	"github.com/qingfeng777/owls/server/model/common/response"
 	"github.com/qingfeng777/owls/server/service/auth/auth"
@@ -36,7 +35,7 @@ func (taskApi *TaskApi) ListReviewTask(ctx *gin.Context) {
 		return
 	}
 
-	response.OkWithData(v1.ListData{
+	response.OkWithData(response.PageResult{
 		List:     task,
 		Total:    count,
 		PageSize: page.PageSize,
@@ -60,7 +59,7 @@ func (taskApi *TaskApi) ListTask(ctx *gin.Context) {
 		return
 	}
 
-	response.OkWithData(v1.ListData{
+	response.OkWithData(response.PageResult{
 		List:     task,
 		Total:    count,
 		Page:     page.Page,
@@ -89,7 +88,7 @@ func (taskApi *TaskApi) ListHistoryTask(ctx *gin.Context) {
 		return
 	}
 
-	response.OkWithData(v1.ListData{
+	response.OkWithData(response.PageResult{
 		List:     task,
 		Total:    count,
 		Page:     page.Page,
