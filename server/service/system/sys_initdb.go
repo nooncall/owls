@@ -9,6 +9,8 @@ import (
 	"github.com/qingfeng777/owls/server/model/example"
 	"github.com/qingfeng777/owls/server/model/system"
 	"github.com/qingfeng777/owls/server/model/system/request"
+	"github.com/qingfeng777/owls/server/service/auth/auth"
+	tasks "github.com/qingfeng777/owls/server/service/task"
 	"github.com/qingfeng777/owls/server/service/tidb_or_mysql/checker"
 	"github.com/qingfeng777/owls/server/service/tidb_or_mysql/db_info"
 	"github.com/qingfeng777/owls/server/service/tidb_or_mysql/task"
@@ -61,6 +63,9 @@ func (initDBService *InitDBService) initTables() error {
 		task.OwlExecItem{},
 		checker.OwlRuleStatus{},
 		db_info.OwlCluster{},
+
+		tasks.Task{},
+		auth.Auth{},
 	)
 }
 
