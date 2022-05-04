@@ -8,7 +8,6 @@ import (
 	"github.com/pkg/errors"
 
 	"github.com/qingfeng777/owls/server/global"
-	"github.com/qingfeng777/owls/server/model/system"
 	"github.com/qingfeng777/owls/server/service/tidb_or_mysql/db_info"
 	"github.com/qingfeng777/owls/server/utils"
 )
@@ -39,7 +38,7 @@ func (u *cluster) Initialize() error {
 }
 
 func (u *cluster) CheckDataExist() bool {
-	if errors.Is(global.GVA_DB.First(&system.SysUser{}).Error, gorm.ErrRecordNotFound) { // 判断是否存在数据
+	if errors.Is(global.GVA_DB.First(&db_info.OwlCluster{}).Error, gorm.ErrRecordNotFound) { // 判断是否存在数据
 		return false
 	}
 	return true

@@ -50,6 +50,11 @@ func (m *menu) Initialize() error {
 		{GVA_MODEL: global.GVA_MODEL{ID: 30}, MenuLevel: 0, Hidden: false, ParentId: "26", Path: "Rule", Name: "Rule", Component: "view/tidbOrMysql/rule/rule.vue", Sort: 2, Meta: system.Meta{Title: "审核规则", Icon: "question-filled"}},
 		{GVA_MODEL: global.GVA_MODEL{ID: 31}, MenuLevel: 0, Hidden: true, ParentId: "26", Path: "exec/:id", Name: "exec", Component: "view/tidbOrMysql/exec/exec.vue", Sort: 3, Meta: system.Meta{Title: "任务执行", Icon: "pointer"}},
 		{GVA_MODEL: global.GVA_MODEL{ID: 32}, MenuLevel: 0, Hidden: false, ParentId: "26", Path: "TaskHistory", Name: "TaskHistory", Component: "view/tidbOrMysql/history/history.vue", Sort: 3, Meta: system.Meta{Title: "历史任务", Icon: "message-box"}},
+
+		{GVA_MODEL: global.GVA_MODEL{ID: 33}, MenuLevel: 0, Hidden: false, ParentId: "0", Path: "auth", Name: "auth", Component: "view/auth/auths.vue", Sort: 0, Meta: system.Meta{Title: "权限", Icon: "view"}},
+		{GVA_MODEL: global.GVA_MODEL{ID: 34}, MenuLevel: 0, Hidden: false, ParentId: "33", Path: "apply", Name: "apply", Component: "view/auth/apply.vue", Sort: 1, Meta: system.Meta{Title: "申请", Icon: "zoom-in"}},
+		{GVA_MODEL: global.GVA_MODEL{ID: 35}, MenuLevel: 0, Hidden: false, ParentId: "33", Path: "approval", Name: "approval", Component: "view/auth/approval.vue", Sort: 2, Meta: system.Meta{Title: "审批", Icon: "ship"}},
+		{GVA_MODEL: global.GVA_MODEL{ID: 36}, MenuLevel: 0, Hidden: false, ParentId: "33", Path: "auths", Name: "auths", Component: "view/auth/auths.vue", Sort: 3, Meta: system.Meta{Title: "权限", Icon: "view"}},
 	}
 	if err := global.GVA_DB.Create(&entities).Error; err != nil { // 创建 model.User 初始化数据
 		return errors.Wrap(err, m.TableName()+"表数据初始化失败!")
