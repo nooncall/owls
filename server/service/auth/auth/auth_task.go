@@ -2,15 +2,6 @@ package auth
 
 import "github.com/qingfeng777/owls/server/model/common/request"
 
-type Auth struct {
-	ID       int64  `json:"id" gorm:"column:id"`
-	UserId   int64  `json:"user_id" gorm:"user_id"`
-	DataType string `json:"data_type"`
-	Cluster  string `json:"cluster"` // 单个集群名
-	DB       string `json:"db"`      // 多个db名，逗号分隔 eg： test,dev
-	Status   string `json:"status"`
-}
-
 func (a Auth) AddTask() (int64, error) {
 	return authDao.AddAuth(&a)
 }

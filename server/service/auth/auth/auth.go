@@ -8,6 +8,14 @@ type AuthAble interface {
 	GetManagers() []string
 }
 
+type Auth struct {
+	ID       int64  `json:"id" gorm:"column:id"`
+	UserId   uint   `json:"user_id" gorm:"user_id"`
+	Cluster  string `json:"cluster"` // 单个集群名
+	DB       string `json:"db"`      // 单个db名
+	Status   string `json:"status"`
+}
+
 type authTool struct {
 	dataType, username string
 }

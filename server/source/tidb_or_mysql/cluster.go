@@ -29,6 +29,7 @@ func (u *cluster) Initialize() error {
 
 	Pwd := utils.StringifyByteDirectly(cryptoData)
 	entities := []db_info.OwlCluster{
+		// todo, 不能用config的，config的还没有更新，需要用初始化传进来的。或者改变先后顺序，先修改config，再初始化这里
 		{Name: "self cluster", Description: "cluster this project using", Addr: conf.Path + conf.Port, User: conf.Username, Pwd: Pwd, Ct: time.Now().Unix(), Operator: "init"},
 	}
 	if err := global.GVA_DB.Create(&entities).Error; err != nil {

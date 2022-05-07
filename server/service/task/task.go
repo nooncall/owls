@@ -22,8 +22,10 @@ type Task struct {
 	Creator       string `json:"creator" gorm:"column:creator"`
 	Reviewer      string `json:"reviewer" gorm:"column:reviewer"`
 	Executor      string `json:"executor" gorm:"column:executor"`
+	Description   string `json:"description"`
 	ExecInfo      string `json:"exec_info" gorm:"column:exec_info"`
 	SubTaskID     int64  `json:"sub_task_id"`
+	SubTaskType   string `json:"sub_task_type"`
 	RejectContent string `json:"reject_content" gorm:"column:reject_content"`
 	Ct            int64  `json:"ct" gorm:"column:ct"`
 	Ut            int64  `json:"ut" gorm:"column:ut"`
@@ -33,6 +35,7 @@ type Task struct {
 	SubTask SubTask `json:"sub_task" gorm:"-"`
 
 	StatusName string `json:"status_name" gorm:"-"`
+	Action     string `json:"action" gorm:"-"`
 }
 
 type SubTask interface {
@@ -46,26 +49,31 @@ type SubTask interface {
 
 func AddTask(task *Task) (int64, error) {
 	task.Ct = time.Now().Unix()
-	task.SubTaskID, _ = task.SubTask.AddTask()
+	subId, err := task.SubTask.AddTask()
+	if err != nil{
+		return 0, err
+	}
+
+	task.SubTaskID, task.Status = subId, WaitApproval
 	return taskDao.AddTask(task)
 }
 
 func UpdateTask(task *Task) error {
-	if err := task.SubTask.UpdateTask(); err != nil{
+	if err := task.SubTask.UpdateTask(); err != nil {
 		return err
 	}
 
 	return taskDao.UpdateTask(task)
 }
 
-func ListTask(pageInfo request.SortPageInfo, status []string) ([]Task, int64, error) {
+func ListTask(pageInfo request.SortPageInfo, status []string, subTask SubTask) ([]Task, int64, error) {
 	tasks, count, err := taskDao.ListTask(pageInfo, true, status)
 	if err != nil {
 		return nil, 0, err
 	}
 
 	for i, v := range tasks {
-		if tasks[i].SubTask, err = getSubTask(v); err !=nil{
+		if tasks[i].SubTask, err = getSubTask(v, subTask); err != nil {
 			return nil, 0, err
 		}
 	}
@@ -73,39 +81,31 @@ func ListTask(pageInfo request.SortPageInfo, status []string) ([]Task, int64, er
 	return tasks, count, nil
 }
 
-func GetTask(id int64, operator string) (*Task, error) {
-	task, err :=  taskDao.GetTask(id)
-	if err != nil{
-		return nil, err
-	}
-
-	task.SubTask, err = getSubTask(*task)
-	return task,nil
-}
-
-func ListExecWaitTask() ([]Task, int64, error) {
-	tasks, count, err := taskDao.GetExecWaitTask()
+func GetTask(id int64, operator string, subTask SubTask) (*Task, error) {
+	task, err := taskDao.GetTask(id)
 	if err != nil {
-		return nil, 0, err
-	}
-
-	for i, v := range tasks {
-		if tasks[i].SubTask, err = getSubTask(v); err != nil{
-			return nil, 0, err
-		}
-	}
-
-	return tasks, count, nil
-}
-
-func getSubTask(task Task) (SubTask,error) {
-	subTask, err := task.SubTask.GetTask(task.SubTaskID)
-	if err !=nil{
 		return nil, err
 	}
 
-	if typeTask, ok := subTask.(SubTask); ok{
-		return typeTask, nil
+	task.SubTask, err = getSubTask(*task, subTask)
+	return task, nil
+}
+
+func getSubTask(task Task, subTask SubTask) (SubTask, error) {
+	var err error
+
+	switch task.SubTaskType {
+	case Auth:
+		subTaskNoType, err := subTask.GetTask(task.SubTaskID)
+		if err != nil {
+			return nil, err
+		}
+
+		if typeTask, ok := subTaskNoType.(SubTask); ok {
+			return typeTask, nil
+		}
+	default:
+		return nil, fmt.Errorf("sub task type err: %s", task.SubTaskType)
 	}
 
 	return nil, fmt.Errorf("get subTask for %d err: %v", task.SubTaskID, err)

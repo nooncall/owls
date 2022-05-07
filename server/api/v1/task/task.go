@@ -1,6 +1,7 @@
 package task
 
 import (
+	"errors"
 	"fmt"
 	"strconv"
 
@@ -28,8 +29,14 @@ func (taskApi *TaskApi) ListReviewTask(ctx *gin.Context) {
 		return
 	}
 
+	subTask, _, err := genSubType(ctx)
+	if err != nil{
+		response.FailWithMessage(err.Error(), ctx)
+		return
+	}
+
 	page.Operator = claims.Username
-	task, count, err := task.ListTask(page, task.ExecStatus())
+	task, count, err := task.ListTask(page, task.ExecStatus(), subTask)
 	if err != nil {
 		response.FailWithMessage(fmt.Sprintf("%s: list ListReviewTask err: %s", f, err.Error()), ctx)
 		return
@@ -51,9 +58,15 @@ func (taskApi *TaskApi) ListTask(ctx *gin.Context) {
 		return
 	}
 
+	subTask, _, err := genSubType(ctx)
+	if err != nil{
+		response.FailWithMessage(err.Error(), ctx)
+		return
+	}
+
 	claims, _ := utils.GetClaims(ctx)
 	page.Operator = claims.Username
-	task, count, err := task.ListTask(page, task.ExecStatus())
+	task, count, err := task.ListTask(page, task.ExecStatus(),subTask)
 	if err != nil {
 		response.FailWithMessage(fmt.Sprintf("%s: list ListReviewTask err: %s", f, err.Error()), ctx)
 		return
@@ -75,6 +88,12 @@ func (taskApi *TaskApi) ListHistoryTask(ctx *gin.Context) {
 		return
 	}
 
+	subTask, _, err := genSubType(ctx)
+	if err != nil{
+		response.FailWithMessage(err.Error(), ctx)
+		return
+	}
+
 	claims, err := utils.GetClaims(ctx)
 	if err != nil {
 		response.FailWithMessage("get user err: "+err.Error(), ctx)
@@ -82,7 +101,7 @@ func (taskApi *TaskApi) ListHistoryTask(ctx *gin.Context) {
 	}
 
 	page.Operator = claims.Username
-	task, count, err := task.ListTask(page, task.HistoryStatus())
+	task, count, err := task.ListTask(page, task.HistoryStatus(), subTask)
 	if err != nil {
 		response.FailWithMessage(fmt.Sprintf("%s: list ListHistoryTask err: %s", f, err.Error()), ctx)
 		return
@@ -112,7 +131,13 @@ func (taskApi *TaskApi) GetTask(ctx *gin.Context) {
 		return
 	}
 
-	task, err := task.GetTask(id, claims.Username)
+	subTask, _, err := genSubType(ctx)
+	if err != nil{
+		response.FailWithMessage(err.Error(), ctx)
+		return
+	}
+
+	task, err := task.GetTask(id, claims.Username, subTask)
 	if err != nil {
 		response.FailWithMessage(fmt.Sprintf("%s: get task failed, err: %s", f, err.Error()), ctx)
 		return
@@ -121,9 +146,18 @@ func (taskApi *TaskApi) GetTask(ctx *gin.Context) {
 	response.OkWithData(task, ctx)
 }
 
+// todo continue: 仿新增，写修改。
 func (taskApi *TaskApi) UpdateTask(ctx *gin.Context) {
 	f := "UpdateTask()-->"
+
 	var taskParam task.Task
+	var err error
+	taskParam.SubTask, taskParam.SubTaskType, err = genSubType(ctx)
+	if err != nil{
+		response.FailWithMessage(err.Error(), ctx)
+		return
+	}
+
 	if err := ctx.BindJSON(&taskParam); err != nil {
 		response.FailWithMessage(fmt.Sprintf("%s, parse param failed :%s", f, err.Error()), ctx)
 		return
@@ -146,19 +180,7 @@ func (taskApi *TaskApi) UpdateTask(ctx *gin.Context) {
 func (taskApi *TaskApi) AddTask(ctx *gin.Context) {
 	f := "AddTask()-->"
 
-	taskType := ctx.Query("type")
-	if taskType == "" {
-		response.FailWithMessage("need type param", ctx)
-		return
-	}
-
-	var taskParam task.Task
-
-	switch taskType {
-	case task.Auth:
-		taskParam.SubTask = auth.Auth{}
-	}
-
+	var taskParam TaskParam
 	if err := ctx.BindJSON(&taskParam); err != nil {
 		response.FailWithMessage(fmt.Sprintf("%s, parse param failed :%s", f, err.Error()), ctx)
 		return
@@ -169,13 +191,41 @@ func (taskApi *TaskApi) AddTask(ctx *gin.Context) {
 		response.FailWithMessage("get user err: "+err.Error(), ctx)
 		return
 	}
+	taskParam.Task.Creator = claims.Username
+	taskParam.Auth.UserId = claims.ID
+	fillSubTask(&taskParam)
 
-	taskParam.Creator = claims.Username
-	id, err := task.AddTask(&taskParam)
+	id, err := task.AddTask(&taskParam.Task)
 	if err != nil {
 		response.FailWithMessage(fmt.Sprintf("%s, add task failed :%s", f, err.Error()), ctx)
 		return
 	}
 
 	response.OkWithData(id, ctx)
+}
+
+func genSubType(ctx *gin.Context) (task.SubTask, string, error) {
+	taskType := ctx.Query("type")
+	if taskType == "" {
+		return nil, "",  errors.New("need type param")
+	}
+
+	switch taskType {
+	case task.Auth:
+		return auth.Auth{}, task.Auth, nil
+	default:
+		return nil, "", fmt.Errorf("sub task type not found: %s", taskType)
+	}
+}
+
+type TaskParam struct {
+	Task task.Task `json:"task"`
+	Auth auth.Auth `json:"auth"`
+}
+
+func fillSubTask(param *TaskParam)  {
+	switch param.Task.SubTaskType {
+	case task.Auth:
+		param.Task.SubTask = param.Auth
+	}
 }
