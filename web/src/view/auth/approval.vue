@@ -12,9 +12,6 @@
       </el-form>
     </div>
     <div class="gva-table-box">
-      <div class="gva-btn-list">
-        <el-button size="small" type="primary" icon="plus" @click="openDialog('add')">新增</el-button>
-      </div>
       <el-table :data="tableData" @sort-change="sortChange" row-key="id" @selection-change="handleSelectionChange">
         <el-table-column align="left" label="ID" min-width="90" prop="id" sortable="custom"/>
         <el-table-column align="left" label="任务名" min-width="90" prop="name" sortable="custom"/>
@@ -32,8 +29,15 @@
                 icon="delete"
                 size="small"
                 type="text"
-                @click="cancelClusterFunc(scope.row)"
-            >撤销
+                @click="approval(scope.row)"
+            >通过
+            </el-button>
+            <el-button
+                icon="delete"
+                size="small"
+                type="text"
+                @click="reject(scope.row)"
+            >拒绝
             </el-button>
           </template>
         </el-table-column>
@@ -51,31 +55,12 @@
       </div>
     </div>
 
-    <el-dialog v-model="dialogFormVisible" :before-close="closeDialog" :title="dialogTitle">
-      <warning-bar title="申请权限"/>
+    <el-dialog v-model="rejectDialogFormVisible" :before-close="closeDialog" :title="拒绝申请">
       <el-form ref="apiForm" :model="form" :rules="rules" label-width="80px">
-        <el-form-item label="名称" prop="path">
-          <el-input v-model="form.name" disabled="true" input-style="width:350px" autocomplete="off"/>
-        </el-form-item>
-        <el-form-item label="集群" prop="path">
-          <el-autocomplete
-              v-model="form.cluster_name"
-              :fetch-suggestions="querySearchAsync"
-              placeholder="请选择"
-              @select="handleSelect"
-          />
-        </el-form-item>
-        <el-form-item label="库名" prop="apiGroup">
-          <el-autocomplete
-              v-model="form.db_name"
-              :fetch-suggestions="querySearchDBAsync"
-              placeholder="请选择"
-          />
-        </el-form-item>
-        <el-form-item label="备注" prop="description">
+        <el-form-item label="拒绝原因" prop="description">
           <el-input
-              v-model="form.remark"
-              :autosize="{ minRows: 3, maxRows: 500 }"
+              v-model="form.reject_content"
+              :autosize="{ minRows: 3, maxRows: 5000 }"
               type="textarea"
               placeholder="Please input"
           />
@@ -84,10 +69,11 @@
       <template #footer>
         <div class="dialog-footer">
           <el-button size="small" @click="closeDialog">取 消</el-button>
-          <el-button size="small" type="primary" @click="enterDialog">确 定</el-button>
+          <el-button size="small" type="primary" @click="doReject">确 定</el-button>
         </div>
       </template>
     </el-dialog>
+
   </div>
 </template>
 
@@ -99,8 +85,7 @@ export default {
 
 <script lang="ts" setup>
 import {
-  listTask,
-  createTask,
+  listReviewTask,
   updateTask,
 } from '@/api/task/task'
 import {toSQLLine} from '@/utils/stringFun'
@@ -108,10 +93,6 @@ import warningBar from '@/components/warningBar/warningBar.vue'
 import {onMounted, ref} from 'vue'
 import {ElMessage, ElMessageBox} from 'element-plus'
 import moment from 'moment'
-import {
-  listCluster,
-  listDatabase,
-} from '@/api/db/cluster'
 
 const methodFiletr = (value) => {
   const target = methodOptions.value.filter(item => item.value === value)[0]
@@ -122,12 +103,6 @@ const newLineFormatter = (row, column) => {
   return row.sql_content.replaceAll("\n", "<br>")
 }
 
-const dialogTitle = ref('新增')
-const dialogFormVisible = ref(false)
-const editDialogFormVisible = ref(false)
-const taskType = "auth"
-const dataType = "TidbOrMysql"
-
 const apis = ref([])
 const form = ref({
   name: '申请权限',
@@ -136,6 +111,8 @@ const form = ref({
   remark: '',
   sql_content: ''
 })
+const taskType = 'auth'
+
 const methodOptions = ref([
   {
     value: 'POST',
@@ -158,6 +135,44 @@ const methodOptions = ref([
     type: 'danger'
   }
 ])
+
+const handleRow = ref({})
+const rejectDialogFormVisible = ref(false)
+const openDialog = () => {
+  rejectDialogFormVisible.value = true
+}
+const closeDialog = () => {
+  initForm()
+  rejectDialogFormVisible.value = false
+}
+
+const reject = async(row) => {
+  handleRow.value = row
+  rejectDialogFormVisible.value = true
+}
+
+const doReject = async() => {
+  apiForm.value.validate(async valid => {
+    let auth = handleRow.value.sub_task
+    delete handleRow.value.sub_task
+    handleRow.value.reject_content = form.value.reject_content
+    handleRow.value.action = 'reject'
+    let params = {
+      task: handleRow.value,
+      auth: auth
+    }
+    const res = await updateTask(params)
+    if (res.code === 0) {
+      ElMessage({
+        type: 'success',
+        message: '操作成功',
+        showClose: true
+      })
+    }
+    getTableData()
+    closeDialog()
+  })
+}
 
 const type = ref('')
 const rules = ref({
@@ -219,7 +234,7 @@ const sortChange = ({prop, order}) => {
 
 // 查询
 const getTableData = async () => {
-  const table = await listTask({page: page.value, pageSize: pageSize.value, ...searchInfo.value}, taskType)
+  const table = await listReviewTask({page: page.value, pageSize: pageSize.value, ...searchInfo.value}, taskType)
   if (table.code === 0) {
     tableData.value = table.data.list
     total.value = table.data.total
@@ -236,21 +251,6 @@ const handleSelectionChange = (val) => {
 }
 
 const deleteVisible = ref(false)
-const onDelete = async () => {
-  const ids = apis.value.map(item => item.ID)
-  const res = await deleteApisByIds({ids})
-  if (res.code === 0) {
-    ElMessage({
-      type: 'success',
-      message: res.msg
-    })
-    if (tableData.value.length === ids.length && page.value > 1) {
-      page.value--
-    }
-    deleteVisible.value = false
-    getTableData()
-  }
-}
 
 // 弹窗相关
 const apiForm = ref(null)
@@ -265,118 +265,13 @@ const initForm = () => {
   }
 }
 
-const openDialog = (key) => {
-  switch (key) {
-    case 'add':
-      dialogTitle.value = '新增'
-      break
-    case 'edit':
-      editDialogFormVisible.value = true
-      break
-    default:
-      break
-  }
-  type.value = key
-  dialogFormVisible.value = true
-}
-const closeDialog = () => {
-  initForm()
-  dialogFormVisible.value = false
-  editDialogFormVisible.value = false
-}
-
 const editTaskFunc = async (row) => {
   form.value = row
   openDialog('edit')
 }
 
-const enterEditDialog = async () => {
-  apiForm.value.validate(async valid => {
-    if (valid) {
-      switch (type.value) {
-        case 'edit': {
-          // 这里不传task id，后端判断是否包含id。
-          // todo, refactor
-          let params = {
-            exec_item: form.value,
-            action: "editItem"
-          }
-          const res = await updateTask(params)
-          if (res.code === 0) {
-            ElMessage({
-              type: 'success',
-              message: '编辑成功',
-              showClose: true
-            })
-          }
-          getTableData()
-          closeDialog()
-        }
-          break
-        default:
-          // eslint-disable-next-line no-lone-blocks
-        {
-          ElMessage({
-            type: 'error',
-            message: '未知操作',
-            showClose: true
-          })
-        }
-          break
-      }
-    }
-  })
-}
-
-
-const enterDialog = async () => {
-  apiForm.value.validate(async valid => {
-    if (valid) {
-      switch (type.value) {
-        case 'add': {
-          let paramas = {
-            task: {
-              name: form.value.name,
-              sub_task_type: taskType,
-              description: form.value.remark,
-            },
-            auth: {
-              cluster: form.value.cluster_name,
-              db: form.value.db_name,
-              data_type: dataType,
-            }
-          }
-          const res = await createTask(paramas)
-          if (res.code === 0) {
-            ElMessage({
-              type: 'success',
-              message: '添加成功',
-              showClose: true
-            })
-
-            getTableData()
-            closeDialog()
-          }
-        }
-
-          break
-        default:
-          // eslint-disable-next-line no-lone-blocks
-        {
-          ElMessage({
-            type: 'error',
-            message: '未知操作',
-            showClose: true
-          })
-        }
-          break
-      }
-    }
-  })
-}
-
-const cancelClusterFunc = async (row) => {
-  ElMessageBox.confirm('确定撤销吗?', '提示', {
+const approval = async (row) => {
+  ElMessageBox.confirm('确定通过吗?', '提示', {
     confirmButtonText: '确定',
     cancelButtonText: '取消',
     type: 'warning'
@@ -384,7 +279,7 @@ const cancelClusterFunc = async (row) => {
       .then(async () => {
         let auth = row.sub_task
         delete row.sub_task
-        row.action = "cancel"
+        row.action = "approval"
         let paramas = {
           task: row,
           auth: auth,
@@ -393,7 +288,7 @@ const cancelClusterFunc = async (row) => {
         if (res.code === 0) {
           ElMessage({
             type: 'success',
-            message: '撤销成功!'
+            message: '操作成功!'
           })
           if (tableData.value.length === 1 && page.value > 1) {
             page.value--
@@ -405,75 +300,8 @@ const cancelClusterFunc = async (row) => {
 
 const state = ref('')
 
-interface clusterItem {
-  name: string
-  value: string
-}
-
-const clusters = ref<clusterItem[]>([])
-const db = ref<clusterItem[]>([])
-
-const loadCluster = async () => {
-  const resp = await listCluster({page: 1, pageSize: 5})
-  let result = []
-  for (let cluster of resp.data.list) {
-    result.push({value: cluster.name, name: cluster.name})
-  }
-
-  return result
-}
-
-const loadDB = async (cluster) => {
-  const resp = await listDatabase(cluster)
-  let result = []
-  for (let db of resp.data) {
-    result.push({value: db, name: db})
-  }
-
-  return result
-}
-
 let timeout: NodeJS.Timeout
-const querySearchAsync = (queryString: string, cb: (arg: any) => void) => {
-  const results = queryString
-      ? clusters.value.filter(createFilter(queryString))
-      : clusters.value
-
-  clearTimeout(timeout)
-  timeout = setTimeout(() => {
-    cb(results)
-  }, 3000 * Math.random())
-}
-
-const querySearchDBAsync = async (queryString: string, cb: (arg: any) => void) => {
-  const results = queryString
-      ? db.value.filter(createFilter(queryString))
-      : db.value
-
-  clearTimeout(timeout)
-  timeout = setTimeout(() => {
-    cb(results)
-  }, 3000 * Math.random())
-}
-
-const createFilter = (queryString: string) => {
-  return (restaurant: clusterItem) => {
-    return (
-        restaurant.name.toLowerCase().indexOf(queryString.toLowerCase()) === 0
-    )
-  }
-}
-
-const handleSelect = async (item: clusterItem) => {
-  db.value = await loadDB(item.value)
-}
-
-onMounted(async () => {
-  clusters.value = await loadCluster()
-})
-
 </script>
-
 
 <style scoped lang="scss">
 .button-box {

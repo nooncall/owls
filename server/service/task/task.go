@@ -41,7 +41,7 @@ type Task struct {
 type SubTask interface {
 	AddTask() (int64, error)
 	ExecTask() error
-	UpdateTask() error
+	UpdateTask(action string) error
 	ListTask(pageInfo request.SortPageInfo, isDBA bool, status []string) ([]interface{}, int64, error)
 	GetTask(id int64) (interface{}, error)
 	GetExecWaitTask() ([]interface{}, int64, error)
@@ -59,8 +59,18 @@ func AddTask(task *Task) (int64, error) {
 }
 
 func UpdateTask(task *Task) error {
-	if err := task.SubTask.UpdateTask(); err != nil {
+	if err := task.SubTask.UpdateTask(task.Action); err != nil {
 		return err
+	}
+
+	switch task.Action {
+	case ActionCancel:
+		task.Status = Cancel
+	case ActionApproval:
+		task.Status = Pass
+	case ActionReject:
+		task.Status = Reject
+	case ActionUpdate:
 	}
 
 	return taskDao.UpdateTask(task)

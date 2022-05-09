@@ -8,6 +8,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/qingfeng777/owls/server/model/common/request"
 	"github.com/qingfeng777/owls/server/model/common/response"
+	request2 "github.com/qingfeng777/owls/server/model/system/request"
 	"github.com/qingfeng777/owls/server/service/auth/auth"
 	"github.com/qingfeng777/owls/server/service/task"
 	"github.com/qingfeng777/owls/server/utils"
@@ -30,7 +31,7 @@ func (taskApi *TaskApi) ListReviewTask(ctx *gin.Context) {
 	}
 
 	subTask, _, err := genSubType(ctx)
-	if err != nil{
+	if err != nil {
 		response.FailWithMessage(err.Error(), ctx)
 		return
 	}
@@ -59,14 +60,14 @@ func (taskApi *TaskApi) ListTask(ctx *gin.Context) {
 	}
 
 	subTask, _, err := genSubType(ctx)
-	if err != nil{
+	if err != nil {
 		response.FailWithMessage(err.Error(), ctx)
 		return
 	}
 
 	claims, _ := utils.GetClaims(ctx)
 	page.Operator = claims.Username
-	task, count, err := task.ListTask(page, task.ExecStatus(),subTask)
+	task, count, err := task.ListTask(page, task.ExecStatus(), subTask)
 	if err != nil {
 		response.FailWithMessage(fmt.Sprintf("%s: list ListReviewTask err: %s", f, err.Error()), ctx)
 		return
@@ -89,7 +90,7 @@ func (taskApi *TaskApi) ListHistoryTask(ctx *gin.Context) {
 	}
 
 	subTask, _, err := genSubType(ctx)
-	if err != nil{
+	if err != nil {
 		response.FailWithMessage(err.Error(), ctx)
 		return
 	}
@@ -132,7 +133,7 @@ func (taskApi *TaskApi) GetTask(ctx *gin.Context) {
 	}
 
 	subTask, _, err := genSubType(ctx)
-	if err != nil{
+	if err != nil {
 		response.FailWithMessage(err.Error(), ctx)
 		return
 	}
@@ -146,31 +147,17 @@ func (taskApi *TaskApi) GetTask(ctx *gin.Context) {
 	response.OkWithData(task, ctx)
 }
 
-// todo continue: 仿新增，写修改。
 func (taskApi *TaskApi) UpdateTask(ctx *gin.Context) {
 	f := "UpdateTask()-->"
 
-	var taskParam task.Task
-	var err error
-	taskParam.SubTask, taskParam.SubTaskType, err = genSubType(ctx)
-	if err != nil{
-		response.FailWithMessage(err.Error(), ctx)
-		return
-	}
-
+	var taskParam TaskParam
 	if err := ctx.BindJSON(&taskParam); err != nil {
 		response.FailWithMessage(fmt.Sprintf("%s, parse param failed :%s", f, err.Error()), ctx)
 		return
 	}
+	fillSubTask(&taskParam, nil)
 
-	claims, err := utils.GetClaims(ctx)
-	if err != nil {
-		response.FailWithMessage("get user err: "+err.Error(), ctx)
-		return
-	}
-
-	taskParam.Executor = claims.Username
-	if err := task.UpdateTask(&taskParam); err != nil {
+	if err := task.UpdateTask(&taskParam.Task); err != nil {
 		response.FailWithMessage(fmt.Sprintf("%s, update task failed :%s", f, err.Error()), ctx)
 		return
 	}
@@ -191,9 +178,7 @@ func (taskApi *TaskApi) AddTask(ctx *gin.Context) {
 		response.FailWithMessage("get user err: "+err.Error(), ctx)
 		return
 	}
-	taskParam.Task.Creator = claims.Username
-	taskParam.Auth.UserId = claims.ID
-	fillSubTask(&taskParam)
+	fillSubTask(&taskParam, claims)
 
 	id, err := task.AddTask(&taskParam.Task)
 	if err != nil {
@@ -207,7 +192,7 @@ func (taskApi *TaskApi) AddTask(ctx *gin.Context) {
 func genSubType(ctx *gin.Context) (task.SubTask, string, error) {
 	taskType := ctx.Query("type")
 	if taskType == "" {
-		return nil, "",  errors.New("need type param")
+		return nil, "", errors.New("need type param")
 	}
 
 	switch taskType {
@@ -223,9 +208,17 @@ type TaskParam struct {
 	Auth auth.Auth `json:"auth"`
 }
 
-func fillSubTask(param *TaskParam)  {
+func fillSubTask(param *TaskParam, claims *request2.CustomClaims) {
 	switch param.Task.SubTaskType {
 	case task.Auth:
+		if claims != nil {
+			param.Auth.UserId = claims.ID
+			param.Auth.Username = claims.Username
+		}
 		param.Task.SubTask = param.Auth
+	}
+
+	if claims != nil{
+		param.Task.Creator = claims.Username
 	}
 }

@@ -30,17 +30,17 @@ export const getTask = (data, subType) => {
   })
 }
 
-export const updateTask = (data, subType) => {
+export const updateTask = (data) => {
   return service({
-    url: '/task?type=' + subType,
+    url: '/task',
     method: 'put',
     data
   })
 }
 
-export const createTask = (data, subType) => {
+export const createTask = (data) => {
   return service({
-    url: '/task?type=' + subType,
+    url: '/task',
     method: 'post',
     data
   })

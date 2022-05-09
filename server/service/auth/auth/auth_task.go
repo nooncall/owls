@@ -1,20 +1,30 @@
 package auth
 
-import "github.com/qingfeng777/owls/server/model/common/request"
+import (
+	"github.com/qingfeng777/owls/server/model/common/request"
+	"github.com/qingfeng777/owls/server/service/task"
+)
 
 func (a Auth) AddTask() (int64, error) {
 	return authDao.AddAuth(&a)
 }
 
-const authStatusOn = "ON"
-
 // give auth by set status
 func (a Auth) ExecTask() error {
-	a.Status = authStatusOn
+	a.Status = StatusPass
 	return authDao.UpdateAuth(&a)
 }
 
-func (a Auth) UpdateTask() error {
+func (a Auth) UpdateTask(action string) error {
+	switch action {
+	case task.ActionCancel:
+		a.Status = StatusCancelApply
+	case task.ActionApproval:
+		a.Status = StatusPass
+	case task.Reject:
+		a.Status = StatusReject
+	case task.ActionUpdate:
+	}
 	return authDao.UpdateAuth(&a)
 }
 

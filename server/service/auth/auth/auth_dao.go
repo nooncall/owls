@@ -43,10 +43,10 @@ func (authDaoImpl) ListAuth(info request.SortPageInfo, status []string) ([]Auth,
 	db := GetDB().Offset(offset)
 	if info.Key != "" {
 		fmtKey := "%" + info.Key + "%"
-		db = db.Where("id like ? or name like ? or status like ? or creator like ?",
+		db = db.Where("id like ? or username like ? or cluster like ? or db like ?",
 			fmtKey, fmtKey, fmtKey, fmtKey)
 	}
-	db = db.Where("status in (?) and creator = ?", status, info.Operator)
+	db = db.Where("status in (?)", status)
 
 	var count int64
 	if err := db.Model(&Auth{}).Count(&count).Error; err != nil {
@@ -57,7 +57,7 @@ func (authDaoImpl) ListAuth(info request.SortPageInfo, status []string) ([]Auth,
 	if info.OrderKey != "" {
 		db = db.Order(utils.GenerateOrderField(info.OrderKey, info.Desc))
 	} else {
-		db = db.Order("ct desc")
+		db = db.Order("id desc")
 	}
 
 	var AuthTasks []Auth
