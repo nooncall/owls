@@ -15,7 +15,7 @@ type BackupApi struct{}
 func (backupApi *BackupApi) ListRollbackData(ctx *gin.Context) {
 	f := "GetTask() -->"
 
-	var req task.RollBackReq
+	var req task.SqlParam
 	if err := ctx.BindJSON(&req); err != nil {
 		response.FailWithMessage(fmt.Sprintf("%s, parse param failed :%s ", f, err.Error()), ctx)
 		return
@@ -32,7 +32,7 @@ func (backupApi *BackupApi) ListRollbackData(ctx *gin.Context) {
 
 func (backupApi *BackupApi) Rollback(ctx *gin.Context) {
 	f := "Rollback()-->"
-	var req task.RollBackReq
+	var req task.SqlParam
 	if err := ctx.BindJSON(&req); err != nil {
 		response.FailWithMessage(fmt.Sprintf("%s, parse param failed :%s ", f, err.Error()), ctx)
 		return

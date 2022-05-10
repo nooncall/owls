@@ -20,7 +20,7 @@ type BackupDataResp struct {
 }
 
 // ListRollbackData ...
-func ListRollbackData(req *RollBackReq) (*BackupDataResp, error) {
+func ListRollbackData(req *SqlParam) (*BackupDataResp, error) {
 	if req.OriginSql == "" || req.ClusterName == "" || req.DBName == "" || req.BackupId < 1 {
 		logger.Infof("check param failed, originSql : %s ,clusterName :%s ,DBName: %s, backupId: %d",
 			req.OriginSql, req.ClusterName, req.DBName, req.BackupId)
@@ -95,9 +95,10 @@ func getUpdateColsInfo(originSql string, db *sql.DB) (index []int, cols []string
 	return
 }
 
-type RollBackReq struct {
+type SqlParam struct {
 	DBName      string `json:"db_name"`
 	ClusterName string `json:"cluster_name"`
+	TableName   string `json:"table_name"`
 	OriginSql   string `json:"origin_sql"`
 	BackupId    int64  `json:"backup_id"`
 	Executor    string `json:"executor"`
@@ -108,7 +109,7 @@ type RollBackReq struct {
 // 如果是删，直接插入回原来的表
 // 如果是改,判断哪些字段，根据主键，把原来的字段set回去。
 // 最后更改备份状态
-func Rollback(req *RollBackReq) error {
+func Rollback(req *SqlParam) error {
 	if req.OriginSql == "" || req.ClusterName == "" || req.DBName == "" || req.BackupId < 1 {
 		logger.Infof("check param failed, originSql : %s ,clusterName :%s ,DBName: %s, backupId: %d, executor: %s",
 			req.OriginSql, req.ClusterName, req.DBName, req.BackupId, req.Executor)
