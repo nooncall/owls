@@ -15,7 +15,7 @@ import (
 type ClusterApi struct{}
 
 func (clusterApi *ClusterApi) ListDB(ctx *gin.Context) {
-	f := "ListDB()-->"
+	f := "listDB()-->"
 
 	cluster := ctx.Query("cluster")
 	if cluster == "" {
@@ -23,9 +23,32 @@ func (clusterApi *ClusterApi) ListDB(ctx *gin.Context) {
 		return
 	}
 
-	dbInfo, err := db_info.ListAllDB(cluster)
+	dbInfo, err := db_info.ListDB(cluster)
 	if err != nil {
 		response.FailWithMessage(fmt.Sprintf("%s,list db failed :%s ", f, err.Error()), ctx)
+		return
+	}
+
+	response.OkWithData(dbInfo, ctx)
+}
+
+func (clusterApi *ClusterApi) ListTable(ctx *gin.Context) {
+	f := "ListTable()-->"
+
+	cluster := ctx.Query("cluster")
+	if cluster == "" {
+		response.FailWithMessage("need cluster param: cluster", ctx)
+		return
+	}
+	db := ctx.Query("db")
+	if db == "" {
+		response.FailWithMessage("need db param: db", ctx)
+		return
+	}
+
+	dbInfo, err := db_info.ListTable(cluster, db)
+	if err != nil {
+		response.FailWithMessage(fmt.Sprintf("%s,list table failed :%s ", f, err.Error()), ctx)
 		return
 	}
 

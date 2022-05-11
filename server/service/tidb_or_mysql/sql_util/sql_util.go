@@ -167,7 +167,7 @@ func getOneCondition(str string) string {
 }
 
 //注意这个返回的列是乱序的
-func GetUpdateColumn(sql string) ([]string, error) {
+func GetSqlColumn(sql string) ([]string, error) {
 	stmtNodes, _, err := getParser().Parse(sql, "", "")
 	if err != nil {
 		return nil, err
@@ -179,6 +179,10 @@ func GetUpdateColumn(sql string) ([]string, error) {
 		case *ast.UpdateStmt:
 			for _, v := range node.List {
 				cols = append(cols, v.Column.String())
+			}
+		case *ast.SelectStmt:
+			for _, v := range node.Fields.Fields{
+				cols = append(cols, v.Text())
 			}
 		default:
 			errStr := fmt.Sprintf("get sql update cols err, not update operate, sql: %s", sql)

@@ -6,4 +6,5 @@ type ApiGroup struct {
 	ClusterApi
 	RuleApi
 	TaskApi
+	ReadApi
 }

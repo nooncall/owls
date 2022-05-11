@@ -36,16 +36,16 @@ func (DBInfoTool) GetDBConn(dbName, clusterName string) (*task.DBInfo, error) {
 }
 
 // return dbs and mapping cluster
-func ListAllDB(clusterName string) ([]string, error) {
+func ListDB(clusterName string) ([]string, error) {
 	cluster, err := GetClusterByName(clusterName)
 	if err != nil {
 		return nil, err
 	}
 
-	return ListDbByCluster(cluster)
+	return listDB(cluster)
 }
 
-func ListDbByCluster(cluster *OwlCluster) ([]string, error) {
+func listDB(cluster *OwlCluster) ([]string, error) {
 	/*deCryptoData, err := utils.AesDeCrypto(utils.ParseStringedByte(cluster.Pwd))
 	if err != nil {
 		return nil, err
@@ -74,4 +74,38 @@ func ListDbByCluster(cluster *OwlCluster) ([]string, error) {
 		dbs = append(dbs, dbName)
 	}
 	return dbs, nil
+}
+
+func ListTable(clusterName,dbName string) ([]string, error) {
+	cluster, err := GetClusterByName(clusterName)
+	if err != nil {
+		return nil, err
+	}
+
+	return listTable(cluster, dbName)
+}
+
+func listTable(cluster *OwlCluster, db string) ([]string, error) {
+	conn, err := sql.Open("mysql",
+		fmt.Sprintf("%s:%s@tcp(%s)/%s?charset=utf8", cluster.User, cluster.Pwd, cluster.Addr, defaultDBName))
+	if err != nil {
+		return nil, fmt.Errorf("open db_info conn err: %s", err.Error())
+	}
+	defer conn.Close()
+
+	rows, err := conn.Query(fmt.Sprintf("show tables from %s;", db))
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var tables []string
+	for rows.Next() {
+		var dbName string
+		if err = rows.Scan(&dbName); err != nil {
+			return nil, err
+		}
+		tables = append(tables, dbName)
+	}
+	return tables, nil
 }

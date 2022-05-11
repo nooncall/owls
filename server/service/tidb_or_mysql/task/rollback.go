@@ -82,7 +82,7 @@ func getUpdateColsInfo(originSql string, db *sql.DB) (index []int, cols []string
 		return
 	}
 
-	updateCols, err := sql_util.GetUpdateColumn(originSql)
+	updateCols, err := sql_util.GetSqlColumn(originSql)
 	if err != nil {
 		return
 	}
@@ -247,7 +247,7 @@ func buildDelRollBackSql(column []sql_util.Column, dataItems [][]string, tableNa
 //找到改了哪些列，并给他们按照表里查出来的顺序信息排序；找到主键；切分备份数据
 // 除了原sql的where，再把数据自己的主键给加上作为条件
 func buildUpdateRollbackSql(column []sql_util.Column, dataItems [][]string, tableName, oldSql string) ([]string, error) {
-	updateCols, err := sql_util.GetUpdateColumn(oldSql)
+	updateCols, err := sql_util.GetSqlColumn(oldSql)
 	if err != nil {
 		return nil, err
 	}

@@ -1,14 +1,10 @@
 package task
 
 import (
-	"database/sql"
 	"errors"
 	"fmt"
-	"strings"
-	"time"
 
 	tidb "github.com/pingcap/parser/ast"
-
 	"github.com/qingfeng777/owls/server/service/tidb_or_mysql/sql_util"
 	"github.com/qingfeng777/owls/server/utils/logger"
 )
@@ -27,64 +23,23 @@ func ReadData(req *SqlParam) (*ReadResult, error) {
 			req.OriginSql, req.ClusterName, req.DBName, req.BackupId)
 	}
 
-	backup, err := backupDao.GetBackupInfoById(req.BackupId)
-	if err != nil {
-		logger.Errorf("get backup info err: %s", err.Error())
-		return nil, err
-	}
 
 	dbInfo, err := dbTool.GetDBConn(req.DBName, req.ClusterName)
 	if err != nil {
 		logger.Errorf("get db_info conn err: %s", err.Error())
-		return &ReadResult{DataItems: dataSplit(backup.Data)}, nil
+		return nil, err
 	}
 	defer dbInfo.CloseConn()
 
-	index, cols, err := getUpdateColsInfo(req.OriginSql, dbInfo.DB)
+	var result ReadResult
+	result.Columns, err = sql_util.GetSqlColumn(req.OriginSql)
 	if err != nil {
-		logger.Warnf("get update index err:%+v", err.Error())
-		// index 用于标记被更改的列，可以容忍
+		return nil, err
 	}
 
-	return &ReadResult{DataItems: dataSplit(backup.Data), Index: index, Columns: cols}, nil
-}
+	//使用db信息，执行读sql ，获取结果
 
-//todo, 用来获取数据的列名，sql中应该可以拿到。
-func getUpdateColsInfoBackForRead(originSql string, db *sql.DB) (index []int, cols []string, err error) {
-	var tableName string
-	var noIndex bool
-	tableName, _ = sql_util.GetTableName(originSql)
-
-	stmtNodes, _, _ := sql_util.Parser.Parse(originSql, "", "")
-	for _, tiStmt := range stmtNodes {
-		switch tiStmt.(type) {
-		case *tidb.DeleteStmt:
-			noIndex = true
-		}
-	}
-
-	column, err := sql_util.GetTableColumn(tableName, db)
-	if err != nil {
-		return
-	}
-	for _, v := range *column {
-		cols = append(cols, v.Field)
-	}
-	if noIndex {
-		return
-	}
-
-	updateCols, err := sql_util.GetUpdateColumn(originSql)
-	if err != nil {
-		return
-	}
-	colsOnTabSeq := sql_util.SortColOnOriginSeq(*column, updateCols)
-	for i, v := range colsOnTabSeq {
-		if v != "" {
-			index = append(index, i)
-		}
-	}
-	return
+	return &result, nil
 }
 
 func GetTableInfo(req *SqlParam) error {
@@ -98,14 +53,14 @@ func GetTableInfo(req *SqlParam) error {
 		return err
 	}
 	defer dbInfo.CloseConn()
+	// 怎么获取table info呢？ 适合边写边测；
+	// 执行desc table 名，二维数组获取、数组+interface 获取结果
 
 	stmtNodes, _, _ := sql_util.Parser.Parse(req.OriginSql, "", "")
 	for _, tiStmt := range stmtNodes {
 		switch tiStmt.(type) {
 		case *tidb.UpdateStmt:
-			err = rollbackUpdate(req.OriginSql, backup.Data, dbInfo.DB)
 		case *tidb.DeleteStmt:
-			err = rollbackDel(req.OriginSql, backup.Data, dbInfo.DB)
 		default:
 			logger.Warnf("rollback, operate type not found")
 			return errors.New("sql operate type not support, only update, delete supported")
@@ -121,4 +76,3 @@ func GetTableInfo(req *SqlParam) error {
 
 	return nil
 }
-

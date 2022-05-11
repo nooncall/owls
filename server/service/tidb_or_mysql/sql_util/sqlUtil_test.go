@@ -39,7 +39,7 @@ func TestGetUpdateColumn(t *testing.T) {
 	}
 
 	for _, v := range datas {
-		tar, err := GetUpdateColumn(v.origin)
+		tar, err := GetSqlColumn(v.origin)
 		if v.isErrr && err != nil {
 			continue
 		}
