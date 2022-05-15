@@ -36,10 +36,11 @@ func (readApi *ReadApi) GetTableInfo(ctx *gin.Context) {
 		response.FailWithMessage(fmt.Sprintf("%s, parse param failed :%s ", f, err.Error()), ctx)
 		return
 	}
-	
-	if err := task.GetTableInfo(&req); err != nil {
+
+	info, err := task.GetTableInfo(&req)
+	if err != nil {
 		response.FailWithMessage(fmt.Sprintf("%s: get table info failed, err: %s", f, err.Error()), ctx)
 		return
 	}
-	response.Ok(ctx)
+	response.OkWithData(info, ctx)
 }

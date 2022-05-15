@@ -21,11 +21,11 @@ type BackupDataResp struct {
 
 // ListRollbackData ...
 func ListRollbackData(req *SqlParam) (*BackupDataResp, error) {
-	if req.OriginSql == "" || req.ClusterName == "" || req.DBName == "" || req.BackupId < 1 {
+	if req.Sql == "" || req.ClusterName == "" || req.DBName == "" || req.BackupId < 1 {
 		logger.Infof("check param failed, originSql : %s ,clusterName :%s ,DBName: %s, backupId: %d",
-			req.OriginSql, req.ClusterName, req.DBName, req.BackupId)
+			req.Sql, req.ClusterName, req.DBName, req.BackupId)
 		return nil, fmt.Errorf("get param failed, expert: originSql : %s, clusterName :%s ,DBName: %s, backupId: %d",
-			req.OriginSql, req.ClusterName, req.DBName, req.BackupId)
+			req.Sql, req.ClusterName, req.DBName, req.BackupId)
 	}
 
 	backup, err := backupDao.GetBackupInfoById(req.BackupId)
@@ -41,7 +41,7 @@ func ListRollbackData(req *SqlParam) (*BackupDataResp, error) {
 	}
 	defer dbInfo.CloseConn()
 
-	index, cols, err := getUpdateColsInfo(req.OriginSql, dbInfo.DB)
+	index, cols, err := getUpdateColsInfo(req.Sql, dbInfo.DB)
 	if err != nil {
 		logger.Warnf("get update index err:%+v", err.Error())
 		// index 用于标记被更改的列，可以容忍
@@ -99,7 +99,7 @@ type SqlParam struct {
 	DBName      string `json:"db_name"`
 	ClusterName string `json:"cluster_name"`
 	TableName   string `json:"table_name"`
-	OriginSql   string `json:"origin_sql"`
+	Sql         string `json:"sql"`
 	BackupId    int64  `json:"backup_id"`
 	Executor    string `json:"executor"`
 }
@@ -110,11 +110,11 @@ type SqlParam struct {
 // 如果是改,判断哪些字段，根据主键，把原来的字段set回去。
 // 最后更改备份状态
 func Rollback(req *SqlParam) error {
-	if req.OriginSql == "" || req.ClusterName == "" || req.DBName == "" || req.BackupId < 1 {
+	if req.Sql == "" || req.ClusterName == "" || req.DBName == "" || req.BackupId < 1 {
 		logger.Infof("check param failed, originSql : %s ,clusterName :%s ,DBName: %s, backupId: %d, executor: %s",
-			req.OriginSql, req.ClusterName, req.DBName, req.BackupId, req.Executor)
+			req.Sql, req.ClusterName, req.DBName, req.BackupId, req.Executor)
 		return fmt.Errorf("get param failed, expert: originSql : %s, clusterName :%s ,DBName: %s, backupId: %d, creator: %s",
-			req.OriginSql, req.ClusterName, req.DBName, req.BackupId, req.Executor)
+			req.Sql, req.ClusterName, req.DBName, req.BackupId, req.Executor)
 	}
 
 	dbInfo, err := dbTool.GetDBConn(req.DBName, req.ClusterName)
@@ -129,13 +129,13 @@ func Rollback(req *SqlParam) error {
 		return err
 	}
 
-	stmtNodes, _, _ := sql_util.Parser.Parse(req.OriginSql, "", "")
+	stmtNodes, _, _ := sql_util.Parser.Parse(req.Sql, "", "")
 	for _, tiStmt := range stmtNodes {
 		switch tiStmt.(type) {
 		case *tidb.UpdateStmt:
-			err = rollbackUpdate(req.OriginSql, backup.Data, dbInfo.DB)
+			err = rollbackUpdate(req.Sql, backup.Data, dbInfo.DB)
 		case *tidb.DeleteStmt:
-			err = rollbackDel(req.OriginSql, backup.Data, dbInfo.DB)
+			err = rollbackDel(req.Sql, backup.Data, dbInfo.DB)
 		default:
 			logger.Warnf("rollback, operate type not found")
 			return errors.New("sql operate type not support, only update, delete supported")

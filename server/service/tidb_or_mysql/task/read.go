@@ -3,26 +3,22 @@ package task
 import (
 	"errors"
 	"fmt"
-
-	tidb "github.com/pingcap/parser/ast"
-	"github.com/qingfeng777/owls/server/service/tidb_or_mysql/sql_util"
 	"github.com/qingfeng777/owls/server/utils/logger"
 )
 
 type ReadResult struct {
-	DataItems [][]string `json:"data_items"`
-	Columns   []string   `json:"columns"`
+	DataItems interface{} `json:"data_items"`
+	Columns   []string    `json:"columns"`
 }
 
 // ListRollbackData ...
 func ReadData(req *SqlParam) (*ReadResult, error) {
-	if req.OriginSql == "" || req.ClusterName == "" || req.DBName == "" || req.BackupId < 1 {
+	if req.Sql == "" || req.ClusterName == "" || req.DBName == "" {
 		logger.Infof("check param failed, originSql : %s ,clusterName :%s ,DBName: %s, backupId: %d",
-			req.OriginSql, req.ClusterName, req.DBName, req.BackupId)
+			req.Sql, req.ClusterName, req.DBName, req.BackupId)
 		return nil, fmt.Errorf("get param failed, expert: originSql : %s, clusterName :%s ,DBName: %s, backupId: %d",
-			req.OriginSql, req.ClusterName, req.DBName, req.BackupId)
+			req.Sql, req.ClusterName, req.DBName, req.BackupId)
 	}
-
 
 	dbInfo, err := dbTool.GetDBConn(req.DBName, req.ClusterName)
 	if err != nil {
@@ -31,48 +27,68 @@ func ReadData(req *SqlParam) (*ReadResult, error) {
 	}
 	defer dbInfo.CloseConn()
 
-	var result ReadResult
-	result.Columns, err = sql_util.GetSqlColumn(req.OriginSql)
+	rows, err := dbInfo.DB.Query(req.Sql)
 	if err != nil {
 		return nil, err
 	}
+	defer rows.Close()
 
-	//使用db信息，执行读sql ，获取结果
+	var result ReadResult
+	cols, err := rows.Columns()
+	if err != nil {
+		return nil, err
+	}
+	result.Columns = cols
+
+	vals := make([]interface{}, len(cols))
+	valsP := make([]interface{}, len(vals))
+	//将接口转换为指针类型的接口
+	for i := range vals {
+		valsP[i] = &vals[i]
+	}
+
+	var data [][]interface{}
+	for rows.Next() {
+		if err := rows.Scan(valsP...); err != nil {
+			return nil, err
+		}
+
+		for i := range vals {
+			if v, ok := vals[i].([]byte); ok { //读取的数据是uint8类型的数组，需要转成byte类型的数组才好转换成其他
+				vals[i] = string(v)
+			}
+		}
+		data = append(data, vals)
+	}
+	result.DataItems = data
 
 	return &result, nil
 }
 
-func GetTableInfo(req *SqlParam) error {
+func GetTableInfo(req *SqlParam) (string, error) {
 	if req.TableName == "" || req.ClusterName == "" || req.DBName == "" {
-		return fmt.Errorf("check param failed, tableName : %s ,clusterName :%s ,DBName: %s",
+		return "", fmt.Errorf("check param failed, tableName : %s ,clusterName :%s ,DBName: %s",
 			req.TableName, req.ClusterName, req.DBName)
 	}
 
 	dbInfo, err := dbTool.GetDBConn(req.DBName, req.ClusterName)
 	if err != nil {
-		return err
+		return "", err
 	}
 	defer dbInfo.CloseConn()
-	// 怎么获取table info呢？ 适合边写边测；
-	// 执行desc table 名，二维数组获取、数组+interface 获取结果
 
-	stmtNodes, _, _ := sql_util.Parser.Parse(req.OriginSql, "", "")
-	for _, tiStmt := range stmtNodes {
-		switch tiStmt.(type) {
-		case *tidb.UpdateStmt:
-		case *tidb.DeleteStmt:
-		default:
-			logger.Warnf("rollback, operate type not found")
-			return errors.New("sql operate type not support, only update, delete supported")
-		}
-	}
-
+	rows, err := dbInfo.DB.Query(fmt.Sprintf("show create table %s;", req.TableName))
 	if err != nil {
-		logger.Errorf("rollback sql err: %s", err.Error())
-		updateBackupStatus(ItemRollBackFailed, req.BackupId, req.Executor)
-		return fmt.Errorf("rollback err: %s", err.Error())
+		return "", err
 	}
-	updateBackupStatus(ItemRollBackSuccess, req.BackupId, req.Executor)
+	defer rows.Close()
 
-	return nil
+	var table, tableInfo string
+	for rows.Next() {
+		if err = rows.Scan(&table, &tableInfo); err != nil {
+			return "", err
+		}
+		return tableInfo, nil
+	}
+	return "", errors.New("get table info found nothing")
 }

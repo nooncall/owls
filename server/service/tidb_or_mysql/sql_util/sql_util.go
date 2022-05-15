@@ -93,6 +93,8 @@ func GetTableName(sql string) (string, error) {
 			left = node.TableRefs.TableRefs.Left
 		case *ast.DeleteStmt:
 			left = node.TableRefs.TableRefs.Left
+		case *ast.SelectStmt:
+			left = node.From.TableRefs.Left
 		}
 
 		tSource, ok := left.(*ast.TableSource)
@@ -164,6 +166,33 @@ func getOneCondition(str string) string {
 	}
 
 	return ""
+}
+
+func GetSelectColumn(sql string, db *sql.DB)([]string, error)  {
+	cols, err := GetSqlColumn(sql)
+	if err != nil{
+		return nil, err
+	}
+
+	if !(len(cols) == 1 && cols[0] == ""){
+		return cols, nil
+	}
+
+	table, err := GetTableName(sql)
+	if err != nil{
+		return nil, err
+	}
+
+	columns, err := GetTableColumn(table, db)
+	if err != nil{
+		return nil, err
+	}
+
+	cols = []string{}
+	for _, v := range *columns{
+		cols = append(cols, v.Field)
+	}
+	return cols, nil
 }
 
 //注意这个返回的列是乱序的
