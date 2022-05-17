@@ -30,7 +30,7 @@
     </div>
 
     <div>
-      <div style="float: left; width: 46%">
+      <div style="float: left; width: 56%">
         <el-input
             v-model="form.sql_content"
             :autosize="{ minRows: 15, maxRows: 500 }"
