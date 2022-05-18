@@ -17,13 +17,14 @@ build: fmt config
 	cd ..
 
 build-linux: fmt config
-	CGO_ENABLED=0 GOOS=linux go build -o bin/owl -a -ldflags '-extldflags "-static"' ./server/cmd/owl/
-
+	cd server && \
+	CGO_ENABLED=0 GOOS=linux go build -o ../bin/owl -a -ldflags '-extldflags "-static"' ./cmd/owl/
+	cd ..
 fmt:
 	go fmt ./...
 
-run: build-front build
-	./bin/owl
+run: config build-front build
+	cd ./bin && ./owl
 
 .ONESHELL:
 build-front:
