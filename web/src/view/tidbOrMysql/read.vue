@@ -30,7 +30,7 @@
     </div>
 
     <div>
-      <div style="float: left; width: 56%">
+      <div style="float: left; width: 55%">
         <el-input
             v-model="form.sql_content"
             :autosize="{ minRows: 15, maxRows: 500 }"
@@ -42,7 +42,7 @@
         </div>
       </div>
 
-      <div style="float: left;margin-left: 3%; width: 45%">
+      <div style="float: left;margin-left: 2%; width: 42%">
         <code>
           <span v-html="tableInfoFormatted()"></span>
         </code>
