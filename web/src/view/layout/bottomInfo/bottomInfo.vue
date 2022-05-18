@@ -8,7 +8,7 @@
       <el-divider direction="vertical" />
       <span>Copyright</span>
       <span>
-        <a href="https://github.com/flipped-aurora">flipped-aurora团队</a>
+        <a href="https://github.com/flipped-aurora">owls团队</a>
       </span>
     </div>
   </div>
