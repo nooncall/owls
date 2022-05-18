@@ -168,28 +168,28 @@ func getOneCondition(str string) string {
 	return ""
 }
 
-func GetSelectColumn(sql string, db *sql.DB)([]string, error)  {
+func GetSelectColumn(sql string, db *sql.DB) ([]string, error) {
 	cols, err := GetSqlColumn(sql)
-	if err != nil{
+	if err != nil {
 		return nil, err
 	}
 
-	if !(len(cols) == 1 && cols[0] == ""){
+	if !(len(cols) == 1 && cols[0] == "") {
 		return cols, nil
 	}
 
 	table, err := GetTableName(sql)
-	if err != nil{
+	if err != nil {
 		return nil, err
 	}
 
 	columns, err := GetTableColumn(table, db)
-	if err != nil{
+	if err != nil {
 		return nil, err
 	}
 
 	cols = []string{}
-	for _, v := range *columns{
+	for _, v := range *columns {
 		cols = append(cols, v.Field)
 	}
 	return cols, nil
@@ -210,7 +210,7 @@ func GetSqlColumn(sql string) ([]string, error) {
 				cols = append(cols, v.Column.String())
 			}
 		case *ast.SelectStmt:
-			for _, v := range node.Fields.Fields{
+			for _, v := range node.Fields.Fields {
 				cols = append(cols, v.Text())
 			}
 		default:

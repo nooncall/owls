@@ -50,7 +50,7 @@ type SubTask interface {
 func AddTask(task *Task) (int64, error) {
 	task.Ct = time.Now().Unix()
 	subId, err := task.SubTask.AddTask()
-	if err != nil{
+	if err != nil {
 		return 0, err
 	}
 

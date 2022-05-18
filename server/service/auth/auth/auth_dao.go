@@ -28,7 +28,7 @@ func (authDaoImpl) AddAuth(AuthTask *Auth) (int64, error) {
 	return AuthTask.ID, tx.Commit().Error
 }
 
-func (authDaoImpl)DelAuth(id int64) error {
+func (authDaoImpl) DelAuth(id int64) error {
 	return GetDB().Delete(&Auth{}, "id = ?", id).Error
 }
 

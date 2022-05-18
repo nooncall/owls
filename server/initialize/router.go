@@ -42,7 +42,6 @@ func Routers(Router *gin.Engine) *gin.Engine {
 	dbRouter := router.RouterGroupApp.TidbOrMysql
 	router := router.RouterGroupApp.Routers
 
-
 	PublicGroup := Router.Group("")
 	{
 		// 健康监测

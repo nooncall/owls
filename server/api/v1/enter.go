@@ -14,8 +14,8 @@ type ApiGroup struct {
 	ExampleApiGroup  example.ApiGroup
 	AutoCodeApiGroup autocode.ApiGroup
 	TiDBOrMysqlGroup tidb_or_mysql.ApiGroup
-	Task task.TaskApi
-	Auth auth.AuthApi
+	Task             task.TaskApi
+	Auth             auth.AuthApi
 }
 
 var ApiGroupApp = new(ApiGroup)

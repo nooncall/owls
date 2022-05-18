@@ -93,11 +93,11 @@ var (
 func (casbinService *CasbinService) Casbin() *casbin.SyncedEnforcer {
 	once.Do(func() {
 		a, err := gormadapter.NewAdapterByDB(global.GVA_DB)
-		if err != nil{
+		if err != nil {
 			panic(fmt.Sprintf("casbin err: ", err.Error()))
 		}
 		syncedEnforcer, err = casbin.NewSyncedEnforcer(global.GVA_CONFIG.Casbin.ModelPath, a)
-		if err != nil{
+		if err != nil {
 			panic(fmt.Sprintf("casbin err: ", err.Error()))
 		}
 	})

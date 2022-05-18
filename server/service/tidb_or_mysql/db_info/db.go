@@ -76,7 +76,7 @@ func listDB(cluster *OwlCluster) ([]string, error) {
 	return dbs, nil
 }
 
-func ListTable(clusterName,dbName string) ([]string, error) {
+func ListTable(clusterName, dbName string) ([]string, error) {
 	cluster, err := GetClusterByName(clusterName)
 	if err != nil {
 		return nil, err

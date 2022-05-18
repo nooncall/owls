@@ -218,7 +218,7 @@ func fillSubTask(param *TaskParam, claims *request2.CustomClaims) {
 		param.Task.SubTask = param.Auth
 	}
 
-	if claims != nil{
+	if claims != nil {
 		param.Task.Creator = claims.Username
 	}
 }
