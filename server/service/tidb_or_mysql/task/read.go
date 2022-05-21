@@ -3,6 +3,8 @@ package task
 import (
 	"errors"
 	"fmt"
+
+	"github.com/qingfeng777/owls/server/service/tidb_or_mysql/sql_util"
 	"github.com/qingfeng777/owls/server/utils/logger"
 )
 
@@ -19,6 +21,8 @@ func ReadData(req *SqlParam) (*ReadResult, error) {
 		return nil, fmt.Errorf("get param failed, expert: originSql : %s, clusterName :%s ,DBName: %s, backupId: %d",
 			req.Sql, req.ClusterName, req.DBName, req.BackupId)
 	}
+
+	req.Sql = sql_util.AddLimit(req.Sql)
 
 	dbInfo, err := dbTool.GetDBConn(req.DBName, req.ClusterName)
 	if err != nil {
