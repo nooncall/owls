@@ -17,13 +17,17 @@ type ClusterApi struct{}
 func (clusterApi *ClusterApi) ListDB(ctx *gin.Context) {
 	f := "listDB()-->"
 
+	var filter bool
+	filterStr := ctx.Query("filter")
+	if filterStr == "true"{
+		filter = true
+	}
+
 	cluster := ctx.Query("cluster")
 	if cluster == "" {
 		response.FailWithMessage("need cluster param: cluster name", ctx)
 		return
 	}
-
-	filter := ctx.GetBool("filter")
 
 	claims, err := utils.GetClaims(ctx)
 	if err != nil {
@@ -92,7 +96,11 @@ func (clusterApi *ClusterApi) ListCluster(ctx *gin.Context) {
 func (clusterApi *ClusterApi) ListClusterName(ctx *gin.Context) {
 	f := "ListClusterName()-->"
 
-	filter := ctx.GetBool("filter")
+	var filter bool
+	filterStr := ctx.Query("filter")
+	if filterStr == "true"{
+		filter = true
+	}
 
 	claims, err := utils.GetClaims(ctx)
 	if err != nil {
