@@ -8,9 +8,16 @@ export const listCluster = (data) => {
   })
 }
 
-export const listDatabase = (data) => {
+export const listClusterName = (cluster) => {
   return service({
-    url: '/db/cluster/db/list?cluster=' + data,
+    url: '/db/cluster/name/list?filter=' + cluster,
+    method: 'get',
+  })
+}
+
+export const listDatabase = (cluster, filter) => {
+  return service({
+    url: '/db/cluster/db/list?cluster=' + cluster + '&filter=' + filter,
     method: 'get'
   })
 }

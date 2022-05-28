@@ -77,7 +77,7 @@ import {onMounted, ref} from 'vue'
 import {ElMessage, ElMessageBox} from 'element-plus'
 import moment from 'moment'
 import {
-  listCluster,
+  listClusterName,
   listDatabase,
   listTable,
 } from '@/api/db/cluster'
@@ -184,17 +184,17 @@ const db = ref<clusterItem[]>([])
 const table = ref<clusterItem[]>([])
 
 const loadCluster = async () => {
-  const resp = await listCluster({page: 1, pageSize: 5})
+  const resp = await listClusterName(false)
   let result = []
   for (let cluster of resp.data.list) {
-    result.push({value: cluster.name, name: cluster.name})
+    result.push({value: cluster, name: cluster})
   }
 
   return result
 }
 
 const loadDB = async (cluster) => {
-  const resp = await listDatabase(cluster)
+  const resp = await listDatabase(cluster, true)
   let result = []
   for (let db of resp.data) {
     result.push({value: db, name: db})
