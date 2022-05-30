@@ -5,8 +5,7 @@ import (
 	"time"
 
 	jwt "github.com/dgrijalva/jwt-go"
-
-	"github.com/qingfeng777/owls/server/config"
+	"github.com/qingfeng777/owls/server/global"
 )
 
 func Login(userName, Pwd string) (string, error) {
@@ -24,7 +23,7 @@ type Claims struct {
 }
 
 func GenerateToken(username, password string) (string, error) {
-	expireTime := time.Now().Add(time.Duration(config.Conf.Login.TokenEffectiveHour) * time.Hour)
+	expireTime := time.Now().Add(time.Duration(global.GVA_CONFIG.Login.TokenEffectiveHour) * time.Hour)
 	claims := Claims{username, password,
 		jwt.StandardClaims{
 			ExpiresAt: expireTime.Unix(),
@@ -33,12 +32,12 @@ func GenerateToken(username, password string) (string, error) {
 	}
 	tokenClaims := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 
-	return tokenClaims.SignedString([]byte(config.Conf.Login.TokenSecret))
+	return tokenClaims.SignedString([]byte(global.GVA_CONFIG.Login.TokenSecret))
 }
 
 func ParseToken(token string) (*Claims, error) {
 	tokenClaims, err := jwt.ParseWithClaims(token, &Claims{}, func(token *jwt.Token) (interface{}, error) {
-		return []byte(config.Conf.Login.TokenSecret), nil
+		return []byte(global.GVA_CONFIG.Login.TokenSecret), nil
 	})
 	if err != nil {
 		return nil, err

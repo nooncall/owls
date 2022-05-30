@@ -2,13 +2,21 @@ package sql_util
 
 import (
 	"fmt"
-	"github.com/qingfeng777/owls/server/service/tidb_or_mysql"
 	"reflect"
 	"testing"
+
+	"github.com/qingfeng777/owls/server/core"
+	"github.com/qingfeng777/owls/server/global"
+	"github.com/qingfeng777/owls/server/utils/logger"
 )
 
+func initConfigLog() {
+	global.GVA_VP = core.Viper() // 初始化Viper
+	logger.InitLog(global.GVA_CONFIG.DBFilter.LogDir, "test.log", "debug")
+}
+
 func TestGetUpdateColumn(t *testing.T) {
-	tidb_or_mysql.InitConfigLog()
+	initConfigLog()
 
 	type data struct {
 		origin string
@@ -51,7 +59,7 @@ func TestGetUpdateColumn(t *testing.T) {
 }
 
 func TestDeleteSpecifyCharAtHead(t *testing.T) {
-	tidb_or_mysql.InitConfigLog()
+	initConfigLog()
 
 	type data struct {
 		origin string
@@ -88,7 +96,7 @@ hello`,
 }
 
 func TestBuildDelRollBackSql(t *testing.T) {
-	tidb_or_mysql.InitConfigLog()
+	initConfigLog()
 
 	tableName := "auth"
 
@@ -129,7 +137,7 @@ func TestBuildDelRollBackSql(t *testing.T) {
 }
 
 func TestReplaceSpecifyChar(t *testing.T) {
-	tidb_or_mysql.InitConfigLog()
+	initConfigLog()
 
 	type data struct {
 		origin string
@@ -170,7 +178,7 @@ hello`,
 }
 
 func TestHandleKeyWordForCondition(t *testing.T) {
-	tidb_or_mysql.InitConfigLog()
+	initConfigLog()
 
 	type data struct {
 		origin string
@@ -205,7 +213,7 @@ func TestHandleKeyWordForCondition(t *testing.T) {
 }
 
 func TestGetCondition(t *testing.T) {
-	tidb_or_mysql.InitConfigLog()
+	initConfigLog()
 
 	type data struct {
 		origin string
@@ -236,7 +244,7 @@ func TestGetCondition(t *testing.T) {
 }
 
 func TestIsSubKey(t *testing.T) {
-	tidb_or_mysql.InitConfigLog()
+	initConfigLog()
 
 	type Key struct {
 		KeyS   string
