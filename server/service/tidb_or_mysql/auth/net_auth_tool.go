@@ -5,8 +5,6 @@ import (
 	"fmt"
 	"github.com/qingfeng777/owls/server/utils"
 	"net/http"
-
-	"github.com/qingfeng777/owls/server/config"
 )
 
 type NetAuthToolImpl struct {
@@ -33,9 +31,9 @@ type NetResp struct {
 func (NetAuthToolImpl) GetReviewer(userName string) (reviewerName string, err error) {
 	header := http.Header{}
 	header.Set("Content-Type", "application/json")
-	header.Set("Authorization", config.Conf.Role.Net.ReviewerAPIToken)
+	header.Set("Authorization", "not set")
 
-	respData, err := utils.DoHttpReq(http.MethodPost, config.Conf.Role.Net.ReviewerAPIAddress, fmt.Sprintf(getReviewParam, userName), header)
+	respData, err := utils.DoHttpReq(http.MethodPost, "", fmt.Sprintf(getReviewParam, userName), header)
 	if err != nil {
 		return "", err
 	}
@@ -55,9 +53,9 @@ var isDBAparam = `{"busiid":%d}`
 func (NetAuthToolImpl) IsDba(userName string) (isDba bool, err error) {
 	header := http.Header{}
 	header.Set("Content-Type", "application/json")
-	header.Set("Authorization", config.Conf.Role.Net.DBAAPIToken)
+	header.Set("Authorization", "")
 
-	resData, err := utils.DoHttpReq(http.MethodPost, config.Conf.Role.Net.DBAAPIAddress, fmt.Sprintf(isDBAparam, config.Conf.Role.Net.DBADepartmentID), header)
+	resData, err := utils.DoHttpReq(http.MethodPost, "", fmt.Sprintf(isDBAparam, ""), header)
 	if err != nil {
 		return false, err
 	}

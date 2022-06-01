@@ -1,7 +1,6 @@
 package injection
 
 import (
-	"github.com/qingfeng777/owls/server/config"
 	service "github.com/qingfeng777/owls/server/service/tidb_or_mysql"
 	"github.com/qingfeng777/owls/server/service/tidb_or_mysql/admin"
 	"github.com/qingfeng777/owls/server/service/tidb_or_mysql/auth"
@@ -24,7 +23,7 @@ func Injection() {
 	service.SetClock(service.RealClock{})
 	admin.SetAdminDao(dao.Admin)
 
-	switch config.Conf.Role.From {
+	switch "" { //todo, support auth tool;
 	case "conf":
 		task.SetAuthTools(auth.ConfAuthService)
 	case "net":

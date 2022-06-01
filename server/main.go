@@ -1,7 +1,6 @@
 package main
 
 import (
-	"github.com/qingfeng777/owls/server/config"
 	"github.com/qingfeng777/owls/server/core"
 	"github.com/qingfeng777/owls/server/global"
 	"github.com/qingfeng777/owls/server/initialize"
@@ -37,10 +36,9 @@ func main() {
 		defer db.Close()
 	}
 
-	// todo refactor to db
-	config.InitConfig("")
 	injection.Injection()
-	logger.InitLog(config.Conf.Server.LogDir, "owl.log", config.Conf.Server.LogLevel)
+	//todo, use one logger tool
+	logger.InitLog(global.GVA_CONFIG.DBFilter.LogDir, "owl.log", global.GVA_CONFIG.DBFilter.LogLevel)
 
 	core.RunWindowsServer()
 }

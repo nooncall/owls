@@ -5,8 +5,7 @@ import (
 	"sync"
 
 	ldap "github.com/jtblin/go-ldap-client"
-
-	"github.com/qingfeng777/owls/server/config"
+	"github.com/qingfeng777/owls/server/global"
 	"github.com/qingfeng777/owls/server/utils/logger"
 )
 
@@ -37,13 +36,14 @@ func getLdapConn() *ldap.LDAPClient {
 var once sync.Once
 
 func setLdapConn() {
+	login := global.GVA_CONFIG.Login
 	ldapConn = &ldap.LDAPClient{
-		Base:         config.Conf.Login.LDAP.BaseDN,
-		Host:         config.Conf.Login.LDAP.Host,
-		Port:         config.Conf.Login.LDAP.Port,
-		UseSSL:       config.Conf.Login.LDAP.UseSSL,
-		BindDN:       config.Conf.Login.LDAP.BindDN,
-		BindPassword: config.Conf.Login.LDAP.BindPwd,
+		Base:         login.Ldap.BaseDn,
+		Host:         login.Ldap.Host,
+		Port:         login.Ldap.Port,
+		UseSSL:       login.Ldap.UseSll,
+		BindDN:       login.Ldap.BaseDn,
+		BindPassword: login.Ldap.BindPwd,
 		UserFilter:   "(uid=%s)",
 		GroupFilter:  "(memberUid=%s)",
 		Attributes:   []string{"givenName", "sn", "mail", "uid"},

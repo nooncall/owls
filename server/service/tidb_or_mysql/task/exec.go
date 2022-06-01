@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/qingfeng777/owls/server/config"
+	"github.com/qingfeng777/owls/server/global"
 	"github.com/qingfeng777/owls/server/utils/logger"
 )
 
@@ -121,7 +121,7 @@ func BackupAndExec(db *sql.DB, item *OwlExecItem, taskType string) error {
 			logger.Errorf("while backup failed, update item=%d backup status err, %s", item.ID, err.Error())
 		}
 
-		if !config.Conf.Server.ExecNoBackup {
+		if !global.GVA_CONFIG.DBFilter.ExecNoBackup {
 			return fmt.Errorf("backup err: %s", backupErr.Error())
 		}
 	}

@@ -6,7 +6,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/qingfeng777/owls/server/config"
+	"github.com/qingfeng777/owls/server/global"
 	"github.com/qingfeng777/owls/server/model/common/request"
 	"github.com/qingfeng777/owls/server/service/tidb_or_mysql/sql_util"
 )
@@ -140,8 +140,8 @@ func checkExecItemNum(task *OwlTask) error {
 			num++
 		}
 	}
-	if num > config.Conf.Server.NumOnceLimit {
-		return fmt.Errorf("exec too many sql once, sqlNum: %d, limit: %d", num, config.Conf.Server.NumOnceLimit)
+	if num > global.GVA_CONFIG.DBFilter.NumOnceLimit {
+		return fmt.Errorf("exec too many sql once, sqlNum: %d, limit: %d", num, global.GVA_CONFIG.DBFilter.NumOnceLimit)
 	}
 	return nil
 }

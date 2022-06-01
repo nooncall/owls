@@ -2,9 +2,6 @@ package tidb_or_mysql
 
 import (
 	"time"
-
-	"github.com/qingfeng777/owls/server/config"
-	"github.com/qingfeng777/owls/server/utils/logger"
 )
 
 type Pagination struct {
@@ -31,9 +28,3 @@ type RealClock struct{}
 func (RealClock) Now() time.Time                         { return time.Now() }
 func (RealClock) NowUnix() int64                         { return time.Now().Unix() }
 func (RealClock) After(d time.Duration) <-chan time.Time { return time.After(d) }
-
-// todo, maybe better place ?
-func InitConfigLog() {
-	logger.InitLog(".", "test.log", "debug")
-	config.InitConfig("../../config/config.yaml")
-}
