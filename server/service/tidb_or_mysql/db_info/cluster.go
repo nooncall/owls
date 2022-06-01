@@ -1,8 +1,10 @@
 package db_info
 
 import (
+	"gorm.io/gorm"
 	"time"
 
+	"github.com/qingfeng777/owls/server/global"
 	"github.com/qingfeng777/owls/server/model/common/request"
 	"github.com/qingfeng777/owls/server/service/auth/auth"
 	"github.com/qingfeng777/owls/server/service/tidb_or_mysql"
@@ -23,12 +25,12 @@ type OwlCluster struct {
 }
 
 type ClusterDao interface {
-	AddCluster(cluster *OwlCluster) (int64, error)
-	UpdateCluster(cluster *OwlCluster) error
-	DelCluster(id int64) error
-	GetClusterByName(clusterName string) (*OwlCluster, error)
-	ListCluster(pageInfo request.SortPageInfo) ([]OwlCluster, error)
-	ListAllCluster() ([]OwlCluster, error)
+	AddCluster(db *gorm.DB, cluster *OwlCluster) (int64, error)
+	UpdateCluster(db *gorm.DB, cluster *OwlCluster) error
+	DelCluster(db *gorm.DB, id int64) error
+	GetClusterByName(db *gorm.DB, clusterName string) (*OwlCluster, error)
+	ListCluster(db *gorm.DB, pageInfo request.SortPageInfo) ([]OwlCluster, error)
+	ListAllCluster(db *gorm.DB) ([]OwlCluster, error)
 }
 
 var clusterDao ClusterDao
@@ -45,7 +47,7 @@ func AddCluster(cluster *OwlCluster) (int64, error) {
 	cluster.Ct = time.Now().Unix()
 
 	cluster.Pwd = utils.StringifyByteDirectly(cryptoData)
-	return clusterDao.AddCluster(cluster)
+	return clusterDao.AddCluster(global.GetDB(), cluster)
 }
 
 func UpdateCluster(cluster *OwlCluster) error {
@@ -63,15 +65,15 @@ func UpdateCluster(cluster *OwlCluster) error {
 	}
 	cluster.Ut = tidb_or_mysql.Clock.NowUnix()
 
-	return clusterDao.UpdateCluster(cluster)
+	return clusterDao.UpdateCluster(global.GetDB(), cluster)
 }
 
 func DelCluster(id int64) error {
-	return clusterDao.DelCluster(id)
+	return clusterDao.DelCluster(global.GetDB(), id)
 }
 
 func GetClusterByName(name string) (*OwlCluster, error) {
-	cluster, err := clusterDao.GetClusterByName(name)
+	cluster, err := clusterDao.GetClusterByName(global.GetDB(), name)
 	if err != nil {
 		return nil, err
 	}
@@ -85,7 +87,7 @@ func GetClusterByName(name string) (*OwlCluster, error) {
 }
 
 func ListCluster(pageInfo request.SortPageInfo) ([]OwlCluster, error) {
-	return clusterDao.ListCluster(pageInfo)
+	return clusterDao.ListCluster(global.GetDB(), pageInfo)
 }
 
 const pwdReplace = "******"
@@ -103,7 +105,7 @@ func ListClusterForUI(pageInfo request.SortPageInfo) ([]OwlCluster, error) {
 }
 
 func ListClusterName(userId uint, filter bool) ([]string, error) {
-	clusters, err := clusterDao.ListAllCluster()
+	clusters, err := clusterDao.ListAllCluster(global.GetDB())
 	if err != nil {
 		return nil, err
 	}

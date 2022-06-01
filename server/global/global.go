@@ -49,3 +49,8 @@ func MustGetGlobalDBByDBName(dbname string) *gorm.DB {
 	}
 	return db
 }
+
+func GetDB() *gorm.DB {
+	// todo, set debug configurable
+	return GVA_DB.Debug()
+}

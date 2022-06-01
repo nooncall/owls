@@ -1,6 +1,8 @@
 package dao
 
 import (
+	"gorm.io/gorm"
+
 	"github.com/qingfeng777/owls/server/model/common/request"
 	"github.com/qingfeng777/owls/server/service/tidb_or_mysql/db_info"
 	"github.com/qingfeng777/owls/server/utils"
@@ -11,29 +13,29 @@ type ClusterImpl struct {
 
 var Cluster ClusterImpl
 
-func (ClusterImpl) AddCluster(cluster *db_info.OwlCluster) (int64, error) {
-	err := GetDB().Create(cluster).Error
+func (ClusterImpl) AddCluster(db *gorm.DB, cluster *db_info.OwlCluster) (int64, error) {
+	err := db.Create(cluster).Error
 	return cluster.ID, err
 }
 
-func (ClusterImpl) UpdateCluster(cluster *db_info.OwlCluster) error {
-	return GetDB().Model(cluster).Where("id = ?", cluster.ID).Updates(cluster).Error
+func (ClusterImpl) UpdateCluster(db *gorm.DB, cluster *db_info.OwlCluster) error {
+	return db.Model(cluster).Where("id = ?", cluster.ID).Updates(cluster).Error
 }
 
-func (ClusterImpl) DelCluster(id int64) error {
-	return GetDB().Where("id = ?", id).Delete(&db_info.OwlCluster{}).Error
+func (ClusterImpl) DelCluster(db *gorm.DB, id int64) error {
+	return db.Where("id = ?", id).Delete(&db_info.OwlCluster{}).Error
 }
 
-func (ClusterImpl) GetClusterByName(name string) (*db_info.OwlCluster, error) {
+func (ClusterImpl) GetClusterByName(db *gorm.DB, name string) (*db_info.OwlCluster, error) {
 	var cluster db_info.OwlCluster
-	return &cluster, GetDB().First(&cluster, "name = ?", name).Error
+	return &cluster, db.First(&cluster, "name = ?", name).Error
 }
 
-func (ClusterImpl) ListCluster(info request.SortPageInfo) ([]db_info.OwlCluster, error) {
+func (ClusterImpl) ListCluster(db *gorm.DB, info request.SortPageInfo) ([]db_info.OwlCluster, error) {
 	limit := info.PageSize
 	offset := info.PageSize * (info.Page - 1)
 
-	db := GetDB().Offset(offset).Limit(limit)
+	db = db.Offset(offset).Limit(limit)
 	if info.OrderKey != "" {
 		db = db.Order(utils.GenerateOrderField(info.OrderKey, info.Desc))
 	}
@@ -47,7 +49,7 @@ func (ClusterImpl) ListCluster(info request.SortPageInfo) ([]db_info.OwlCluster,
 	return clusters, db.Find(&clusters).Error
 }
 
-func (ClusterImpl) ListAllCluster() ([]db_info.OwlCluster, error) {
+func (ClusterImpl) ListAllCluster(db *gorm.DB) ([]db_info.OwlCluster, error) {
 	var clusters []db_info.OwlCluster
-	return clusters, GetDB().Find(&clusters).Error
+	return clusters, db.Find(&clusters).Error
 }
