@@ -46,3 +46,8 @@ func (ClusterImpl) ListCluster(info request.SortPageInfo) ([]db_info.OwlCluster,
 	var clusters []db_info.OwlCluster
 	return clusters, db.Find(&clusters).Error
 }
+
+func (ClusterImpl) ListAllCluster() ([]db_info.OwlCluster, error) {
+	var clusters []db_info.OwlCluster
+	return clusters, GetDB().Find(&clusters).Error
+}

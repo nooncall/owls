@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"fmt"
 
+	"github.com/qingfeng777/owls/server/service/auth/auth"
 	"github.com/qingfeng777/owls/server/service/tidb_or_mysql/task"
 )
 
@@ -36,22 +37,25 @@ func (DBInfoTool) GetDBConn(dbName, clusterName string) (*task.DBInfo, error) {
 }
 
 // return dbs and mapping cluster
-func ListDB(clusterName string) ([]string, error) {
+func ListDB(clusterName string, userId uint, filter bool) ([]string, error) {
 	cluster, err := GetClusterByName(clusterName)
 	if err != nil {
 		return nil, err
 	}
 
-	return listDB(cluster)
-}
-
-func listDB(cluster *OwlCluster) ([]string, error) {
-	/*deCryptoData, err := utils.AesDeCrypto(utils.ParseStringedByte(cluster.Pwd))
-	if err != nil {
+	dbs, err :=  listDB(cluster)
+	if err != nil{
 		return nil, err
 	}
 
-	cluster.Pwd = fmt.Sprintf("%s", deCryptoData)*/
+	if !filter{
+		return  dbs, nil
+	}
+
+	return auth.FilterDB(dbs, userId, auth.DB, cluster.Name), nil
+}
+
+func listDB(cluster *OwlCluster) ([]string, error) {
 	conn, err := sql.Open("mysql",
 		fmt.Sprintf("%s:%s@tcp(%s)/%s?charset=utf8", cluster.User, cluster.Pwd, cluster.Addr, defaultDBName))
 	if err != nil {
@@ -73,6 +77,7 @@ func listDB(cluster *OwlCluster) ([]string, error) {
 		}
 		dbs = append(dbs, dbName)
 	}
+
 	return dbs, nil
 }
 

@@ -72,3 +72,14 @@ func (authDaoImpl) GetAuth(id int64) (*Auth, error) {
 	var AuthTask Auth
 	return &AuthTask, GetDB().First(&AuthTask, "id = ?", id).Error
 }
+
+func (authDaoImpl) ListAuthForFilter(userId uint, status, dataType string) ([]Auth, error) {
+	db := GetDB().Where("user_id = ? and status = ? and data_type = ?",userId, status, dataType)
+
+	var authTasks []Auth
+	if err := db.Find(&authTasks).Error; err != nil {
+		return nil, err
+	}
+
+	return authTasks, nil
+}

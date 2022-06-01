@@ -8,12 +8,6 @@ type AuthAble interface {
 	GetManagers() []string
 }
 
-const (
-	StatusCancelApply = "cancel_apply"
-	StatusPass        = "paas"
-	StatusReject      = "reject"
-)
-
 type Auth struct {
 	ID       int64  `json:"id" gorm:"column:id"`
 	UserId   uint   `json:"user_id" gorm:"user_id"`

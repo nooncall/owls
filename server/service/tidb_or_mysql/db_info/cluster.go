@@ -4,6 +4,7 @@ import (
 	"time"
 
 	"github.com/qingfeng777/owls/server/model/common/request"
+	"github.com/qingfeng777/owls/server/service/auth/auth"
 	"github.com/qingfeng777/owls/server/service/tidb_or_mysql"
 	"github.com/qingfeng777/owls/server/utils"
 )
@@ -27,6 +28,7 @@ type ClusterDao interface {
 	DelCluster(id int64) error
 	GetClusterByName(clusterName string) (*OwlCluster, error)
 	ListCluster(pageInfo request.SortPageInfo) ([]OwlCluster, error)
+	ListAllCluster() ([]OwlCluster, error)
 }
 
 var clusterDao ClusterDao
@@ -98,4 +100,22 @@ func ListClusterForUI(pageInfo request.SortPageInfo) ([]OwlCluster, error) {
 		clusters[i].Pwd = pwdReplace
 	}
 	return clusters, nil
+}
+
+func ListClusterName(userId uint, filter bool) ([]string, error) {
+	clusters, err := clusterDao.ListAllCluster()
+	if err != nil {
+		return nil, err
+	}
+
+	var result []string
+	for _, v := range clusters {
+		result = append(result, v.Name)
+	}
+
+	if !filter{
+		return result, nil
+	}
+
+	return auth.FilterCluster(result, userId, auth.DB), nil
 }

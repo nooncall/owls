@@ -126,7 +126,7 @@ const dialogTitle = ref('新增')
 const dialogFormVisible = ref(false)
 const editDialogFormVisible = ref(false)
 const taskType = "auth"
-const dataType = "TidbOrMysql"
+const dataType = "db"
 
 const apis = ref([])
 const form = ref({

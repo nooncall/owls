@@ -17,13 +17,25 @@ type ClusterApi struct{}
 func (clusterApi *ClusterApi) ListDB(ctx *gin.Context) {
 	f := "listDB()-->"
 
+	var filter bool
+	filterStr := ctx.Query("filter")
+	if filterStr == "true"{
+		filter = true
+	}
+
 	cluster := ctx.Query("cluster")
 	if cluster == "" {
 		response.FailWithMessage("need cluster param: cluster name", ctx)
 		return
 	}
 
-	dbInfo, err := db_info.ListDB(cluster)
+	claims, err := utils.GetClaims(ctx)
+	if err != nil {
+		response.FailWithMessage("get user err: "+err.Error(), ctx)
+		return
+	}
+
+	dbInfo, err := db_info.ListDB(cluster, claims.ID, filter)
 	if err != nil {
 		response.FailWithMessage(fmt.Sprintf("%s,list db failed :%s ", f, err.Error()), ctx)
 		return
@@ -46,13 +58,13 @@ func (clusterApi *ClusterApi) ListTable(ctx *gin.Context) {
 		return
 	}
 
-	dbInfo, err := db_info.ListTable(cluster, db)
+	table, err := db_info.ListTable(cluster, db)
 	if err != nil {
 		response.FailWithMessage(fmt.Sprintf("%s,list table failed :%s ", f, err.Error()), ctx)
 		return
 	}
 
-	response.OkWithData(dbInfo, ctx)
+	response.OkWithData(table, ctx)
 }
 
 func (clusterApi *ClusterApi) ListCluster(ctx *gin.Context) {
@@ -79,6 +91,30 @@ func (clusterApi *ClusterApi) ListCluster(ctx *gin.Context) {
 		Page:     pageInfo.Page,
 		PageSize: pageInfo.PageSize,
 	}, ctx)
+}
+
+func (clusterApi *ClusterApi) ListClusterName(ctx *gin.Context) {
+	f := "ListClusterName()-->"
+
+	var filter bool
+	filterStr := ctx.Query("filter")
+	if filterStr == "true"{
+		filter = true
+	}
+
+	claims, err := utils.GetClaims(ctx)
+	if err != nil {
+		response.FailWithMessage("get user err: "+err.Error(), ctx)
+		return
+	}
+
+	clusters, err := db_info.ListClusterName(claims.ID, filter)
+	if err != nil {
+		response.FailWithMessage(fmt.Sprintf("%s,list cluster failed :%s ", f, err.Error()), ctx)
+		return
+	}
+
+	response.OkWithData(clusters, ctx)
 }
 
 func (clusterApi *ClusterApi) AddCluster(ctx *gin.Context) {

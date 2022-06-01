@@ -44,6 +44,7 @@ func (s *TidbOrMysqlRouter) InitApiRouter(Router *gin.RouterGroup) {
 		apiRouter.PUT("/cluster", clusterApi.UpdateCluster)
 		apiRouter.DELETE("/cluster", clusterApi.DelCluster)
 		apiRouter.POST("/cluster/list", clusterApi.ListCluster)
+		apiRouter.GET("/cluster/name/list", clusterApi.ListClusterName)
 		apiRouter.GET("/cluster/db/list", clusterApi.ListDB)
 		apiRouter.GET("/cluster/table/list", clusterApi.ListTable)
 	}
