@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"fmt"
 
+	"github.com/qingfeng777/owls/server/global"
 	"github.com/qingfeng777/owls/server/service/auth/auth"
 	"github.com/qingfeng777/owls/server/service/tidb_or_mysql/task"
 )
@@ -48,7 +49,7 @@ func ListDB(clusterName string, userId uint, filter bool) ([]string, error) {
 		return nil, err
 	}
 
-	if !filter{
+	if !filter || !global.GVA_CONFIG.DBFilter.ReadNeedAuth{
 		return  dbs, nil
 	}
 

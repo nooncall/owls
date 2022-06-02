@@ -115,7 +115,7 @@ func ListClusterName(userId uint, filter bool) ([]string, error) {
 		result = append(result, v.Name)
 	}
 
-	if !filter{
+	if !filter || !global.GVA_CONFIG.DBFilter.ReadNeedAuth{
 		return result, nil
 	}
 

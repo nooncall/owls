@@ -55,6 +55,6 @@ type DBFilter struct {
 	ExecNoBackup bool     `json:"exec_no_backup"`
 	AesKey       string   `json:"aes_key"`
 	AesIv        string   `json:"aes_iv"`
-	ShowSql      bool     `json:"show_sql"`
 	Reviewers    []string `json:"reviewers"`
+	ReadNeedAuth bool     `json:"read_need_auth"`
 }
