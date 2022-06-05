@@ -51,6 +51,9 @@ func MustGetGlobalDBByDBName(dbname string) *gorm.DB {
 }
 
 func GetDB() *gorm.DB {
-	// todo, set debug configurable
-	return GVA_DB.Debug()
+	if GVA_CONFIG.System.ShowSql{
+		return GVA_DB.Debug()
+	}
+
+	return GVA_DB
 }

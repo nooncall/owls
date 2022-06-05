@@ -125,7 +125,7 @@ import { useUserStore } from '@/pinia/modules/user'
 const router = useRouter()
 // 验证函数
 const checkUsername = (rule, value, callback) => {
-  if (value.length < 5) {
+  if (value.length < 3) {
     return callback(new Error('请输入正确的用户名'))
   } else {
     callback()

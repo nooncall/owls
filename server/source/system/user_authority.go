@@ -19,9 +19,8 @@ func (a *userAuthority) TableName() string {
 func (a *userAuthority) Initialize() error {
 	entities := []system.SysUseAuthority{
 		{SysUserId: 1, SysAuthorityAuthorityId: "888"},
-		{SysUserId: 1, SysAuthorityAuthorityId: "8881"},
-		{SysUserId: 1, SysAuthorityAuthorityId: "9528"},
-		{SysUserId: 2, SysAuthorityAuthorityId: "888"},
+		{SysUserId: 2, SysAuthorityAuthorityId: "887"},
+		{SysUserId: 3, SysAuthorityAuthorityId: "886"},
 	}
 	if err := global.GVA_DB.Create(&entities).Error; err != nil {
 		return errors.Wrap(err, a.TableName()+"表数据初始化失败!")

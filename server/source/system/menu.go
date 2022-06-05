@@ -52,7 +52,7 @@ func (m *menu) Initialize() error {
 		{GVA_MODEL: global.GVA_MODEL{ID: 32}, MenuLevel: 0, Hidden: false, ParentId: "26", Path: "TaskHistory", Name: "TaskHistory", Component: "view/tidbOrMysql/history/history.vue", Sort: 5, Meta: system.Meta{Title: "历史任务", Icon: "message-box"}},
 		{GVA_MODEL: global.GVA_MODEL{ID: 33}, MenuLevel: 0, Hidden: false, ParentId: "26", Path: "Read", Name: "Read", Component: "view/tidbOrMysql/read.vue", Sort: 0, Meta: system.Meta{Title: "数据读取", Icon: "search"}},
 
-		{GVA_MODEL: global.GVA_MODEL{ID: 34}, MenuLevel: 0, Hidden: false, ParentId: "0", Path: "auth", Name: "auth", Component: "view/auth/auths.vue", Sort: 2, Meta: system.Meta{Title: "权限", Icon: "view"}},
+		{GVA_MODEL: global.GVA_MODEL{ID: 34}, MenuLevel: 0, Hidden: false, ParentId: "0", Path: "auth", Name: "auth", Component: "view/auth/apply.vue", Sort: 2, Meta: system.Meta{Title: "权限", Icon: "view"}},
 		{GVA_MODEL: global.GVA_MODEL{ID: 35}, MenuLevel: 0, Hidden: false, ParentId: "34", Path: "apply", Name: "apply", Component: "view/auth/apply.vue", Sort: 1, Meta: system.Meta{Title: "申请", Icon: "zoom-in"}},
 		{GVA_MODEL: global.GVA_MODEL{ID: 36}, MenuLevel: 0, Hidden: false, ParentId: "34", Path: "approval", Name: "approval", Component: "view/auth/approval.vue", Sort: 2, Meta: system.Meta{Title: "审批", Icon: "ship"}},
 		{GVA_MODEL: global.GVA_MODEL{ID: 37}, MenuLevel: 0, Hidden: false, ParentId: "34", Path: "auths", Name: "auths", Component: "view/auth/auths.vue", Sort: 3, Meta: system.Meta{Title: "权限", Icon: "view"}},

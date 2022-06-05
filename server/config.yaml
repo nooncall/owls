@@ -47,6 +47,7 @@ system:
   iplimit-count: 15000
   #  IP限制一个小时
   iplimit-time: 3600
+  show_sql: true
 
 # captcha configuration
 captcha:
@@ -201,14 +202,14 @@ cors:
       expose-headers: Content-Length, Access-Control-Allow-Origin, Access-Control-Allow-Headers, Content-Type
       allow-credentials: true # 布尔值
 
-db_filter:
-  log_level: "debug" # debug, info, warning, error
-  log_dir: "./"
-  num_once_limit: 100
-  exec_no_backup: false # 备份失败是否继续执行
-  aes_key: "l02mx893j3283445"
-  aes_iv: "08783ksu3k390dj3" # length same to ase_key; 16
-  show_sql: true
+db-filter:
+  log-level: "debug" # debug, info, warning, error
+  log-dir: "./"
+  num-once-limit: 100
+  exec-no-backup: false # 备份失败是否继续执行
+  aes-key: "l02mx893j3283445"
+  aes-iv: "08783ksu3k390dj3" # length same to ase_key; 16
+  read-need-auth: false
   reviewers:
     - "zhangdashu"
     - "wangdazhang"
@@ -217,11 +218,11 @@ login:
   ldap:
     host: "ldap.pri.ibanyu.com"
     port: 389
-    base_dn: "dc=ipalfish,dc=com"
-    use_ssl: false
-    bind_dn: "cn=Manager,dc=ipalfish,dc=com"
-    bind_pwd: "Ccjsj1200"
-  login_path: "http://baidu.com"
-  token_secret: "ipalfish-db-injection-c362ef0dce45bb48b8f400e34b74c37b"
-  token_effective_hour: 1
+    base-dn: "dc=ipalfish,dc=com"
+    use-ssl: false
+    bind-dn: "cn=Manager,dc=ipalfish,dc=com"
+    bind-pwd: "Ccjsj1200"
+  login-path: "http://baidu.com"
+  token-secret: "ipalfish-db-injection-c362ef0dce45bb48b8f400e34b74c37b"
+  token-effective_hour: 1
 
