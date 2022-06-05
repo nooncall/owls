@@ -21,6 +21,7 @@ func (a *authoritiesMenus) TableName() string {
 
 func (a *authoritiesMenus) Initialize() error {
 	entities := []AuthorityMenus{
+		// developer, all menu
 		{BaseMenuId: 1, AuthorityId: "888"},
 		{BaseMenuId: 2, AuthorityId: "888"},
 		{BaseMenuId: 3, AuthorityId: "888"},
@@ -58,26 +59,43 @@ func (a *authoritiesMenus) Initialize() error {
 		{BaseMenuId: 36, AuthorityId: "888"},
 		{BaseMenuId: 37, AuthorityId: "888"},
 
-		{BaseMenuId: 1, AuthorityId: "8881"},
-		{BaseMenuId: 2, AuthorityId: "8881"},
-		{BaseMenuId: 8, AuthorityId: "8881"},
+		//admin
+		{BaseMenuId: 1, AuthorityId: "887"},
+		{BaseMenuId: 2, AuthorityId: "887"},
+		{BaseMenuId: 3, AuthorityId: "887"},
+		{BaseMenuId: 4, AuthorityId: "887"},
+		{BaseMenuId: 7, AuthorityId: "887"},
+		{BaseMenuId: 8, AuthorityId: "887"},
+		{BaseMenuId: 20, AuthorityId: "887"},
+		{BaseMenuId: 22, AuthorityId: "887"},
+		{BaseMenuId: 23, AuthorityId: "887"},
+		{BaseMenuId: 26, AuthorityId: "887"},
+		{BaseMenuId: 27, AuthorityId: "887"},
+		{BaseMenuId: 28, AuthorityId: "887"},
+		{BaseMenuId: 29, AuthorityId: "887"},
+		{BaseMenuId: 30, AuthorityId: "887"},
+		{BaseMenuId: 31, AuthorityId: "887"},
+		{BaseMenuId: 32, AuthorityId: "887"},
+		{BaseMenuId: 33, AuthorityId: "887"},
+		{BaseMenuId: 34, AuthorityId: "887"},
+		{BaseMenuId: 35, AuthorityId: "887"},
+		{BaseMenuId: 36, AuthorityId: "887"},
+		{BaseMenuId: 37, AuthorityId: "887"},
 
-		{BaseMenuId: 1, AuthorityId: "9528"},
-		{BaseMenuId: 2, AuthorityId: "9528"},
-		{BaseMenuId: 3, AuthorityId: "9528"},
-		{BaseMenuId: 4, AuthorityId: "9528"},
-		{BaseMenuId: 5, AuthorityId: "9528"},
-		{BaseMenuId: 6, AuthorityId: "9528"},
-		{BaseMenuId: 7, AuthorityId: "9528"},
-		{BaseMenuId: 8, AuthorityId: "9528"},
-		{BaseMenuId: 9, AuthorityId: "9528"},
-		{BaseMenuId: 10, AuthorityId: "9528"},
-		{BaseMenuId: 11, AuthorityId: "9528"},
-		{BaseMenuId: 12, AuthorityId: "9528"},
-		{BaseMenuId: 14, AuthorityId: "9528"},
-		{BaseMenuId: 15, AuthorityId: "9528"},
-		{BaseMenuId: 16, AuthorityId: "9528"},
-		{BaseMenuId: 17, AuthorityId: "9528"},
+		// user
+		{BaseMenuId: 1, AuthorityId: "886"},
+		{BaseMenuId: 2, AuthorityId: "886"},
+		{BaseMenuId: 8, AuthorityId: "886"},
+		{BaseMenuId: 20, AuthorityId: "886"},
+		{BaseMenuId: 22, AuthorityId: "886"},
+		{BaseMenuId: 23, AuthorityId: "886"},
+		{BaseMenuId: 26, AuthorityId: "886"},
+		{BaseMenuId: 28, AuthorityId: "886"},
+		{BaseMenuId: 30, AuthorityId: "886"},
+		{BaseMenuId: 32, AuthorityId: "886"},
+		{BaseMenuId: 33, AuthorityId: "886"},
+		{BaseMenuId: 34, AuthorityId: "886"},
+		{BaseMenuId: 35, AuthorityId: "886"},
 	}
 	if err := global.GVA_DB.Create(&entities).Error; err != nil {
 		return errors.Wrap(err, a.TableName()+"表数据初始化失败!")
@@ -86,7 +104,7 @@ func (a *authoritiesMenus) Initialize() error {
 }
 
 func (a *authoritiesMenus) CheckDataExist() bool {
-	if errors.Is(global.GVA_DB.Where("sys_base_menu_id = ? AND sys_authority_authority_id = ?", 17, "9528").First(&AuthorityMenus{}).Error, gorm.ErrRecordNotFound) { // 判断是否存在数据
+	if errors.Is(global.GVA_DB.Where("sys_base_menu_id = ? AND sys_authority_authority_id = ?", 17, "888").First(&AuthorityMenus{}).Error, gorm.ErrRecordNotFound) { // 判断是否存在数据
 		return false
 	}
 	return true

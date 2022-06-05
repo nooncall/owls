@@ -28,33 +28,33 @@ type Server struct {
 	// 跨域配置
 	Cors CORS `mapstructure:"cors" json:"cors" yaml:"cors"`
 
-	DBFilter DBFilter `mapstructure:"db_filter" json:"db_filter" yaml:"db_filter"`
+	DBFilter DBFilter `mapstructure:"db-filter" json:"db-filter" yaml:"db-filter"`
 
 	Login Login `mapstructure:"login" json:"login" yaml:"login"`
 }
 
 type Login struct {
 	Ldap struct {
-		Host    string `json:"host"`
-		Port    int    `json:"port"`
-		BaseDn  string `json:"base_dn"`
-		UseSll  bool   `json:"use_sll"`
-		BindPwd string `json:"bind_pwd"`
-		BindDn  string `json:"bind_dn"`
-	}
+		Host    string `mapstructure:"host"`
+		Port    int    `mapstructure:"port"`
+		BaseDn  string `mapstructure:"base-dn"`
+		UseSll  bool   `mapstructure:"use-sll"`
+		BindPwd string `mapstructure:"bind-pwd"`
+		BindDn  string `mapstructure:"bind-dn"`
+	} `yaml:ldap`
 
-	LoginPath          string `json:"login_path"`
-	TokenSecret        string `json:"token_secret"`
-	TokenEffectiveHour int    `json:"token_effective_hour"`
+	LoginPath          string `mapstructure:"login-path"`
+	TokenSecret        string `mapstructure:"token-secret"`
+	TokenEffectiveHour int    `mapstructure:"token-effective-hour"`
 }
 
 type DBFilter struct {
-	LogLevel     string   `json:"log_level"`
-	LogDir       string   `json:"log_dir"`
-	NumOnceLimit int      `json:"num_once_limit"`
-	ExecNoBackup bool     `json:"exec_no_backup"`
-	AesKey       string   `json:"aes_key"`
-	AesIv        string   `json:"aes_iv"`
-	Reviewers    []string `json:"reviewers"`
-	ReadNeedAuth bool     `json:"read_need_auth"`
+	LogLevel     string   `mapstructure:"log-level"`
+	LogDir       string   `mapstructure:"log-dir"`
+	NumOnceLimit int      `mapstructure:"num-once-limit"`
+	ExecNoBackup bool     `mapstructure:"exec-no-backup"`
+	AesKey       string   `mapstructure:"aes-key"` //初始化全是空的
+	AesIv        string   `mapstructure:"aes-iv"`
+	Reviewers    []string `mapstructure:"reviewers"`
+	ReadNeedAuth bool     `mapstructure:"read-need-auth"`
 }

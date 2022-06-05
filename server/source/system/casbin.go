@@ -123,88 +123,7 @@ func (c *casbin) Initialize() error {
 		{PType: "p", V0: "888", V1: "/authorityBtn/setAuthorityBtn", V2: "POST"},
 		{PType: "p", V0: "888", V1: "/authorityBtn/getAuthorityBtn", V2: "POST"},
 		{PType: "p", V0: "888", V1: "/authorityBtn/canRemoveAuthorityBtn", V2: "POST"},
-
-		{PType: "p", V0: "8881", V1: "/base/login", V2: "POST"},
-		{PType: "p", V0: "8881", V1: "/user/admin_register", V2: "POST"},
-		{PType: "p", V0: "8881", V1: "/api/createApi", V2: "POST"},
-		{PType: "p", V0: "8881", V1: "/api/getApiList", V2: "POST"},
-		{PType: "p", V0: "8881", V1: "/api/getApiById", V2: "POST"},
-		{PType: "p", V0: "8881", V1: "/api/deleteApi", V2: "POST"},
-		{PType: "p", V0: "8881", V1: "/api/updateApi", V2: "POST"},
-		{PType: "p", V0: "8881", V1: "/api/getAllApis", V2: "POST"},
-		{PType: "p", V0: "8881", V1: "/authority/createAuthority", V2: "POST"},
-		{PType: "p", V0: "8881", V1: "/authority/deleteAuthority", V2: "POST"},
-		{PType: "p", V0: "8881", V1: "/authority/getAuthorityList", V2: "POST"},
-		{PType: "p", V0: "8881", V1: "/authority/setDataAuthority", V2: "POST"},
-		{PType: "p", V0: "8881", V1: "/menu/getMenu", V2: "POST"},
-		{PType: "p", V0: "8881", V1: "/menu/getMenuList", V2: "POST"},
-		{PType: "p", V0: "8881", V1: "/menu/addBaseMenu", V2: "POST"},
-		{PType: "p", V0: "8881", V1: "/menu/getBaseMenuTree", V2: "POST"},
-		{PType: "p", V0: "8881", V1: "/menu/addMenuAuthority", V2: "POST"},
-		{PType: "p", V0: "8881", V1: "/menu/getMenuAuthority", V2: "POST"},
-		{PType: "p", V0: "8881", V1: "/menu/deleteBaseMenu", V2: "POST"},
-		{PType: "p", V0: "8881", V1: "/menu/updateBaseMenu", V2: "POST"},
-		{PType: "p", V0: "8881", V1: "/menu/getBaseMenuById", V2: "POST"},
-		{PType: "p", V0: "8881", V1: "/user/changePassword", V2: "POST"},
-		{PType: "p", V0: "8881", V1: "/user/getUserList", V2: "POST"},
-		{PType: "p", V0: "8881", V1: "/user/setUserAuthority", V2: "POST"},
-		{PType: "p", V0: "8881", V1: "/fileUploadAndDownload/upload", V2: "POST"},
-		{PType: "p", V0: "8881", V1: "/fileUploadAndDownload/getFileList", V2: "POST"},
-		{PType: "p", V0: "8881", V1: "/fileUploadAndDownload/deleteFile", V2: "POST"},
-		{PType: "p", V0: "8881", V1: "/casbin/updateCasbin", V2: "POST"},
-		{PType: "p", V0: "8881", V1: "/casbin/getPolicyPathByAuthorityId", V2: "POST"},
-		{PType: "p", V0: "8881", V1: "/jwt/jsonInBlacklist", V2: "POST"},
-		{PType: "p", V0: "8881", V1: "/system/getSystemConfig", V2: "POST"},
-		{PType: "p", V0: "8881", V1: "/system/setSystemConfig", V2: "POST"},
-		{PType: "p", V0: "8881", V1: "/customer/customer", V2: "POST"},
-		{PType: "p", V0: "8881", V1: "/customer/customer", V2: "PUT"},
-		{PType: "p", V0: "8881", V1: "/customer/customer", V2: "DELETE"},
-		{PType: "p", V0: "8881", V1: "/customer/customer", V2: "GET"},
-		{PType: "p", V0: "8881", V1: "/customer/customerList", V2: "GET"},
-		{PType: "p", V0: "8881", V1: "/user/getUserInfo", V2: "GET"},
-
-		{PType: "p", V0: "9528", V1: "/base/login", V2: "POST"},
-		{PType: "p", V0: "9528", V1: "/user/admin_register", V2: "POST"},
-		{PType: "p", V0: "9528", V1: "/api/createApi", V2: "POST"},
-		{PType: "p", V0: "9528", V1: "/api/getApiList", V2: "POST"},
-		{PType: "p", V0: "9528", V1: "/api/getApiById", V2: "POST"},
-		{PType: "p", V0: "9528", V1: "/api/deleteApi", V2: "POST"},
-		{PType: "p", V0: "9528", V1: "/api/updateApi", V2: "POST"},
-		{PType: "p", V0: "9528", V1: "/api/getAllApis", V2: "POST"},
-
-		{PType: "p", V0: "9528", V1: "/authority/createAuthority", V2: "POST"},
-		{PType: "p", V0: "9528", V1: "/authority/deleteAuthority", V2: "POST"},
-		{PType: "p", V0: "9528", V1: "/authority/getAuthorityList", V2: "POST"},
-		{PType: "p", V0: "9528", V1: "/authority/setDataAuthority", V2: "POST"},
-
-		{PType: "p", V0: "9528", V1: "/menu/getMenu", V2: "POST"},
-		{PType: "p", V0: "9528", V1: "/menu/getMenuList", V2: "POST"},
-		{PType: "p", V0: "9528", V1: "/menu/addBaseMenu", V2: "POST"},
-		{PType: "p", V0: "9528", V1: "/menu/getBaseMenuTree", V2: "POST"},
-		{PType: "p", V0: "9528", V1: "/menu/addMenuAuthority", V2: "POST"},
-		{PType: "p", V0: "9528", V1: "/menu/getMenuAuthority", V2: "POST"},
-		{PType: "p", V0: "9528", V1: "/menu/deleteBaseMenu", V2: "POST"},
-		{PType: "p", V0: "9528", V1: "/menu/updateBaseMenu", V2: "POST"},
-		{PType: "p", V0: "9528", V1: "/menu/getBaseMenuById", V2: "POST"},
-		{PType: "p", V0: "9528", V1: "/user/changePassword", V2: "POST"},
-		{PType: "p", V0: "9528", V1: "/user/getUserList", V2: "POST"},
-		{PType: "p", V0: "9528", V1: "/user/setUserAuthority", V2: "POST"},
-		{PType: "p", V0: "9528", V1: "/fileUploadAndDownload/upload", V2: "POST"},
-		{PType: "p", V0: "9528", V1: "/fileUploadAndDownload/getFileList", V2: "POST"},
-		{PType: "p", V0: "9528", V1: "/fileUploadAndDownload/deleteFile", V2: "POST"},
-		{PType: "p", V0: "9528", V1: "/casbin/updateCasbin", V2: "POST"},
-		{PType: "p", V0: "9528", V1: "/casbin/getPolicyPathByAuthorityId", V2: "POST"},
-		{PType: "p", V0: "9528", V1: "/jwt/jsonInBlacklist", V2: "POST"},
-		{PType: "p", V0: "9528", V1: "/system/getSystemConfig", V2: "POST"},
-		{PType: "p", V0: "9528", V1: "/system/setSystemConfig", V2: "POST"},
-		{PType: "p", V0: "9528", V1: "/customer/customer", V2: "PUT"},
-		{PType: "p", V0: "9528", V1: "/customer/customer", V2: "GET"},
-		{PType: "p", V0: "9528", V1: "/customer/customer", V2: "POST"},
-		{PType: "p", V0: "9528", V1: "/customer/customer", V2: "DELETE"},
-		{PType: "p", V0: "9528", V1: "/customer/customerList", V2: "GET"},
-		{PType: "p", V0: "9528", V1: "/autoCode/createTemp", V2: "POST"},
-		{PType: "p", V0: "9528", V1: "/user/getUserInfo", V2: "GET"},
-	}
+		}
 	if err := global.GVA_DB.Create(&entities).Error; err != nil {
 		return errors.Wrap(err, c.TableName()+"表数据初始化失败!")
 	}
@@ -212,7 +131,7 @@ func (c *casbin) Initialize() error {
 }
 
 func (c *casbin) CheckDataExist() bool {
-	if errors.Is(global.GVA_DB.Where(adapter.CasbinRule{PType: "p", V0: "9528", V1: "GET", V2: "/user/getUserInfo"}).First(&adapter.CasbinRule{}).Error, gorm.ErrRecordNotFound) { // 判断是否存在数据
+	if errors.Is(global.GVA_DB.Where(adapter.CasbinRule{PType: "p", V0: "888  ", V1: "GET", V2: "/user/getUserInfo"}).First(&adapter.CasbinRule{}).Error, gorm.ErrRecordNotFound) { // 判断是否存在数据
 		return false
 	}
 	return true
