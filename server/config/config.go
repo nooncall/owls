@@ -34,6 +34,8 @@ type Server struct {
 }
 
 type Login struct {
+	Model string `mapstructure:"model"`
+
 	Ldap struct {
 		Host    string `mapstructure:"host"`
 		Port    int    `mapstructure:"port"`
