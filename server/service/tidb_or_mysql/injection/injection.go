@@ -1,6 +1,9 @@
 package injection
 
 import (
+	"github.com/qingfeng777/owls/server/global"
+	"github.com/qingfeng777/owls/server/service/system"
+	"github.com/qingfeng777/owls/server/service/system/login"
 	service "github.com/qingfeng777/owls/server/service/tidb_or_mysql"
 	"github.com/qingfeng777/owls/server/service/tidb_or_mysql/admin"
 	"github.com/qingfeng777/owls/server/service/tidb_or_mysql/auth"
@@ -22,6 +25,15 @@ func Injection() {
 	auth.SetLoginService(login_check.LoginService)
 	service.SetClock(service.RealClock{})
 	admin.SetAdminDao(dao.Admin)
+
+	switch global.GVA_CONFIG.Login.Model {
+	case "ldap": // todo, const
+		system.SetUserLogin(login.LdapUserImpl())
+	case "registry":
+		system.SetUserLogin(login.RegistryUserImpl())
+	default:
+		panic("unknown login mode, implement me")
+	}
 
 	switch "" { //todo, support auth tool;
 	case "conf":

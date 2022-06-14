@@ -215,6 +215,7 @@ db-filter:
     - "wangdazhang"
 
 login:
+  model: "registry" # ldap, registry, others
   ldap:
     host: "ldap.pri.ibanyu.com"
     port: 389
