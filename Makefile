@@ -5,10 +5,8 @@ test: fmt
 #	go test -race  ./util/...
 
 config:
-	mkdir -p ./bin/config
 	mkdir -p ./bin/resource
 	cp server/config.yaml ./bin/
-	cp server/config/config.yaml ./bin/config/config.yaml
 	cp server/resource/rbac_model.conf ./bin/resource/rbac_model.conf
 
 build: fmt config
@@ -23,7 +21,7 @@ build-linux: fmt config
 fmt:
 	go fmt ./...
 
-run: config build-front build
+run: config build-front build build-docs
 	cd ./bin && ./owl
 
 .ONESHELL:
@@ -31,6 +29,12 @@ build-front:
 	mkdir -p bin
 	rm -rf ./bin/static
 	cd web/ && npm run build && cp -r ./dist ../bin/static
+	cd ..
+
+build-docs:
+	mkdir -p bin
+	rm -rf ./bin/docs-static
+	cd docs/ && npm run build && cp -r ./build ../bin/docs-static
 	cd ..
 
 build-docker: build-front build

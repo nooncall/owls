@@ -9,8 +9,8 @@ const config = {
   title: 'Owls',
   tagline: '稳定、高效、创造',
   url: 'https://your-docusaurus-test-site.com',
-  baseUrl: '/',
-  onBrokenLinks: 'throw',
+  baseUrl: '/docs/',
+  onBrokenLinks: 'warn',
   onBrokenMarkdownLinks: 'warn',
   favicon: 'img/favicon.ico',
 
