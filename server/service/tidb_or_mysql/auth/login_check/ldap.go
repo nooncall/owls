@@ -9,7 +9,6 @@ import (
 	"github.com/qingfeng777/owls/server/utils/logger"
 )
 
-// todo move to sys/ login
 type LoginServiceImpl struct {
 }
 

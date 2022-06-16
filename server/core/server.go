@@ -37,6 +37,7 @@ func RunWindowsServer() {
 	initialize.Routers(Router)
 	Router.Static("/form-generator", "./resource/page")
 	frontRouter(Router)
+	docRouter(Router)
 
 	address := fmt.Sprintf(":%d", global.GVA_CONFIG.System.Addr)
 	s := initServer(address, Router)
@@ -54,6 +55,27 @@ func RunWindowsServer() {
 	如果项目让您获得了收益，那就帮忙宣传一下吧！
 `, address)
 	global.GVA_LOG.Error(s.ListenAndServe().Error())
+}
+
+func docRouter(r *gin.Engine) {
+	currentDir := getCurrentDirectory()
+	// currentDir = "/Users/mingbai/openS/vue/database-manager/bin"
+	logger.Info("doc router current dir is: ", currentDir)
+	r.Static("/docs", filepath.Join(currentDir, "./docs-static"))
+
+	r.GET("/doc", func(c *gin.Context) {
+		c.Redirect(http.StatusMovedPermanently, "docs/")
+	})
+
+	r.NoRoute(func(c *gin.Context) {
+		if !strings.Contains(c.Request.RequestURI, "/api") {
+			path := strings.Split(c.Request.URL.Path, "/")
+			if len(path) > 1 {
+				c.File(filepath.Join(currentDir, "./docs-static") + "/index.html")
+				return
+			}
+		}
+	})
 }
 
 func frontRouter(r *gin.Engine) {
