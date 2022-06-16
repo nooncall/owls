@@ -27,7 +27,7 @@ type UserLogin interface {
 
 var userLogin UserLogin
 
-func SetUserLogin(impl UserLogin)  {
+func SetUserLogin(impl UserLogin) {
 	userLogin = impl
 }
 

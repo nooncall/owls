@@ -123,7 +123,7 @@ func (c *casbin) Initialize() error {
 		{PType: "p", V0: "888", V1: "/authorityBtn/setAuthorityBtn", V2: "POST"},
 		{PType: "p", V0: "888", V1: "/authorityBtn/getAuthorityBtn", V2: "POST"},
 		{PType: "p", V0: "888", V1: "/authorityBtn/canRemoveAuthorityBtn", V2: "POST"},
-		}
+	}
 	if err := global.GVA_DB.Create(&entities).Error; err != nil {
 		return errors.Wrap(err, c.TableName()+"表数据初始化失败!")
 	}

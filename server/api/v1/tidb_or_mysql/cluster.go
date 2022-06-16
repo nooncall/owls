@@ -19,7 +19,7 @@ func (clusterApi *ClusterApi) ListDB(ctx *gin.Context) {
 
 	var filter bool
 	filterStr := ctx.Query("filter")
-	if filterStr == "true"{
+	if filterStr == "true" {
 		filter = true
 	}
 
@@ -98,7 +98,7 @@ func (clusterApi *ClusterApi) ListClusterName(ctx *gin.Context) {
 
 	var filter bool
 	filterStr := ctx.Query("filter")
-	if filterStr == "true"{
+	if filterStr == "true" {
 		filter = true
 	}
 
