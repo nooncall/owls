@@ -1,4 +1,12 @@
 import service from '@/utils/request'
+
+export const loginModel = () => {
+  return service({
+    url: '/base/login/model',
+    method: 'get',
+  })
+}
+
 // @Summary 用户登录
 // @Produce  application/json
 // @Param data body {username:"string",password:"string"}
@@ -29,7 +37,7 @@ export const captcha = (data) => {
 // @Router /base/resige [post]
 export const register = (data) => {
   return service({
-    url: '/user/admin_register',
+    url: '/user/register',
     method: 'post',
     data: data
   })

@@ -8,12 +8,16 @@ import (
 
 type UserRouter struct{}
 
-func (s *UserRouter) InitUserRouter(Router *gin.RouterGroup) {
-	userRouter := Router.Group("user").Use(middleware.OperationRecord())
-	userRouterWithoutRecord := Router.Group("user")
+func (s *UserRouter) InitUserRouter(Router, publicRouter *gin.RouterGroup) {
+	groupName := "user"
+	userRouter := Router.Group(groupName).Use(middleware.OperationRecord())
+	userRouterWithoutRecord := Router.Group(groupName)
+	publicRouter = publicRouter.Group(groupName)
+
 	baseApi := v1.ApiGroupApp.SystemApiGroup.BaseApi
 	{
-		userRouter.POST("admin_register", baseApi.Register)               // 管理员注册账号
+		publicRouter.GET("login/model", baseApi.LoginModel)
+		publicRouter.POST("register", baseApi.Register)                   // 注册账号
 		userRouter.POST("changePassword", baseApi.ChangePassword)         // 用户修改密码
 		userRouter.POST("setUserAuthority", baseApi.SetUserAuthority)     // 设置用户权限
 		userRouter.DELETE("deleteUser", baseApi.DeleteUser)               // 删除用户

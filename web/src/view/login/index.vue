@@ -68,15 +68,21 @@
           <el-form-item>
             <el-button
               type="primary"
-              style="width: 46%"
+              style="width: 22%"
               size="large"
               @click="checkInit"
             >前往初始化</el-button>
-            <el-button
+            <el-button v-if="true"
               type="primary"
               size="large"
-              style="width: 46%; margin-left: 8%"
-              @click="submitForm"
+              style="width: 22%; margin-left: 28%"
+              @click="addUser"
+            >注 册</el-button>
+            <el-button
+                type="primary"
+                size="large"
+                style="width: 22%; float: right; margin-left: 6%"
+                @click="submitForm"
             >登 录</el-button>
           </el-form-item>
         </el-form>
@@ -105,6 +111,44 @@
         </div>
       </div>
     </div>
+
+    <el-dialog
+        v-model="addUserDialog"
+        custom-class="user-dialog"
+        title="注册"
+        :show-close="false"
+        :close-on-press-escape="false"
+        :close-on-click-modal="false"
+    >
+      <div style="height:45vh;overflow:auto;padding:0 12px;">
+        <el-form ref="userForm" :rules="registryRules" :model="userInfo" label-width="80px">
+          <el-form-item label="用户名" prop="userName">
+            <el-input v-model="userInfo.userName" />
+          </el-form-item>
+          <el-form-item label="密码" prop="password">
+            <el-input v-model="userInfo.password" />
+          </el-form-item>
+          <el-form-item label="昵称" prop="nickName">
+            <el-input v-model="userInfo.nickName" />
+          </el-form-item>
+          <el-form-item label="手机号" prop="phone">
+            <el-input v-model="userInfo.phone" />
+          </el-form-item>
+          <el-form-item label="邮箱" prop="email">
+            <el-input v-model="userInfo.email" />
+          </el-form-item>
+        </el-form>
+
+      </div>
+
+      <template #footer>
+        <div class="dialog-footer">
+          <el-button size="small" @click="closeAddUserDialog">取 消</el-button>
+          <el-button size="small" type="primary" @click="enterAddUserDialog">确 定</el-button>
+        </div>
+      </template>
+    </el-dialog>
+
   </div>
 </template>
 
@@ -115,7 +159,7 @@ export default {
 </script>
 
 <script setup>
-import { captcha } from '@/api/user'
+import { captcha, register, setUserInfo } from '@/api/user'
 import { checkDB } from '@/api/initdb'
 import bootomInfo from '@/view/layout/bottomInfo/bottomInfo.vue'
 import { reactive, ref } from 'vue'
@@ -197,6 +241,60 @@ const submitForm = () => {
       return false
     }
   })
+}
+
+// 注册
+
+// 弹窗相关
+const userInfo = ref({
+  username: '',
+  password: '',
+  nickName: '',
+  headerImg: '',
+  authorityId: '',
+  authorityIds: [],
+})
+
+const registryRules = ref({
+  userName: [
+    { required: true, message: '请输入用户名', trigger: 'blur' },
+    { min: 5, message: '最低5位字符', trigger: 'blur' }
+  ],
+  password: [
+    { required: true, message: '请输入用户密码', trigger: 'blur' },
+    { min: 6, message: '最低6位字符', trigger: 'blur' }
+  ],
+  nickName: [
+    { required: true, message: '请输入用户昵称', trigger: 'blur' }
+  ],
+})
+
+const userForm = ref(null)
+const enterAddUserDialog = async() => {
+  userInfo.value.authorityId = userInfo.value.authorityIds[0]
+  userForm.value.validate(async valid => {
+    if (valid) {
+      const req = {
+        ...userInfo.value
+      }
+      const res = await register(req)
+      if (res.code === 0) {
+        ElMessage({ type: 'success', message: '创建成功' })
+        closeAddUserDialog()
+      }
+    }
+  })
+}
+
+const addUserDialog = ref(false)
+const closeAddUserDialog = () => {
+  userForm.value.resetFields()
+  userInfo.value.headerImg = ''
+  addUserDialog.value = false
+}
+
+const addUser = () => {
+  addUserDialog.value = true
 }
 
 // 跳转初始化

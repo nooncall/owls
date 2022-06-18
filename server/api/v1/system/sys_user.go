@@ -100,6 +100,10 @@ func (b *BaseApi) tokenNext(c *gin.Context, user system.SysUser) {
 	}
 }
 
+func (b *BaseApi) LoginModel(c *gin.Context) {
+	response.OkWithData(userService.LoginModel(), c)
+}
+
 // @Tags SysUser
 // @Summary 用户注册账号
 // @Produce  application/json
@@ -119,6 +123,7 @@ func (b *BaseApi) Register(c *gin.Context) {
 			AuthorityId: v,
 		})
 	}
+
 	user := &system.SysUser{Username: r.Username, NickName: r.NickName, Password: r.Password, HeaderImg: r.HeaderImg, AuthorityId: r.AuthorityId, Authorities: authorities}
 	err, userReturn := userService.Register(*user)
 	if err != nil {

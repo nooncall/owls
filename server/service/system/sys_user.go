@@ -31,6 +31,10 @@ func SetUserLogin(impl UserLogin) {
 	userLogin = impl
 }
 
+func (UserService) LoginModel() string {
+	return global.GVA_CONFIG.Login.Model
+}
+
 func (userService *UserService) Register(u system.SysUser) (err error, userInter system.SysUser) {
 	return userLogin.Register(u)
 }
