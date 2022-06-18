@@ -57,3 +57,7 @@ func GetDB() *gorm.DB {
 
 	return GVA_DB
 }
+
+func Initialized() bool {
+	return nil != GVA_DB
+}

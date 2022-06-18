@@ -2,6 +2,7 @@ package system
 
 import (
 	"errors"
+	"fmt"
 
 	"gorm.io/gorm"
 
@@ -36,6 +37,10 @@ func (UserService) LoginModel() string {
 }
 
 func (userService *UserService) Register(u system.SysUser) (err error, userInter system.SysUser) {
+	if !global.Initialized() {
+		return fmt.Errorf("db not init"), system.SysUser{}
+	}
+
 	return userLogin.Register(u)
 }
 

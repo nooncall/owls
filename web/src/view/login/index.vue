@@ -72,7 +72,8 @@
               size="large"
               @click="checkInit"
             >前往初始化</el-button>
-            <el-button v-if="true"
+            <el-button
+              v-if="loginType == 'registry'"
               type="primary"
               size="large"
               style="width: 22%; margin-left: 28%"
@@ -159,7 +160,7 @@ export default {
 </script>
 
 <script setup>
-import { captcha, register, setUserInfo } from '@/api/user'
+import { captcha, baseRegister, loginModel } from '@/api/user'
 import { checkDB } from '@/api/initdb'
 import bootomInfo from '@/view/layout/bottomInfo/bottomInfo.vue'
 import { reactive, ref } from 'vue'
@@ -182,6 +183,13 @@ const checkPassword = (rule, value, callback) => {
     callback()
   }
 }
+
+const loginType = ref('')
+const getLoginType = async() => {
+  const model = await loginModel()
+  loginType.value = model.data
+}
+getLoginType()
 
 // 获取验证码
 const loginVerify = () => {
@@ -277,7 +285,7 @@ const enterAddUserDialog = async() => {
       const req = {
         ...userInfo.value
       }
-      const res = await register(req)
+      const res = await baseRegister(req)
       if (res.code === 0) {
         ElMessage({ type: 'success', message: '创建成功' })
         closeAddUserDialog()

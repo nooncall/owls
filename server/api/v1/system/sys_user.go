@@ -1,6 +1,7 @@
 package system
 
 import (
+	"fmt"
 	"strconv"
 
 	"github.com/qingfeng777/owls/server/global"
@@ -128,7 +129,7 @@ func (b *BaseApi) Register(c *gin.Context) {
 	err, userReturn := userService.Register(*user)
 	if err != nil {
 		global.GVA_LOG.Error("注册失败!", zap.Error(err))
-		response.FailWithDetailed(systemRes.SysUserResponse{User: userReturn}, "注册失败", c)
+		response.FailWithDetailed(systemRes.SysUserResponse{User: userReturn}, fmt.Sprintf("注册失败: %s", err.Error()), c)
 	} else {
 		response.OkWithDetailed(systemRes.SysUserResponse{User: userReturn}, "注册成功", c)
 	}

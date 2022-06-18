@@ -7,6 +7,14 @@ export const loginModel = () => {
   })
 }
 
+export const baseRegister = (data) => {
+  return service({
+    url: '/base/register',
+    method: 'post',
+    data: data
+  })
+}
+
 // @Summary 用户登录
 // @Produce  application/json
 // @Param data body {username:"string",password:"string"}
