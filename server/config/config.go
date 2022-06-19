@@ -48,6 +48,7 @@ type Login struct {
 	LoginPath          string `mapstructure:"login-path"`
 	TokenSecret        string `mapstructure:"token-secret"`
 	TokenEffectiveHour int    `mapstructure:"token-effective-hour"`
+	InitPassword       string `mapstructure:"init-password"`
 }
 
 type DBFilter struct {
