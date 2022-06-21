@@ -29,7 +29,7 @@ func (a *userAuthority) Initialize() error {
 }
 
 func (a *userAuthority) CheckDataExist() bool {
-	if errors.Is(global.GVA_DB.Where("sys_user_id = ? AND sys_authority_authority_id = ?", 2, "888").First(&system.SysUseAuthority{}).Error, gorm.ErrRecordNotFound) { // 判断是否存在数据
+	if errors.Is(global.GVA_DB.Where("sys_user_id = ? AND sys_authority_authority_id = ?", 1, "888").First(&system.SysUseAuthority{}).Error, gorm.ErrRecordNotFound) { // 判断是否存在数据
 		return false
 	}
 	return true
