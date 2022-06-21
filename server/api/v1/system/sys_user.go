@@ -1,6 +1,7 @@
 package system
 
 import (
+	"fmt"
 	"strconv"
 
 	"github.com/qingfeng777/owls/server/global"
@@ -100,6 +101,10 @@ func (b *BaseApi) tokenNext(c *gin.Context, user system.SysUser) {
 	}
 }
 
+func (b *BaseApi) LoginModel(c *gin.Context) {
+	response.OkWithData(userService.LoginModel(), c)
+}
+
 // @Tags SysUser
 // @Summary 用户注册账号
 // @Produce  application/json
@@ -119,11 +124,12 @@ func (b *BaseApi) Register(c *gin.Context) {
 			AuthorityId: v,
 		})
 	}
+
 	user := &system.SysUser{Username: r.Username, NickName: r.NickName, Password: r.Password, HeaderImg: r.HeaderImg, AuthorityId: r.AuthorityId, Authorities: authorities}
 	err, userReturn := userService.Register(*user)
 	if err != nil {
 		global.GVA_LOG.Error("注册失败!", zap.Error(err))
-		response.FailWithDetailed(systemRes.SysUserResponse{User: userReturn}, "注册失败", c)
+		response.FailWithDetailed(systemRes.SysUserResponse{User: userReturn}, fmt.Sprintf("注册失败: %s", err.Error()), c)
 	} else {
 		response.OkWithDetailed(systemRes.SysUserResponse{User: userReturn}, "注册成功", c)
 	}

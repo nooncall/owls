@@ -18,7 +18,7 @@ func AddLimit(sql string) string {
 	for _, tiStmt := range stmtNodes {
 		switch node := tiStmt.(type) {
 		case *ast.SelectStmt:
-			if node.Limit == nil{
+			if node.Limit == nil {
 				return fmt.Sprintf("%s limit 10", sql)
 			}
 		default:

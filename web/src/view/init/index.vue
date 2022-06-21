@@ -3,7 +3,7 @@
     <div class="init_page_panle">
       <div v-if="hello < 2" id="hello" :class="[hello < 1 ? 'slide-in-fwd-top' : 'slide-out-right']" class="hello  ">
         <div>
-          <div class="hello_title">OWL</div>
+          <div class="hello_title">Owls</div>
           <p class="in-two a-fadeinT">初始化须知</p>
           <p class="init_p">1.请先了解一下初始化流程</p>
           <p class="init_p">2.请放心使用，我们会全程支持</p>

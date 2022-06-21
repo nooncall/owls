@@ -44,13 +44,13 @@ func ListDB(clusterName string, userId uint, filter bool) ([]string, error) {
 		return nil, err
 	}
 
-	dbs, err :=  listDB(cluster)
-	if err != nil{
+	dbs, err := listDB(cluster)
+	if err != nil {
 		return nil, err
 	}
 
-	if !filter || !global.GVA_CONFIG.DBFilter.ReadNeedAuth{
-		return  dbs, nil
+	if !filter || !global.GVA_CONFIG.DBFilter.ReadNeedAuth {
+		return dbs, nil
 	}
 
 	return auth.FilterDB(dbs, userId, auth.DB, cluster.Name), nil

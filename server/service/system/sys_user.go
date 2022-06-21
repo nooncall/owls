@@ -2,6 +2,7 @@ package system
 
 import (
 	"errors"
+	"fmt"
 
 	"gorm.io/gorm"
 
@@ -27,11 +28,19 @@ type UserLogin interface {
 
 var userLogin UserLogin
 
-func SetUserLogin(impl UserLogin)  {
+func SetUserLogin(impl UserLogin) {
 	userLogin = impl
 }
 
+func (UserService) LoginModel() string {
+	return global.GVA_CONFIG.Login.Model
+}
+
 func (userService *UserService) Register(u system.SysUser) (err error, userInter system.SysUser) {
+	if !global.Initialized() {
+		return fmt.Errorf("db not init"), system.SysUser{}
+	}
+
 	return userLogin.Register(u)
 }
 

@@ -26,7 +26,7 @@ func (userService *LdapUser) Register(u system.SysUser) (err error, userInter sy
 }
 
 func (userService *LdapUser) Login(u *system.SysUser) (err error, userInter *system.SysUser) {
-	if nil == global.GVA_DB {
+	if !global.Initialized() {
 		return fmt.Errorf("db not init"), nil
 	}
 

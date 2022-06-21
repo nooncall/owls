@@ -28,8 +28,8 @@ func TestAddLimit(t *testing.T) {
 		},
 	}
 
-	for i, v:= range testData{
-		if v.expect != AddLimit(v.source){
+	for i, v := range testData {
+		if v.expect != AddLimit(v.source) {
 			t.Log("failed at :", testData[i])
 			t.FailNow()
 		}
