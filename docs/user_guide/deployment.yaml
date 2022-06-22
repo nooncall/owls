@@ -40,7 +40,7 @@ spec:
         app: owls
     spec:
       containers:
-      - image: mingbai/owls:v0.1.0
+      - image: mingbai/owls:v0.1.2
         name: owls
         ports:
         - containerPort: 80
