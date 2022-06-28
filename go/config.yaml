@@ -226,5 +226,5 @@ login:
   login-path: "http://baidu.com"
   token-secret: "ipalfish-db-injection-c362ef0dce45bb48b8f400e34b74c37b"
   token-effective_hour: 1
-  init-password: "0b4e7a0e5fe84ad35fb5f95b9ceeac79" # aaaaaa
+  init-password: "aaaaaa"
 

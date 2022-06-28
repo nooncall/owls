@@ -125,14 +125,14 @@ const config = {
           
           {to: '/user_guide/intro', label: '用户手册', position: 'left', activeBaseRegex: `/user_guide/`,},
           {to: '/db/intro', label: 'DB', position: 'left', activeBaseRegex: `/db/`,},
-          {to: '/roadmap/intro', label: 'Roadmap', position: 'left', activeBaseRegex: `/roadmap/`,},
+          {to: '/roadmap/intro', label: '研发文档', position: 'left', activeBaseRegex: `/roadmap/`,},
 
-          {
-            type: 'doc',
-            docId: 'intro',
-            position: 'left',
-            label: '文档',
-          },
+          // {
+          //   type: 'doc',
+          //   docId: 'intro',
+          //   position: 'left',
+          //   label: '文档',
+          // },
           {to: '/blog', label: 'Blog', position: 'left'},
           {
             href: 'https://github.com/facebook/docusaurus',
