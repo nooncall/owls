@@ -34,29 +34,30 @@ type Server struct {
 }
 
 type Login struct {
-	Model string `mapstructure:"model"`
+	Model string `mapstructure:"model" yaml:"model"`
 
 	Ldap struct {
-		Host    string `mapstructure:"host"`
-		Port    int    `mapstructure:"port"`
-		BaseDn  string `mapstructure:"base-dn"`
-		UseSll  bool   `mapstructure:"use-sll"`
-		BindPwd string `mapstructure:"bind-pwd"`
-		BindDn  string `mapstructure:"bind-dn"`
-	} `yaml:ldap`
+		Host    string `mapstructure:"host" yaml:"host"`
+		Port    int    `mapstructure:"port" yaml:"port"`
+		BaseDn  string `mapstructure:"base-dn" yaml:"base-dn"`
+		UseSll  bool   `mapstructure:"use-sll" yaml:"use-sll"`
+		BindPwd string `mapstructure:"bind-pwd" yaml:"bind-pwd"`
+		BindDn  string `mapstructure:"bind-dn" yaml:"bind-dn"`
+	} `yaml:ldap yaml:"ldap"`
 
-	LoginPath          string `mapstructure:"login-path"`
-	TokenSecret        string `mapstructure:"token-secret"`
-	TokenEffectiveHour int    `mapstructure:"token-effective-hour"`
+	LoginPath          string `mapstructure:"login-path" yaml:"login-path"`
+	TokenSecret        string `mapstructure:"token-secret" yaml:"token-secret"`
+	TokenEffectiveHour int    `mapstructure:"token-effective-hour" yaml:"token-effective-hour"`
+	InitPassword       string `mapstructure:"init-password" yaml:"init-password"`
 }
 
 type DBFilter struct {
-	LogLevel     string   `mapstructure:"log-level"`
-	LogDir       string   `mapstructure:"log-dir"`
-	NumOnceLimit int      `mapstructure:"num-once-limit"`
-	ExecNoBackup bool     `mapstructure:"exec-no-backup"`
-	AesKey       string   `mapstructure:"aes-key"` //初始化全是空的
-	AesIv        string   `mapstructure:"aes-iv"`
-	Reviewers    []string `mapstructure:"reviewers"`
-	ReadNeedAuth bool     `mapstructure:"read-need-auth"`
+	LogLevel     string   `mapstructure:"log-level" yaml:"log-level"`
+	LogDir       string   `mapstructure:"log-dir" yaml:"log-dir"`
+	NumOnceLimit int      `mapstructure:"num-once-limit" yaml:"num-once-limit"`
+	ExecNoBackup bool     `mapstructure:"exec-no-backup" yaml:"exec-no-backup"`
+	AesKey       string   `mapstructure:"aes-key" yaml:"aes-key"` //初始化全是空的
+	AesIv        string   `mapstructure:"aes-iv" yaml:"aes-iv"`
+	Reviewers    []string `mapstructure:"reviewers" yaml:"reviewers"`
+	ReadNeedAuth bool     `mapstructure:"read-need-auth" yaml:"read-need-auth"`
 }

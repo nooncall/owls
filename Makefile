@@ -11,18 +11,18 @@ config:
 
 build: fmt config
 	cd server && \
-	go build -o ../bin/owl ./cmd/owl/  &&\
+	go build -o ../bin/owls ./cmd/owls/  &&\
 	cd ..
 
-build-linux: fmt config
+build-linux: config
 	cd server && \
-	CGO_ENABLED=0 GOOS=linux go build -o ../bin/owl -a -ldflags '-extldflags "-static"' ./cmd/owl/
+	CGO_ENABLED=0 GOOS=linux go build -o ../bin/owls -a -ldflags '-extldflags "-static"' ./cmd/owls/
 	cd ..
 fmt:
 	go fmt ./...
 
 run: config build-front build build-docs
-	cd ./bin && ./owl
+	cd ./bin && ./owls
 
 .ONESHELL:
 build-front:
@@ -37,8 +37,8 @@ build-docs:
 	cd docs/ && npm run build && cp -r ./build ../bin/docs-static
 	cd ..
 
-build-docker: build-front build
-	docker build -t mingbai/owls:v0.1.0 .
+build-docker: build-front build-linux build-docs
+	docker build -t mingbai/owls:v0.1.2 .
 
 run-docker: build-docker
-	docker run -p 8787:8787 -d  palfish/owl:v0.1.0
+	docker run -p 80:80 -d  mingbai/owls:v0.1.2

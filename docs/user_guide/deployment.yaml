@@ -1,0 +1,84 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: owls
+spec:
+  ports:
+  - name: web
+    port: 80
+    protocol: TCP
+    targetPort: 80
+  selector:
+    app: owls
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: mysql
+  name: mysql
+spec:
+  ports:
+  - port: 3306
+    protocol: TCP
+    targetPort: 3306
+  selector:
+    app: mysql
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: owls
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: owls
+  template:
+    metadata:
+      labels:
+        app: owls
+    spec:
+      containers:
+      - image: mingbai/owls:v0.1.2
+        name: owls
+        ports:
+        - containerPort: 80
+          name: web
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 80
+          initialDelaySeconds: 10
+          periodSeconds: 20
+        volumeMounts:
+        - mountPath: /tmp
+          name: tmp
+      volumes:
+      - emptyDir: {}
+        name: tmp
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: mysql
+  name: mysql
+spec:
+  selector:
+    matchLabels:
+      app: mysql
+  template:
+    metadata:
+      labels:
+        app: mysql
+      name: mysql
+    spec:
+      containers:
+      - env:
+        - name: MYSQL_ROOT_PASSWORD
+          value: aaaaaa
+        image: mysql:5.7
+        name: main
+        ports:
+        - containerPort: 3306
