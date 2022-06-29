@@ -4,22 +4,24 @@ test: fmt
 #	go test -race  ./service/sql_util/...
 #	go test -race  ./util/...
 
+GODIR=`pwd`/go
+
 config:
 	mkdir -p ./bin/resource
-	cp go/config.yaml ./bin/
-	cp go/resource/rbac_model.conf ./bin/resource/rbac_model.conf
+	cp ${GODIR}/config.yaml ./bin/
+	cp ${GODIR}/resource/rbac_model.conf ./bin/resource/rbac_model.conf
 
 build: fmt config
-	cd go && \
+	cd ${GODIR} && \
 	go build -o ../bin/owls ./cmd/owls/  &&\
 	cd ..
 
 build-linux: config
-	cd go && \
+	cd ${GODIR} && \
 	CGO_ENABLED=0 GOOS=linux go build -o ../bin/owls -a -ldflags '-extldflags "-static"' ./cmd/owls/
 	cd ..
 fmt:
-	cd go && go fmt ./... && cd ..
+	cd ${GODIR} && go fmt ./... && cd ..
 
 run: config build-front build build-docs
 	cd ./bin && ./owls
