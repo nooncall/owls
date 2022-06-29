@@ -10,16 +10,16 @@ config:
 	cp go/resource/rbac_model.conf ./bin/resource/rbac_model.conf
 
 build: fmt config
-	cd server && \
+	cd go && \
 	go build -o ../bin/owls ./cmd/owls/  &&\
 	cd ..
 
 build-linux: config
-	cd server && \
+	cd go && \
 	CGO_ENABLED=0 GOOS=linux go build -o ../bin/owls -a -ldflags '-extldflags "-static"' ./cmd/owls/
 	cd ..
 fmt:
-	go fmt ./...
+	cd go && go fmt ./... && cd ..
 
 run: config build-front build build-docs
 	cd ./bin && ./owls
