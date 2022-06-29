@@ -6,8 +6,8 @@ test: fmt
 
 config:
 	mkdir -p ./bin/resource
-	cp server/config.yaml ./bin/
-	cp server/resource/rbac_model.conf ./bin/resource/rbac_model.conf
+	cp go/config.yaml ./bin/
+	cp go/resource/rbac_model.conf ./bin/resource/rbac_model.conf
 
 build: fmt config
 	cd server && \
