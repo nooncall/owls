@@ -1,10 +1,10 @@
 package system
 
 import (
-	"github.com/qingfeng777/owls/server/global"
-	"github.com/qingfeng777/owls/server/model/common/request"
-	"github.com/qingfeng777/owls/server/model/system"
-	systemReq "github.com/qingfeng777/owls/server/model/system/request"
+	"github.com/nooncall/owls/go/global"
+	"github.com/nooncall/owls/go/model/common/request"
+	"github.com/nooncall/owls/go/model/system"
+	systemReq "github.com/nooncall/owls/go/model/system/request"
 )
 
 //@author: [granty1](https://github.com/granty1)

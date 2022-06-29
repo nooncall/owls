@@ -2,10 +2,10 @@ package system
 
 import (
 	"errors"
-	"github.com/qingfeng777/owls/server/global"
-	"github.com/qingfeng777/owls/server/model/system"
-	"github.com/qingfeng777/owls/server/model/system/request"
-	"github.com/qingfeng777/owls/server/model/system/response"
+	"github.com/nooncall/owls/go/global"
+	"github.com/nooncall/owls/go/model/system"
+	"github.com/nooncall/owls/go/model/system/request"
+	"github.com/nooncall/owls/go/model/system/response"
 	"gorm.io/gorm"
 )
 

@@ -1,11 +1,11 @@
 package main
 
 import (
-	"github.com/qingfeng777/owls/server/core"
-	"github.com/qingfeng777/owls/server/global"
-	"github.com/qingfeng777/owls/server/initialize"
-	"github.com/qingfeng777/owls/server/service/tidb_or_mysql/injection"
-	"github.com/qingfeng777/owls/server/utils/logger"
+	"github.com/nooncall/owls/go/core"
+	"github.com/nooncall/owls/go/global"
+	"github.com/nooncall/owls/go/initialize"
+	"github.com/nooncall/owls/go/service/tidb_or_mysql/injection"
+	"github.com/nooncall/owls/go/utils/logger"
 
 	"go.uber.org/zap"
 )

@@ -3,9 +3,9 @@ package initialize
 import (
 	"fmt"
 
-	"github.com/qingfeng777/owls/server/config"
-	"github.com/qingfeng777/owls/server/global"
-	"github.com/qingfeng777/owls/server/utils"
+	"github.com/nooncall/owls/go/config"
+	"github.com/nooncall/owls/go/global"
+	"github.com/nooncall/owls/go/utils"
 )
 
 func Timer() {

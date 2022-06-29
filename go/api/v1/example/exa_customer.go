@@ -2,12 +2,12 @@ package example
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/qingfeng777/owls/server/global"
-	"github.com/qingfeng777/owls/server/model/common/request"
-	"github.com/qingfeng777/owls/server/model/common/response"
-	"github.com/qingfeng777/owls/server/model/example"
-	exampleRes "github.com/qingfeng777/owls/server/model/example/response"
-	"github.com/qingfeng777/owls/server/utils"
+	"github.com/nooncall/owls/go/global"
+	"github.com/nooncall/owls/go/model/common/request"
+	"github.com/nooncall/owls/go/model/common/response"
+	"github.com/nooncall/owls/go/model/example"
+	exampleRes "github.com/nooncall/owls/go/model/example/response"
+	"github.com/nooncall/owls/go/utils"
 	"go.uber.org/zap"
 )
 

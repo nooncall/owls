@@ -1,8 +1,8 @@
 package system
 
 import (
-	"github.com/qingfeng777/owls/server/global"
-	"github.com/qingfeng777/owls/server/model/system/response"
+	"github.com/nooncall/owls/go/global"
+	"github.com/nooncall/owls/go/model/system/response"
 )
 
 type Database interface {

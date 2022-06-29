@@ -1,9 +1,9 @@
 package initialize
 
 import (
-	"github.com/qingfeng777/owls/server/config"
-	"github.com/qingfeng777/owls/server/global"
-	"github.com/qingfeng777/owls/server/initialize/internal"
+	"github.com/nooncall/owls/go/config"
+	"github.com/nooncall/owls/go/global"
+	"github.com/nooncall/owls/go/initialize/internal"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )

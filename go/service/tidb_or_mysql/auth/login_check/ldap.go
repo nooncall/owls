@@ -5,8 +5,8 @@ import (
 	"sync"
 
 	ldap "github.com/jtblin/go-ldap-client"
-	"github.com/qingfeng777/owls/server/global"
-	"github.com/qingfeng777/owls/server/utils/logger"
+	"github.com/nooncall/owls/go/global"
+	"github.com/nooncall/owls/go/utils/logger"
 )
 
 type LoginServiceImpl struct {

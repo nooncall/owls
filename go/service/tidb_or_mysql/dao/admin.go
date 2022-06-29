@@ -1,8 +1,8 @@
 package dao
 
 import (
-	"github.com/qingfeng777/owls/server/service/tidb_or_mysql"
-	"github.com/qingfeng777/owls/server/service/tidb_or_mysql/admin"
+	"github.com/nooncall/owls/go/service/tidb_or_mysql"
+	"github.com/nooncall/owls/go/service/tidb_or_mysql/admin"
 )
 
 type AdminDaoImpl struct {

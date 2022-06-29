@@ -1,8 +1,8 @@
 package auth
 
 import (
-	"github.com/qingfeng777/owls/server/model/common/request"
-	"github.com/qingfeng777/owls/server/service/task"
+	"github.com/nooncall/owls/go/model/common/request"
+	"github.com/nooncall/owls/go/service/task"
 )
 
 func (a Auth) AddTask() (int64, error) {

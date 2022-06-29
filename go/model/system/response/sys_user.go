@@ -1,7 +1,7 @@
 package response
 
 import (
-	"github.com/qingfeng777/owls/server/model/system"
+	"github.com/nooncall/owls/go/model/system"
 )
 
 type SysUserResponse struct {

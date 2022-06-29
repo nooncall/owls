@@ -9,9 +9,9 @@ import (
 
 	"github.com/songzhibin97/gkit/cache/local_cache"
 
-	"github.com/qingfeng777/owls/server/global"
-	_ "github.com/qingfeng777/owls/server/packfile"
-	"github.com/qingfeng777/owls/server/utils"
+	"github.com/nooncall/owls/go/global"
+	_ "github.com/nooncall/owls/go/packfile"
+	"github.com/nooncall/owls/go/utils"
 
 	"github.com/fsnotify/fsnotify"
 	"github.com/spf13/viper"

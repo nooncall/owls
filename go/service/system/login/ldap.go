@@ -8,8 +8,8 @@ import (
 	"gorm.io/gorm"
 
 	ldap "github.com/jtblin/go-ldap-client"
-	"github.com/qingfeng777/owls/server/global"
-	"github.com/qingfeng777/owls/server/model/system"
+	"github.com/nooncall/owls/go/global"
+	"github.com/nooncall/owls/go/model/system"
 	uuid "github.com/satori/go.uuid"
 )
 

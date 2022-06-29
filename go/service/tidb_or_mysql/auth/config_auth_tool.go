@@ -4,7 +4,7 @@ import (
 	"errors"
 	"strings"
 
-	"github.com/qingfeng777/owls/server/global"
+	"github.com/nooncall/owls/go/global"
 )
 
 type ConfAuthToolImpl struct {

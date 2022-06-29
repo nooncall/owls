@@ -6,7 +6,7 @@ import (
 	"net/smtp"
 	"strings"
 
-	"github.com/qingfeng777/owls/server/plugin/email/global"
+	"github.com/nooncall/owls/go/plugin/email/global"
 
 	"github.com/jordan-wright/email"
 )

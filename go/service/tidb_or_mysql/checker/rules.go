@@ -1,7 +1,7 @@
 package checker
 
 import (
-	"github.com/qingfeng777/owls/server/service/tidb_or_mysql/task"
+	"github.com/nooncall/owls/go/service/tidb_or_mysql/task"
 )
 
 // Rule 评审规则元数据结构

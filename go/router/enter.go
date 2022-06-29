@@ -1,11 +1,11 @@
 package router
 
 import (
-	"github.com/qingfeng777/owls/server/router/autocode"
-	"github.com/qingfeng777/owls/server/router/example"
-	"github.com/qingfeng777/owls/server/router/routers"
-	"github.com/qingfeng777/owls/server/router/system"
-	"github.com/qingfeng777/owls/server/router/tidb_or_mysql"
+	"github.com/nooncall/owls/go/router/autocode"
+	"github.com/nooncall/owls/go/router/example"
+	"github.com/nooncall/owls/go/router/routers"
+	"github.com/nooncall/owls/go/router/system"
+	"github.com/nooncall/owls/go/router/tidb_or_mysql"
 )
 
 type RouterGroup struct {

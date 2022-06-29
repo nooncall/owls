@@ -11,9 +11,9 @@ import (
 	"strings"
 	"text/template"
 
-	"github.com/qingfeng777/owls/server/global"
-	"github.com/qingfeng777/owls/server/model/system"
-	"github.com/qingfeng777/owls/server/utils"
+	"github.com/nooncall/owls/go/global"
+	"github.com/nooncall/owls/go/model/system"
+	"github.com/nooncall/owls/go/utils"
 
 	"gorm.io/gorm"
 )

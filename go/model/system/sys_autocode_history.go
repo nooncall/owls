@@ -4,8 +4,8 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/qingfeng777/owls/server/global"
-	"github.com/qingfeng777/owls/server/model/common/request"
+	"github.com/nooncall/owls/go/global"
+	"github.com/nooncall/owls/go/model/common/request"
 )
 
 // SysAutoCodeHistory 自动迁移代码记录,用于回滚,重放使用

@@ -7,12 +7,12 @@ import (
 	"strings"
 	"time"
 
-	"github.com/qingfeng777/owls/server/model/system/response"
+	"github.com/nooncall/owls/go/model/system/response"
 
-	"github.com/qingfeng777/owls/server/global"
-	"github.com/qingfeng777/owls/server/model/common/request"
-	"github.com/qingfeng777/owls/server/model/system"
-	"github.com/qingfeng777/owls/server/utils"
+	"github.com/nooncall/owls/go/global"
+	"github.com/nooncall/owls/go/model/common/request"
+	"github.com/nooncall/owls/go/model/system"
+	"github.com/nooncall/owls/go/utils"
 
 	"go.uber.org/zap"
 )

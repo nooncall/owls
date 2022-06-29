@@ -3,7 +3,7 @@ package initialize
 import (
 	"context"
 
-	"github.com/qingfeng777/owls/server/global"
+	"github.com/nooncall/owls/go/global"
 
 	"github.com/go-redis/redis/v8"
 	"go.uber.org/zap"

@@ -1,9 +1,9 @@
 package system
 
 import (
-	"github.com/qingfeng777/owls/server/global"
-	"github.com/qingfeng777/owls/server/model/system"
-	"github.com/qingfeng777/owls/server/model/system/request"
+	"github.com/nooncall/owls/go/global"
+	"github.com/nooncall/owls/go/model/system"
+	"github.com/nooncall/owls/go/model/system/request"
 )
 
 //@author: [piexlmax](https://github.com/piexlmax)

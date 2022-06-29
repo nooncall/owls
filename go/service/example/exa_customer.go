@@ -1,11 +1,11 @@
 package example
 
 import (
-	"github.com/qingfeng777/owls/server/global"
-	"github.com/qingfeng777/owls/server/model/common/request"
-	"github.com/qingfeng777/owls/server/model/example"
-	"github.com/qingfeng777/owls/server/model/system"
-	systemService "github.com/qingfeng777/owls/server/service/system"
+	"github.com/nooncall/owls/go/global"
+	"github.com/nooncall/owls/go/model/common/request"
+	"github.com/nooncall/owls/go/model/example"
+	"github.com/nooncall/owls/go/model/system"
+	systemService "github.com/nooncall/owls/go/service/system"
 )
 
 type CustomerService struct{}

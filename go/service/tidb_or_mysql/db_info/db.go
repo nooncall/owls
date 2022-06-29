@@ -4,9 +4,9 @@ import (
 	"database/sql"
 	"fmt"
 
-	"github.com/qingfeng777/owls/server/global"
-	"github.com/qingfeng777/owls/server/service/auth/auth"
-	"github.com/qingfeng777/owls/server/service/tidb_or_mysql/task"
+	"github.com/nooncall/owls/go/global"
+	"github.com/nooncall/owls/go/service/auth/auth"
+	"github.com/nooncall/owls/go/service/tidb_or_mysql/task"
 )
 
 const defaultDBName = "information_schema"

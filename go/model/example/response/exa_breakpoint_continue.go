@@ -1,6 +1,6 @@
 package response
 
-import "github.com/qingfeng777/owls/server/model/example"
+import "github.com/nooncall/owls/go/model/example"
 
 type FilePathResponse struct {
 	FilePath string `json:"filePath"`

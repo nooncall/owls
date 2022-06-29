@@ -3,14 +3,14 @@ package global
 import (
 	"sync"
 
-	"github.com/qingfeng777/owls/server/utils/timer"
+	"github.com/nooncall/owls/go/utils/timer"
 	"github.com/songzhibin97/gkit/cache/local_cache"
 
 	"golang.org/x/sync/singleflight"
 
 	"go.uber.org/zap"
 
-	"github.com/qingfeng777/owls/server/config"
+	"github.com/nooncall/owls/go/config"
 
 	"github.com/go-redis/redis/v8"
 	"github.com/spf13/viper"

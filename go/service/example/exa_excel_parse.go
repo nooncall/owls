@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"strconv"
 
-	"github.com/qingfeng777/owls/server/global"
-	"github.com/qingfeng777/owls/server/model/system"
+	"github.com/nooncall/owls/go/global"
+	"github.com/nooncall/owls/go/model/system"
 	"github.com/xuri/excelize/v2"
 )
 

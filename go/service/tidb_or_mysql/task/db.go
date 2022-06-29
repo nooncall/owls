@@ -3,7 +3,7 @@ package task
 import (
 	"database/sql"
 
-	"github.com/qingfeng777/owls/server/utils/logger"
+	"github.com/nooncall/owls/go/utils/logger"
 )
 
 type DBInfo struct {

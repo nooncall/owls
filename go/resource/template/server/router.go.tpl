@@ -1,8 +1,8 @@
 package autocode
 
 import (
-	"github.com/qingfeng777/owls/server/api/v1"
-	"github.com/qingfeng777/owls/server/middleware"
+	"github.com/nooncall/owls/go/api/v1"
+	"github.com/nooncall/owls/go/middleware"
 	"github.com/gin-gonic/gin"
 )
 

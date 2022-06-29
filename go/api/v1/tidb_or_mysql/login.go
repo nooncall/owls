@@ -6,9 +6,9 @@ import (
 
 	"github.com/gin-gonic/gin"
 
-	"github.com/qingfeng777/owls/server/service/tidb_or_mysql/admin"
-	"github.com/qingfeng777/owls/server/service/tidb_or_mysql/auth"
-	"github.com/qingfeng777/owls/server/service/tidb_or_mysql/task"
+	"github.com/nooncall/owls/go/service/tidb_or_mysql/admin"
+	"github.com/nooncall/owls/go/service/tidb_or_mysql/auth"
+	"github.com/nooncall/owls/go/service/tidb_or_mysql/task"
 )
 
 const (

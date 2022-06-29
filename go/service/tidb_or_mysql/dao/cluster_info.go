@@ -3,9 +3,9 @@ package dao
 import (
 	"gorm.io/gorm"
 
-	"github.com/qingfeng777/owls/server/model/common/request"
-	"github.com/qingfeng777/owls/server/service/tidb_or_mysql/db_info"
-	"github.com/qingfeng777/owls/server/utils"
+	"github.com/nooncall/owls/go/model/common/request"
+	"github.com/nooncall/owls/go/service/tidb_or_mysql/db_info"
+	"github.com/nooncall/owls/go/utils"
 )
 
 type ClusterImpl struct {

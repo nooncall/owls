@@ -1,8 +1,8 @@
 package request
 
 import (
-	"github.com/qingfeng777/owls/server/model/common/request"
-	"github.com/qingfeng777/owls/server/model/system"
+	"github.com/nooncall/owls/go/model/common/request"
+	"github.com/nooncall/owls/go/model/system"
 )
 
 type SysDictionarySearch struct {

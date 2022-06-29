@@ -5,10 +5,10 @@ import (
 	"mime/multipart"
 	"strings"
 
-	"github.com/qingfeng777/owls/server/global"
-	"github.com/qingfeng777/owls/server/model/common/request"
-	"github.com/qingfeng777/owls/server/model/example"
-	"github.com/qingfeng777/owls/server/utils/upload"
+	"github.com/nooncall/owls/go/global"
+	"github.com/nooncall/owls/go/model/common/request"
+	"github.com/nooncall/owls/go/model/example"
+	"github.com/nooncall/owls/go/utils/upload"
 )
 
 //@author: [piexlmax](https://github.com/piexlmax)

@@ -1,6 +1,6 @@
 package request
 
-import model "github.com/qingfeng777/owls/server/model/system"
+import model "github.com/nooncall/owls/go/model/system"
 
 // User register structure
 type Register struct {

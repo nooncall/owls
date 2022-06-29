@@ -7,9 +7,9 @@ import (
 	"github.com/pingcap/parser/ast"
 	"github.com/pingcap/parser/mysql"
 
-	"github.com/qingfeng777/owls/server/service/tidb_or_mysql/sql_util"
-	"github.com/qingfeng777/owls/server/service/tidb_or_mysql/task"
-	"github.com/qingfeng777/owls/server/utils/logger"
+	"github.com/nooncall/owls/go/service/tidb_or_mysql/sql_util"
+	"github.com/nooncall/owls/go/service/tidb_or_mysql/task"
+	"github.com/nooncall/owls/go/utils/logger"
 )
 
 /**

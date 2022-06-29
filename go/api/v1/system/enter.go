@@ -1,6 +1,6 @@
 package system
 
-import "github.com/qingfeng777/owls/server/service"
+import "github.com/nooncall/owls/go/service"
 
 type ApiGroup struct {
 	DBApi

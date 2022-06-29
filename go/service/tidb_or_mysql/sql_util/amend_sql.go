@@ -4,7 +4,7 @@ import (
 	"fmt"
 
 	"github.com/pingcap/parser/ast"
-	"github.com/qingfeng777/owls/server/utils/logger"
+	"github.com/nooncall/owls/go/utils/logger"
 )
 
 func AddLimit(sql string) string {

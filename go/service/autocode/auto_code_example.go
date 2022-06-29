@@ -1,9 +1,9 @@
 package autocode
 
 import (
-	"github.com/qingfeng777/owls/server/global"
-	"github.com/qingfeng777/owls/server/model/autocode"
-	"github.com/qingfeng777/owls/server/model/autocode/request"
+	"github.com/nooncall/owls/go/global"
+	"github.com/nooncall/owls/go/model/autocode"
+	"github.com/nooncall/owls/go/model/autocode/request"
 )
 
 type AutoCodeExampleService struct{}

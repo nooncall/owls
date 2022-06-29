@@ -3,9 +3,9 @@ package system
 import (
 	"github.com/gin-gonic/gin"
 	"github.com/mojocn/base64Captcha"
-	"github.com/qingfeng777/owls/server/global"
-	"github.com/qingfeng777/owls/server/model/common/response"
-	systemRes "github.com/qingfeng777/owls/server/model/system/response"
+	"github.com/nooncall/owls/go/global"
+	"github.com/nooncall/owls/go/model/common/response"
+	systemRes "github.com/nooncall/owls/go/model/system/response"
 	"go.uber.org/zap"
 )
 

@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/qingfeng777/owls/server/model/common/request"
-	"github.com/qingfeng777/owls/server/utils/logger"
+	"github.com/nooncall/owls/go/model/common/request"
+	"github.com/nooncall/owls/go/utils/logger"
 )
 
 const ruleClose = 1

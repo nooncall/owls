@@ -11,10 +11,10 @@ import (
 	"go.uber.org/zap"
 
 	"github.com/gin-gonic/gin"
-	"github.com/qingfeng777/owls/server/global"
-	"github.com/qingfeng777/owls/server/initialize"
-	"github.com/qingfeng777/owls/server/service/system"
-	"github.com/qingfeng777/owls/server/utils/logger"
+	"github.com/nooncall/owls/go/global"
+	"github.com/nooncall/owls/go/initialize"
+	"github.com/nooncall/owls/go/service/system"
+	"github.com/nooncall/owls/go/utils/logger"
 )
 
 type server interface {
@@ -47,7 +47,7 @@ func RunWindowsServer() {
 	global.GVA_LOG.Info("server run success on ", zap.String("address", address))
 
 	fmt.Printf(`
-	欢迎使用 github.com/qingfeng777/owls/server
+	欢迎使用 github.com/nooncall/owls/go
 	当前版本:V0.0.1
 	加群方式:微信号：xxx QQ群：xxxx
 	默认自动化文档地址:http://127.0.0.1%s/swagger/index.html

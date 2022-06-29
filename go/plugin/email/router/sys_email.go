@@ -2,8 +2,8 @@ package router
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/qingfeng777/owls/server/middleware"
-	"github.com/qingfeng777/owls/server/plugin/email/api"
+	"github.com/nooncall/owls/go/middleware"
+	"github.com/nooncall/owls/go/plugin/email/api"
 )
 
 type EmailRouter struct{}

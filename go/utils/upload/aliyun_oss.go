@@ -6,7 +6,7 @@ import (
 	"time"
 
 	"github.com/aliyun/aliyun-oss-go-sdk/oss"
-	"github.com/qingfeng777/owls/server/global"
+	"github.com/nooncall/owls/go/global"
 	"go.uber.org/zap"
 )
 

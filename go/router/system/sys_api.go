@@ -2,8 +2,8 @@ package system
 
 import (
 	"github.com/gin-gonic/gin"
-	v1 "github.com/qingfeng777/owls/server/api/v1"
-	"github.com/qingfeng777/owls/server/middleware"
+	v1 "github.com/nooncall/owls/go/api/v1"
+	"github.com/nooncall/owls/go/middleware"
 )
 
 type ApiRouter struct{}

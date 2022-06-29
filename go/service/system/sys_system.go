@@ -1,10 +1,10 @@
 package system
 
 import (
-	"github.com/qingfeng777/owls/server/config"
-	"github.com/qingfeng777/owls/server/global"
-	"github.com/qingfeng777/owls/server/model/system"
-	"github.com/qingfeng777/owls/server/utils"
+	"github.com/nooncall/owls/go/config"
+	"github.com/nooncall/owls/go/global"
+	"github.com/nooncall/owls/go/model/system"
+	"github.com/nooncall/owls/go/utils"
 	"go.uber.org/zap"
 )
 

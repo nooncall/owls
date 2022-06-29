@@ -1,7 +1,7 @@
 package service
 
 import (
-	"github.com/qingfeng777/owls/server/plugin/email/utils"
+	"github.com/nooncall/owls/go/plugin/email/utils"
 )
 
 type EmailService struct{}

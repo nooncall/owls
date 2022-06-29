@@ -1,7 +1,7 @@
 package initialize
 
 import (
-	"github.com/qingfeng777/owls/server/global"
+	"github.com/nooncall/owls/go/global"
 	"gorm.io/gorm"
 )
 

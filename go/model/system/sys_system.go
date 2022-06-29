@@ -1,7 +1,7 @@
 package system
 
 import (
-	"github.com/qingfeng777/owls/server/config"
+	"github.com/nooncall/owls/go/config"
 )
 
 // 配置文件结构体

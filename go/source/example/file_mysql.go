@@ -1,9 +1,9 @@
 package example
 
 import (
+	"github.com/nooncall/owls/go/global"
+	"github.com/nooncall/owls/go/model/example"
 	"github.com/pkg/errors"
-	"github.com/qingfeng777/owls/server/global"
-	"github.com/qingfeng777/owls/server/model/example"
 	"gorm.io/gorm"
 )
 

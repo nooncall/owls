@@ -3,7 +3,7 @@ package request
 import (
 	"fmt"
 
-	"github.com/qingfeng777/owls/server/config"
+	"github.com/nooncall/owls/go/config"
 )
 
 type InitDB struct {

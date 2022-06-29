@@ -5,7 +5,7 @@ import (
 	"time"
 
 	jwt "github.com/dgrijalva/jwt-go"
-	"github.com/qingfeng777/owls/server/global"
+	"github.com/nooncall/owls/go/global"
 )
 
 func Login(userName, Pwd string) (string, error) {

@@ -1,6 +1,6 @@
 package dao
 
-import "github.com/qingfeng777/owls/server/service/tidb_or_mysql/task"
+import "github.com/nooncall/owls/go/service/tidb_or_mysql/task"
 
 type SubTaskDaoImpl struct {
 }

@@ -5,9 +5,9 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/qingfeng777/owls/server/core"
-	"github.com/qingfeng777/owls/server/global"
-	"github.com/qingfeng777/owls/server/utils/logger"
+	"github.com/nooncall/owls/go/core"
+	"github.com/nooncall/owls/go/global"
+	"github.com/nooncall/owls/go/utils/logger"
 )
 
 func initConfigLog() {

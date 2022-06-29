@@ -1,6 +1,6 @@
 package auth
 
-import "github.com/qingfeng777/owls/server/utils/logger"
+import "github.com/nooncall/owls/go/utils/logger"
 
 func FilterDB(dbs []string, userId uint, dataType, cluster string) []string {
 	f := "FilterDB()-->: "

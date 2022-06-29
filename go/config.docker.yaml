@@ -1,4 +1,4 @@
-# github.com/qingfeng777/owls/server Global Configuration
+# github.com/nooncall/owls/go Global Configuration
 
 # jwt configuration
 jwt:
@@ -10,7 +10,7 @@ jwt:
 zap:
   level: 'info'
   format: 'console'
-  prefix: '[github.com/qingfeng777/owls/server]'
+  prefix: '[github.com/nooncall/owls/go]'
   director: 'log'
   link-name: 'latest_log'
   show-line: true
@@ -110,7 +110,7 @@ tencent-cos:
   secret-id: 'xxxxxxxx'
   secret-key: 'xxxxxxxx'
   base-url: 'https://gin.vue.admin'
-  path-prefix: 'github.com/qingfeng777/owls/server'
+  path-prefix: 'github.com/nooncall/owls/go'
 
 # huawei obs configuration
 hua-wei-obs:

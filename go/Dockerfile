@@ -1,6 +1,6 @@
 FROM golang:alpine as builder
 
-WORKDIR /go/src/github.com/qingfeng777/owls/server
+WORKDIR /go/src/github.com/nooncall/owls/go
 COPY . .
 
 RUN go env -w GO111MODULE=on \
@@ -14,11 +14,11 @@ FROM alpine:latest
 
 LABEL MAINTAINER="SliverHorn@sliver_horn@qq.com"
 
-WORKDIR /go/src/github.com/qingfeng777/owls/server
+WORKDIR /go/src/github.com/nooncall/owls/go
 
-COPY --from=0 /go/src/github.com/qingfeng777/owls/server/server ./
-COPY --from=0 /go/src/github.com/qingfeng777/owls/server/resource ./resource/
-COPY --from=0 /go/src/github.com/qingfeng777/owls/server/config.docker.yaml ./
+COPY --from=0 /go/src/github.com/nooncall/owls/go/server ./
+COPY --from=0 /go/src/github.com/nooncall/owls/go/resource ./resource/
+COPY --from=0 /go/src/github.com/nooncall/owls/go/config.docker.yaml ./
 
 EXPOSE 8888
 ENTRYPOINT ./server -c config.docker.yaml

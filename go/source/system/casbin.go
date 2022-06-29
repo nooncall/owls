@@ -2,8 +2,8 @@ package system
 
 import (
 	adapter "github.com/casbin/gorm-adapter/v3"
+	"github.com/nooncall/owls/go/global"
 	"github.com/pkg/errors"
-	"github.com/qingfeng777/owls/server/global"
 	"gorm.io/gorm"
 )
 

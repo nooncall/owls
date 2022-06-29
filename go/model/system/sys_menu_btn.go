@@ -1,6 +1,6 @@
 package system
 
-import "github.com/qingfeng777/owls/server/global"
+import "github.com/nooncall/owls/go/global"
 
 type SysBaseMenuBtn struct {
 	global.GVA_MODEL

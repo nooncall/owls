@@ -7,9 +7,9 @@ import (
 
 	"github.com/pkg/errors"
 
-	"github.com/qingfeng777/owls/server/global"
-	"github.com/qingfeng777/owls/server/service/tidb_or_mysql/db_info"
-	"github.com/qingfeng777/owls/server/utils"
+	"github.com/nooncall/owls/go/global"
+	"github.com/nooncall/owls/go/service/tidb_or_mysql/db_info"
+	"github.com/nooncall/owls/go/utils"
 )
 
 var Cluster = new(cluster)

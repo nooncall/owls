@@ -1,12 +1,12 @@
 package v1
 
 import (
-	"github.com/qingfeng777/owls/server/api/v1/auth"
-	"github.com/qingfeng777/owls/server/api/v1/autocode"
-	"github.com/qingfeng777/owls/server/api/v1/example"
-	"github.com/qingfeng777/owls/server/api/v1/system"
-	"github.com/qingfeng777/owls/server/api/v1/task"
-	"github.com/qingfeng777/owls/server/api/v1/tidb_or_mysql"
+	"github.com/nooncall/owls/go/api/v1/auth"
+	"github.com/nooncall/owls/go/api/v1/autocode"
+	"github.com/nooncall/owls/go/api/v1/example"
+	"github.com/nooncall/owls/go/api/v1/system"
+	"github.com/nooncall/owls/go/api/v1/task"
+	"github.com/nooncall/owls/go/api/v1/tidb_or_mysql"
 )
 
 type ApiGroup struct {

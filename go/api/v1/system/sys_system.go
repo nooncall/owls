@@ -1,11 +1,11 @@
 package system
 
 import (
-	"github.com/qingfeng777/owls/server/global"
-	"github.com/qingfeng777/owls/server/model/common/response"
-	"github.com/qingfeng777/owls/server/model/system"
-	systemRes "github.com/qingfeng777/owls/server/model/system/response"
-	"github.com/qingfeng777/owls/server/utils"
+	"github.com/nooncall/owls/go/global"
+	"github.com/nooncall/owls/go/model/common/response"
+	"github.com/nooncall/owls/go/model/system"
+	systemRes "github.com/nooncall/owls/go/model/system/response"
+	"github.com/nooncall/owls/go/utils"
 
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"

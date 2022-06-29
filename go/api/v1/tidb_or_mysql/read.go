@@ -5,8 +5,8 @@ import (
 
 	"github.com/gin-gonic/gin"
 
-	"github.com/qingfeng777/owls/server/model/common/response"
-	"github.com/qingfeng777/owls/server/service/tidb_or_mysql/task"
+	"github.com/nooncall/owls/go/model/common/response"
+	"github.com/nooncall/owls/go/service/tidb_or_mysql/task"
 )
 
 type ReadApi struct{}

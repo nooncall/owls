@@ -2,14 +2,14 @@ package tidb_or_mysql
 
 import (
 	"fmt"
-	"github.com/qingfeng777/owls/server/model/common/request"
-	"github.com/qingfeng777/owls/server/utils"
+	"github.com/nooncall/owls/go/model/common/request"
+	"github.com/nooncall/owls/go/utils"
 	"strconv"
 
 	"github.com/gin-gonic/gin"
 
-	"github.com/qingfeng777/owls/server/model/common/response"
-	"github.com/qingfeng777/owls/server/service/tidb_or_mysql/db_info"
+	"github.com/nooncall/owls/go/model/common/response"
+	"github.com/nooncall/owls/go/service/tidb_or_mysql/db_info"
 )
 
 type ClusterApi struct{}

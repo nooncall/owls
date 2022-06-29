@@ -1,4 +1,4 @@
-module github.com/qingfeng777/owls/server
+module github.com/nooncall/owls/go
 
 go 1.16
 

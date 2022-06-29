@@ -6,12 +6,12 @@ import (
 	"strconv"
 
 	"github.com/gin-gonic/gin"
-	"github.com/qingfeng777/owls/server/model/common/request"
-	"github.com/qingfeng777/owls/server/model/common/response"
-	request2 "github.com/qingfeng777/owls/server/model/system/request"
-	"github.com/qingfeng777/owls/server/service/auth/auth"
-	"github.com/qingfeng777/owls/server/service/task"
-	"github.com/qingfeng777/owls/server/utils"
+	"github.com/nooncall/owls/go/model/common/request"
+	"github.com/nooncall/owls/go/model/common/response"
+	request2 "github.com/nooncall/owls/go/model/system/request"
+	"github.com/nooncall/owls/go/service/auth/auth"
+	"github.com/nooncall/owls/go/service/task"
+	"github.com/nooncall/owls/go/utils"
 )
 
 type TaskApi struct{}

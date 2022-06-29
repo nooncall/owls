@@ -10,12 +10,12 @@ import (
 	"strings"
 	"time"
 
-	"github.com/qingfeng777/owls/server/utils"
+	"github.com/nooncall/owls/go/utils"
 
 	"github.com/gin-gonic/gin"
-	"github.com/qingfeng777/owls/server/global"
-	"github.com/qingfeng777/owls/server/model/system"
-	"github.com/qingfeng777/owls/server/service"
+	"github.com/nooncall/owls/go/global"
+	"github.com/nooncall/owls/go/model/system"
+	"github.com/nooncall/owls/go/service"
 	"go.uber.org/zap"
 )
 

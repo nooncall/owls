@@ -1,6 +1,6 @@
 package response
 
-import "github.com/qingfeng777/owls/server/model/system"
+import "github.com/nooncall/owls/go/model/system"
 
 type SysAuthorityResponse struct {
 	Authority system.SysAuthority `json:"authority"`

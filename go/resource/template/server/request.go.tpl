@@ -1,8 +1,8 @@
 package request
 
 import (
-	"github.com/qingfeng777/owls/server/model/autocode"
-	"github.com/qingfeng777/owls/server/model/common/request"
+	"github.com/nooncall/owls/go/model/autocode"
+	"github.com/nooncall/owls/go/model/common/request"
 )
 
 type {{.StructName}}Search struct{

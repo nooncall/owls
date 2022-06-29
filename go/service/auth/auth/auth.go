@@ -1,6 +1,6 @@
 package auth
 
-import "github.com/qingfeng777/owls/server/model/common/request"
+import "github.com/nooncall/owls/go/model/common/request"
 
 type AuthAble interface {
 	AuthCluster() ([]string, error)

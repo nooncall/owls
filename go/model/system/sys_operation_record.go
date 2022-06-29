@@ -4,7 +4,7 @@ package system
 import (
 	"time"
 
-	"github.com/qingfeng777/owls/server/global"
+	"github.com/nooncall/owls/go/global"
 )
 
 // 如果含有time.Time 请自行import time包

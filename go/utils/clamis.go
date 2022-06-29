@@ -2,8 +2,8 @@ package utils
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/qingfeng777/owls/server/global"
-	systemReq "github.com/qingfeng777/owls/server/model/system/request"
+	"github.com/nooncall/owls/go/global"
+	systemReq "github.com/nooncall/owls/go/model/system/request"
 	uuid "github.com/satori/go.uuid"
 )
 

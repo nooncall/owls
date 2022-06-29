@@ -2,7 +2,7 @@ package task
 
 import (
 	"fmt"
-	"github.com/qingfeng777/owls/server/model/common/request"
+	"github.com/nooncall/owls/go/model/common/request"
 	"time"
 )
 

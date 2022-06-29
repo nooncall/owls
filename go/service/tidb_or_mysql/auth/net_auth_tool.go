@@ -3,7 +3,7 @@ package auth
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/qingfeng777/owls/server/utils"
+	"github.com/nooncall/owls/go/utils"
 	"net/http"
 )
 

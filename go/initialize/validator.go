@@ -1,6 +1,6 @@
 package initialize
 
-import "github.com/qingfeng777/owls/server/utils"
+import "github.com/nooncall/owls/go/utils"
 
 func init() {
 	_ = utils.RegisterRule("PageVerify",

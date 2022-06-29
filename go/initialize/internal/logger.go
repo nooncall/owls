@@ -3,7 +3,7 @@ package internal
 import (
 	"fmt"
 
-	"github.com/qingfeng777/owls/server/global"
+	"github.com/nooncall/owls/go/global"
 	"gorm.io/gorm/logger"
 )
 

@@ -6,13 +6,13 @@ import (
 	"mime/multipart"
 	"strconv"
 
-	"github.com/qingfeng777/owls/server/model/example"
+	"github.com/nooncall/owls/go/model/example"
 
 	"github.com/gin-gonic/gin"
-	"github.com/qingfeng777/owls/server/global"
-	"github.com/qingfeng777/owls/server/model/common/response"
-	exampleRes "github.com/qingfeng777/owls/server/model/example/response"
-	"github.com/qingfeng777/owls/server/utils"
+	"github.com/nooncall/owls/go/global"
+	"github.com/nooncall/owls/go/model/common/response"
+	exampleRes "github.com/nooncall/owls/go/model/example/response"
+	"github.com/nooncall/owls/go/utils"
 	"go.uber.org/zap"
 )
 

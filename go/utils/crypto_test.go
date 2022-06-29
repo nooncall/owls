@@ -3,8 +3,8 @@ package utils
 import (
 	"testing"
 
-	"github.com/qingfeng777/owls/server/config"
-	"github.com/qingfeng777/owls/server/utils/logger"
+	"github.com/nooncall/owls/go/config"
+	"github.com/nooncall/owls/go/utils/logger"
 )
 
 func TestCryPto(t *testing.T) {

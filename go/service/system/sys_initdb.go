@@ -5,15 +5,15 @@ import (
 	"fmt"
 
 	adapter "github.com/casbin/gorm-adapter/v3"
-	"github.com/qingfeng777/owls/server/global"
-	"github.com/qingfeng777/owls/server/model/example"
-	"github.com/qingfeng777/owls/server/model/system"
-	"github.com/qingfeng777/owls/server/model/system/request"
-	"github.com/qingfeng777/owls/server/service/auth/auth"
-	tasks "github.com/qingfeng777/owls/server/service/task"
-	"github.com/qingfeng777/owls/server/service/tidb_or_mysql/checker"
-	"github.com/qingfeng777/owls/server/service/tidb_or_mysql/db_info"
-	"github.com/qingfeng777/owls/server/service/tidb_or_mysql/task"
+	"github.com/nooncall/owls/go/global"
+	"github.com/nooncall/owls/go/model/example"
+	"github.com/nooncall/owls/go/model/system"
+	"github.com/nooncall/owls/go/model/system/request"
+	"github.com/nooncall/owls/go/service/auth/auth"
+	tasks "github.com/nooncall/owls/go/service/task"
+	"github.com/nooncall/owls/go/service/tidb_or_mysql/checker"
+	"github.com/nooncall/owls/go/service/tidb_or_mysql/db_info"
+	"github.com/nooncall/owls/go/service/tidb_or_mysql/task"
 )
 
 type InitDBService struct{}

@@ -2,8 +2,8 @@ package middleware
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/qingfeng777/owls/server/global"
-	"github.com/qingfeng777/owls/server/model/common/response"
+	"github.com/nooncall/owls/go/global"
+	"github.com/nooncall/owls/go/model/common/response"
 )
 
 // 处理跨域请求,支持options访问

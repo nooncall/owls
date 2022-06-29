@@ -1,7 +1,7 @@
 package example
 
 import (
-	"github.com/qingfeng777/owls/server/global"
+	"github.com/nooncall/owls/go/global"
 )
 
 type ExaFileUploadAndDownload struct {

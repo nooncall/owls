@@ -1,9 +1,9 @@
 package service
 
 import (
-	"github.com/qingfeng777/owls/server/service/autocode"
-	"github.com/qingfeng777/owls/server/service/example"
-	"github.com/qingfeng777/owls/server/service/system"
+	"github.com/nooncall/owls/go/service/autocode"
+	"github.com/nooncall/owls/go/service/example"
+	"github.com/nooncall/owls/go/service/system"
 )
 
 type ServiceGroup struct {

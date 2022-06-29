@@ -2,9 +2,9 @@ package system
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/qingfeng777/owls/server/global"
-	"github.com/qingfeng777/owls/server/model/common/response"
-	"github.com/qingfeng777/owls/server/model/system/request"
+	"github.com/nooncall/owls/go/global"
+	"github.com/nooncall/owls/go/model/common/response"
+	"github.com/nooncall/owls/go/model/system/request"
 	"go.uber.org/zap"
 )
 

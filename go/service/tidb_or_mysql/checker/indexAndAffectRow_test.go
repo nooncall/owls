@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/qingfeng777/owls/server/service/tidb_or_mysql/service"
+	"github.com/nooncall/owls/go/service/tidb_or_mysql/service"
 )
 
 func TestIndexMatchCondition(t *testing.T) {

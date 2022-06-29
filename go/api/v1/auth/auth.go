@@ -5,10 +5,10 @@ import (
 	"strconv"
 
 	"github.com/gin-gonic/gin"
-	"github.com/qingfeng777/owls/server/model/common/request"
-	"github.com/qingfeng777/owls/server/model/common/response"
-	"github.com/qingfeng777/owls/server/service/auth/auth"
-	"github.com/qingfeng777/owls/server/utils"
+	"github.com/nooncall/owls/go/model/common/request"
+	"github.com/nooncall/owls/go/model/common/response"
+	"github.com/nooncall/owls/go/service/auth/auth"
+	"github.com/nooncall/owls/go/utils"
 )
 
 // list data type
