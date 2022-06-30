@@ -1,12 +1,13 @@
 package system
 
 import (
-	"github.com/nooncall/owls/go/global"
-	"github.com/nooncall/owls/go/model/system"
 	"github.com/pkg/errors"
 	uuid "github.com/satori/go.uuid"
-
 	"gorm.io/gorm"
+
+	"github.com/nooncall/owls/go/global"
+	"github.com/nooncall/owls/go/model/system"
+	"github.com/nooncall/owls/go/utils"
 )
 
 var User = new(user)
