@@ -1,4 +1,5 @@
 ---
+sidebar_label: '开发环境搭建'
 sidebar_position: 3
 ---
 

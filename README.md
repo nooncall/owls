@@ -46,23 +46,23 @@
 
 #### 快速开始
 
-请查询[快速开始](./docs/user_guide/快速开始.md) 
+请查询[快速开始](./docs/user_guide/quick-start.md) 
 
-或者访问 owls.nooncall.cn/docs/user_guide/快速开始
+或者访问 owls.nooncall.cn/docs/user_guide/quick-start
 
 #### 完整文档
 
-请查询 owls.nooncall.cn 。  
+请查阅 owls.nooncall.cn 。  
 
 项目启动后，在项目addr:port/docs 目录下也能查阅跟随项目部署的文档。
 
 #### 贡献指南
 
-请查询[贡献指南](./docs/roadmap/贡献指南.md)  
+请查询[贡献指南](./docs/roadmap/contribution.md)  
 
-或者访问 owls.nooncall.cn/docs/roadmap/贡献指南
+或者访问 owls.nooncall.cn/docs/roadmap/contribution
 
-### 6. 鸣谢
+### 鸣谢
 
 ##### 感谢 [伴鱼Owl](https://github.com/ibanyu/owl)项目，此项目继承于伴鱼Owl。
 ##### 感谢[docusaurus](https://github.com/facebook/docusaurus)项目，一个非常好用的文档系统。

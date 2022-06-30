@@ -1,4 +1,5 @@
 ---
+sidebar_label: '权限'
 sidebar_position: 3
 ---
 

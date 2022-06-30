@@ -1,4 +1,5 @@
 ---
+sidebar_label: '用户'
 sidebar_position: 2
 ---
 
