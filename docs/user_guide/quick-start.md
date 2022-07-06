@@ -7,7 +7,7 @@ sidebar_position: 1
 
 如果使用准备好的DB，则可以直接执行：
 
-    docker run -p 8081:80 -d  mingbai/owls:latest
+    docker run -p 8778:8778 -d  mingbai/owls:latest
 
 如无，则创建docker网桥，然后分别docker启动mysql、owls的容器：
 
@@ -15,7 +15,7 @@ sidebar_position: 1
 
     docker run -d --network=owls --name=mysql  -e MYSQL_ROOT_PASSWORD=aaaaaa mysql:5.7
 
-    docker run -p 8081:80 -d  --network=owls  mingbai/owls:latest
+    docker run -p 8778:8778 -d  --network=owls  mingbai/owls:latest
 
 ### 集群内安装
 
@@ -28,10 +28,10 @@ sidebar_position: 1
 
 ### 本地文档
 
-访问： `http://localhost:8081/docs`
+访问： `http://localhost:8778/docs`
 
 ### Enjoy
-现在访问`http://localhost:8081`即可尝试使用系统提供的功能了 。 
+现在访问`http://localhost:8778`即可尝试使用系统提供的功能了 。 
 
 默认创建的用户有两个，`admin`和`user` 密码都是`aaaaaa` 。
 
