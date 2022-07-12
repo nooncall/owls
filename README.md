@@ -18,7 +18,7 @@
 
 ### 在线预览
 
-[在线预览](http://106.13.50.14/owls): http://106.13.50.14/owls
+[在线预览](http://owls.nooncall.cn:8778/owls): http://owls.nooncall.cn:8778/owls
 
 测试用户名：admin
 
@@ -48,11 +48,11 @@
 
 请查询[快速开始](./docs/user_guide/quick-start.md) 
 
-或者访问 owls.nooncall.cn/docs/user_guide/quick-start
+或者访问 owls.nooncall.cn:8778/docs/user_guide/quick-start
 
 #### 完整文档
 
-请查阅 owls.nooncall.cn 。  
+请查阅 owls.nooncall.cn:8778/docs 。  
 
 项目启动后，在项目addr:port/docs 目录下也能查阅跟随项目部署的文档。
 
