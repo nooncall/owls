@@ -39,7 +39,7 @@ const config = {
           if (locale !== 'en') {
             return `https://crowdin.com/project/docusaurus-v2/${locale}`;
           }
-          return `https://github.com/facebook/docusaurus/edit/main/website/${versionDocsDirPath}/${docPath}`;
+          return `https://github.com/nooncall/owls/edit/main/website/${versionDocsDirPath}/${docPath}`;
         },
         //remarkPlugins: [npm2yarn],
         editCurrentVersion: true,
@@ -59,7 +59,7 @@ const config = {
           if (locale !== 'en') {
             return `https://crowdin.com/project/docusaurus-v2/${locale}`;
           }
-          return `https://github.com/facebook/docusaurus/edit/main/website/${versionDocsDirPath}/${docPath}`;
+          return `https://github.com/nooncall/owls/edit/main/website/${versionDocsDirPath}/${docPath}`;
         },
         editCurrentVersion: true,
         showLastUpdateAuthor: true,
@@ -77,7 +77,7 @@ const config = {
           if (locale !== 'en') {
             return `https://crowdin.com/project/docusaurus-v2/${locale}`;
           }
-          return `https://github.com/facebook/docusaurus/edit/main/website/${versionDocsDirPath}/${docPath}`;
+          return `https://github.com/nooncall/owls/edit/main/website/${versionDocsDirPath}/${docPath}`;
         },
         editCurrentVersion: true,
         showLastUpdateAuthor: true,
@@ -96,14 +96,14 @@ const config = {
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
           editUrl:
-            'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
+            'https://github.com/nooncall/owls/tree/main/packages/create-docusaurus/templates/shared/',
         },
         blog: {
           showReadingTime: true,
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
           editUrl:
-            'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
+            'https://github.com/nooncall/owls/tree/main/packages/create-docusaurus/templates/shared/',
         },
         theme: {
           customCss: require.resolve('./src/css/custom.css'),
@@ -135,7 +135,7 @@ const config = {
           // },
           {to: '/blog', label: 'Blog', position: 'left'},
           {
-            href: 'https://github.com/facebook/docusaurus',
+            href: 'https://github.com/nooncall/owls',
             label: 'GitHub',
             position: 'right',
           },
@@ -179,12 +179,12 @@ const config = {
               },
               {
                 label: 'GitHub',
-                href: 'https://github.com/facebook/docusaurus',
+                href: 'https://github.com/nooncall/owls',
               },
             ],
           },
         ],
-        copyright: `Copyright © ${new Date().getFullYear()} My Project, Inc. Built with Docusaurus.`,
+        copyright: `Copyright © ${new Date().getFullYear()} , 京ICP备2022019518号 nooncall-owls`,
       },
       prism: {
         theme: lightCodeTheme,

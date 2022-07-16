@@ -91,7 +91,7 @@
       <div class="login_panle_right" />
       <div class="login_panle_foot">
         <div class="links">
-          <a href="http://doc.henrongyi.top/" target="_blank">
+          <a href="http://owls.nooncall.cn:8778/docs" target="_blank">
             <img src="@/assets/docs.png" class="link-icon">
           </a>
           <a href="http://owls.nooncall.cn:8778/docs" target="_blank"><!--todo, change to wechat group page-->
