@@ -74,7 +74,8 @@ export const useRouterStore = defineStore('router', () => {
     baseRouter[0].children = asyncRouter
     baseRouter.push({
       path: '/:catchAll(.*)',
-      redirect: '/layout/404'
+      name: 'catch',
+      redirect: '/layout/404' // todo, fix contect page
 
     })
     asyncRouterHandle(baseRouter)

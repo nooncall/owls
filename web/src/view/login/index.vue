@@ -94,11 +94,11 @@
           <a href="http://doc.henrongyi.top/" target="_blank">
             <img src="@/assets/docs.png" class="link-icon">
           </a>
-          <a href="https://support.qq.com/product/371961" target="_blank">
+          <a href="http://owls.nooncall.cn:8778/docs" target="_blank"><!--todo, change to wechat group page-->
             <img src="@/assets/kefu.png" class="link-icon">
           </a>
           <a
-            href="https://github.com/flipped-aurora/gin-vue-admin"
+            href="https://github.com/nooncall/owls"
             target="_blank"
           >
             <img src="@/assets/github.png" class="link-icon">

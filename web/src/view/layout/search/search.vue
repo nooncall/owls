@@ -99,7 +99,7 @@ const handleReload = () => {
   }, 500)
 }
 const toService = () => {
-  window.open('https://support.qq.com/product/371961')
+  window.open('http://owls.nooncall.cn:8778/docs')
 }
 
 </script>

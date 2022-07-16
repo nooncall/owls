@@ -82,7 +82,9 @@
             <HistoryComponent ref="layoutHistoryComponent" />
           </div>
         </transition>
-        <router-view v-if="reloadFlag" v-slot="{ Component }" v-loading="loadingFlag" element-loading-text="正在加载中" class="admin-box">
+        <!-- todo, 有这个会导致页面需要刷新一次才显示，需要fix后再加上
+        v-loading="loadingFlag" element-loading-text="正在加载中"-->
+        <router-view v-if="reloadFlag" v-slot="{ Component }" class="admin-box">
           <transition mode="out-in" name="el-fade-in-linear">
             <keep-alive :include="routerStore.keepAliveRouters">
               <component :is="Component" />

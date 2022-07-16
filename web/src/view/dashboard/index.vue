@@ -35,20 +35,12 @@
           </div>
           <div>
             <div class="gva-top-card-left-item">
-              使用教学：
+              官方文档：
               <a
                 style="color:#409EFF"
                 target="view_window"
-                href="https://www.bilibili.com/video/BV1Rg411u7xH/"
-              >https://www.bilibili.com/video/BV1Rg411u7xH</a>
-            </div>
-            <div class="gva-top-card-left-item">
-              插件仓库：
-              <a
-                style="color:#409EFF"
-                target="view_window"
-                href="https://github.com/flipped-aurora/gva-plugins"
-              >https://github.com/flipped-aurora/gva-plugins</a>
+                href="http://owls.nooncall.cn:8778/docs"
+              >http://owls.nooncall.cn:8778/docs</a>
             </div>
           </div>
         </div>
@@ -126,23 +118,23 @@ const toolCards = ref([
     bg: 'rgba(105, 192, 255,.3)'
   },
   {
-    label: '菜单管理',
+    label: 'DB查询',
     icon: 'menu',
-    name: 'menu',
+    name: 'Read',
     color: '#b37feb',
     bg: 'rgba(179, 127, 235,.3)'
   },
   {
-    label: '代码生成器',
+    label: 'DB工单',
     icon: 'cpu',
-    name: 'autoCode',
+    name: 'SubmitSql',
     color: '#ffd666',
     bg: 'rgba(255, 214, 102,.3)'
   },
   {
-    label: '表单生成器',
+    label: 'DB工单审批',
     icon: 'document-checked',
-    name: 'formCreate',
+    name: 'Review',
     color: '#ff85c0',
     bg: 'rgba(255, 133, 192,.3)'
   },
