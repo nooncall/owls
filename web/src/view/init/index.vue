@@ -75,7 +75,7 @@ const showNext = () => {
 
 const goDoc = () => {
   // todo, setup doc, change to it.
-  window.open('https://www.gin-vue-admin.com/docs/first_master#3-init')
+  window.open('http://owls.nooncall.cn:8778/docs')
 }
 
 const out = ref(false)

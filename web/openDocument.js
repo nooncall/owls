@@ -7,7 +7,7 @@
 
 var child_process = require('child_process')
 
-var url = 'https://www.gin-vue-admin.com'
+var url = 'http://owls.nooncall.cn:8778/docs'
 var cmd = ''
 console.log(process.platform)
 switch (process.platform) {

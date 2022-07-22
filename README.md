@@ -16,6 +16,11 @@
 
 > Owls是一个基于 [vue](https://vuejs.org) 和 [go](https://go.dev/) 开发的全栈前后端分离的数据交互管理平台，集成jwt鉴权，sql审批（sql查询，mq管理、redis使用管理、etcd管理等）。帮助您更方便、更规范的管理中间件系统，守护数据系统，提高系统稳定性，避免人为操作失误导致的故障，提高效率，解放创造力。
 
+#### 项目地址
+
+Github(科学上网)：https://github.com/nooncall/owls  
+Gitee(国内访问)： https://gitee.com/nooncall/owls
+
 ### 在线预览
 
 [在线预览](http://owls.nooncall.cn:8778/owls): http://owls.nooncall.cn:8778/owls

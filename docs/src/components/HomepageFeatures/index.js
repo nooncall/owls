@@ -26,7 +26,7 @@ const FeatureList = [
     Svg: require('@site/static/img/undraw_docusaurus_tree.svg').default,
     description: (
       <>
-        把时间和精力从无尽的故障、oncall中收回来，去做一些自己喜欢的、有创造力的、有意思的事情！
+        尽可能的把时间和精力从无尽的故障、oncall中收回来，去做一些自己喜欢的、有创造力的、有意思的事情！
       </>
     ),
   },

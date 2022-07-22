@@ -61,7 +61,7 @@ func (a *authoritiesMenus) Initialize() error {
 
 		//admin
 		{BaseMenuId: 1, AuthorityId: "887"},
-		{BaseMenuId: 2, AuthorityId: "887"},
+		// {BaseMenuId: 2, AuthorityId: "887"}, todo, design about us
 		{BaseMenuId: 3, AuthorityId: "887"},
 		{BaseMenuId: 4, AuthorityId: "887"},
 		{BaseMenuId: 7, AuthorityId: "887"},
@@ -84,7 +84,7 @@ func (a *authoritiesMenus) Initialize() error {
 
 		// user
 		{BaseMenuId: 1, AuthorityId: "886"},
-		{BaseMenuId: 2, AuthorityId: "886"},
+		// {BaseMenuId: 2, AuthorityId: "886"}, todo,design about us
 		{BaseMenuId: 8, AuthorityId: "886"},
 		{BaseMenuId: 20, AuthorityId: "886"},
 		{BaseMenuId: 22, AuthorityId: "886"},
