@@ -18,7 +18,7 @@ func (u *user) TableName() string {
 	return "sys_users"
 }
 
-func (u *user) Initialize() error {
+func (u *user) Initialize(initData *system.InitDBData) error {
 	entities := []system.SysUser{
 		{UUID: uuid.NewV4(), Username: "dev", Password: utils.MD5V([]byte(global.GVA_CONFIG.Login.InitPassword)), NickName: "Dev", HeaderImg: "https://pica.zhimg.com/v2-4b6c9c82868b5d7c26a39776ffc5bc98_r.jpg", AuthorityId: "888", Phone: "17611111111", Email: "333333333@qq.com"},
 		{UUID: uuid.NewV4(), Username: "admin", Password: utils.MD5V([]byte(global.GVA_CONFIG.Login.InitPassword)), NickName: "Admin", HeaderImg: "https://pica.zhimg.com/v2-16022df2e21a5f69838d094856f29024_1440w.jpg", AuthorityId: "887", Phone: "17611111112", Email: "633333333@qq.com"},

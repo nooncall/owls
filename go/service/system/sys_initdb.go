@@ -8,7 +8,6 @@ import (
 	"github.com/nooncall/owls/go/global"
 	"github.com/nooncall/owls/go/model/example"
 	"github.com/nooncall/owls/go/model/system"
-	"github.com/nooncall/owls/go/model/system/request"
 	"github.com/nooncall/owls/go/service/auth/auth"
 	tasks "github.com/nooncall/owls/go/service/task"
 	"github.com/nooncall/owls/go/service/tidb_or_mysql/checker"
@@ -22,7 +21,7 @@ type InitDBService struct{}
 // Author [piexlmax](https://github.com/piexlmax)
 // Author [SliverHorn](https://github.com/SliverHorn)
 // Author [songzhibin97](https://github.com/songzhibin97)
-func (initDBService *InitDBService) InitDB(conf request.InitDB) error {
+func (initDBService *InitDBService) InitDB(conf system.InitDBData) error {
 	switch conf.DBType {
 	case "mysql":
 		return initDBService.initMysqlDB(conf)

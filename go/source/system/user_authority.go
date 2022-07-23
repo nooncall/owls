@@ -16,7 +16,7 @@ func (a *userAuthority) TableName() string {
 	return entity.TableName()
 }
 
-func (a *userAuthority) Initialize() error {
+func (a *userAuthority) Initialize(initData *system.InitDBData) error {
 	entities := []system.SysUseAuthority{
 		{SysUserId: 1, SysAuthorityAuthorityId: "888"},
 		{SysUserId: 2, SysAuthorityAuthorityId: "887"},

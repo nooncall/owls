@@ -3,6 +3,7 @@ package example
 import (
 	"github.com/nooncall/owls/go/global"
 	"github.com/nooncall/owls/go/model/example"
+	"github.com/nooncall/owls/go/model/system"
 	"github.com/pkg/errors"
 	"gorm.io/gorm"
 )
@@ -15,7 +16,7 @@ func (f *fileMysql) TableName() string {
 	return "exa_file_upload_and_downloads"
 }
 
-func (f *fileMysql) Initialize() error {
+func (f *fileMysql) Initialize(initData *system.InitDBData) error {
 	entities := []example.ExaFileUploadAndDownload{
 		{Name: "10.png", Url: "https://qmplusimg.henrongyi.top/gvalogo.png", Tag: "png", Key: "158787308910.png"},
 		{Name: "logo.png", Url: "https://qmplusimg.henrongyi.top/1576554439myAvatar.png", Tag: "png", Key: "1587973709logo.png"},

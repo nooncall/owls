@@ -3,8 +3,8 @@ package sql_util
 import (
 	"fmt"
 
-	"github.com/pingcap/parser/ast"
 	"github.com/nooncall/owls/go/utils/logger"
+	"github.com/pingcap/parser/ast"
 )
 
 func AddLimit(sql string) string {

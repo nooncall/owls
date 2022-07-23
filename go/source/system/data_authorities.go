@@ -19,7 +19,7 @@ func (a *dataAuthorities) TableName() string {
 	return entity.TableName()
 }
 
-func (a *dataAuthorities) Initialize() error {
+func (a *dataAuthorities) Initialize(initData *system.InitDBData) error {
 	entities := []AuthoritiesResources{
 		{AuthorityId: "888", ResourcesId: "888"},
 		{AuthorityId: "888", ResourcesId: "887"},

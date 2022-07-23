@@ -1,4 +1,4 @@
-package request
+package system
 
 import (
 	"fmt"
@@ -6,7 +6,7 @@ import (
 	"github.com/nooncall/owls/go/config"
 )
 
-type InitDB struct {
+type InitDBData struct {
 	DBType   string `json:"dbType"`                      // 数据库类型
 	Host     string `json:"host"`                        // 服务器地址
 	Port     string `json:"port"`                        // 数据库连接端口
@@ -17,7 +17,7 @@ type InitDB struct {
 
 // MysqlEmptyDsn msyql 空数据库 建库链接
 // Author SliverHorn
-func (i *InitDB) MysqlEmptyDsn() string {
+func (i *InitDBData) MysqlEmptyDsn() string {
 	if i.Host == "" {
 		i.Host = "127.0.0.1"
 	}
@@ -29,7 +29,7 @@ func (i *InitDB) MysqlEmptyDsn() string {
 
 // PgsqlEmptyDsn pgsql 空数据库 建库链接
 // Author SliverHorn
-func (i *InitDB) PgsqlEmptyDsn() string {
+func (i *InitDBData) PgsqlEmptyDsn() string {
 	if i.Host == "" {
 		i.Host = "127.0.0.1"
 	}
@@ -41,7 +41,7 @@ func (i *InitDB) PgsqlEmptyDsn() string {
 
 // ToMysqlConfig 转换 config.Mysql
 // Author [SliverHorn](https://github.com/SliverHorn)
-func (i *InitDB) ToMysqlConfig() config.Mysql {
+func (i *InitDBData) ToMysqlConfig() config.Mysql {
 	return config.Mysql{
 		Path:         i.Host,
 		Port:         i.Port,
@@ -57,7 +57,7 @@ func (i *InitDB) ToMysqlConfig() config.Mysql {
 
 // ToPgsqlConfig 转换 config.Pgsql
 // Author [SliverHorn](https://github.com/SliverHorn)
-func (i *InitDB) ToPgsqlConfig() config.Pgsql {
+func (i *InitDBData) ToPgsqlConfig() config.Pgsql {
 	return config.Pgsql{
 		Path:         i.Host,
 		Port:         i.Port,

@@ -6,7 +6,6 @@ import (
 	"github.com/nooncall/owls/go/config"
 	"github.com/nooncall/owls/go/global"
 	model "github.com/nooncall/owls/go/model/system"
-	"github.com/nooncall/owls/go/model/system/request"
 	"github.com/nooncall/owls/go/source/example"
 	"github.com/nooncall/owls/go/source/system"
 	"github.com/nooncall/owls/go/utils"
@@ -28,7 +27,7 @@ func (initDBService *InitDBService) writePgsqlConfig(pgsql config.Pgsql) error {
 	return global.GVA_VP.WriteConfig()
 }
 
-func (initDBService *InitDBService) initPgsqlDB(conf request.InitDB) error {
+func (initDBService *InitDBService) initPgsqlDB(conf model.InitDBData) error {
 	dsn := conf.PgsqlEmptyDsn()
 	createSql := "CREATE DATABASE " + conf.DBName
 	if err := initDBService.createDatabase(dsn, "pgx", createSql); err != nil {
@@ -54,7 +53,7 @@ func (initDBService *InitDBService) initPgsqlDB(conf request.InitDB) error {
 		return err
 	}
 
-	if err := initDBService.initPgsqlData(); err != nil {
+	if err := initDBService.initPgsqlData(&conf); err != nil {
 		global.GVA_DB = nil
 		return err
 	}
@@ -69,8 +68,8 @@ func (initDBService *InitDBService) initPgsqlDB(conf request.InitDB) error {
 
 // initPgsqlData pgsql 初始化数据
 // Author [SliverHorn](https://github.com/SliverHorn)
-func (initDBService *InitDBService) initPgsqlData() error {
-	return model.PgsqlDataInitialize(
+func (initDBService *InitDBService) initPgsqlData(initData *model.InitDBData) error {
+	return model.PgsqlDataInitialize(initData,
 		system.Api,
 		system.User,
 		system.Casbin,

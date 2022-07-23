@@ -19,7 +19,7 @@ func (a *authoritiesMenus) TableName() string {
 	return entity.TableName()
 }
 
-func (a *authoritiesMenus) Initialize() error {
+func (a *authoritiesMenus) Initialize(initData *system.InitDBData) error {
 	entities := []AuthorityMenus{
 		// developer, all menu
 		{BaseMenuId: 1, AuthorityId: "888"},

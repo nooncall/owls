@@ -2,6 +2,7 @@ package tidb_or_mysql
 
 import (
 	"fmt"
+	"github.com/nooncall/owls/go/model/system"
 	"gorm.io/gorm"
 	"time"
 
@@ -20,17 +21,15 @@ func (u *cluster) TableName() string {
 	return "owl_clusters"
 }
 
-func (u *cluster) Initialize() error {
-	conf := global.GVA_CONFIG.Mysql
-	cryptoData, err := utils.AesCrypto([]byte(conf.Password))
+func (u *cluster) Initialize(initData *system.InitDBData) error {
+	cryptoData, err := utils.AesCrypto([]byte(initData.Password))
 	if err != nil {
 		return fmt.Errorf("crypto password err: %v", err)
 	}
 
 	Pwd := utils.StringifyByteDirectly(cryptoData)
 	entities := []db_info.OwlCluster{
-		// todo, 不能用config的，config的还没有更新，需要用初始化传进来的。或者改变先后顺序，先修改config，再初始化这里
-		{Name: "self cluster", Description: "cluster this project using", Addr: conf.Path + conf.Port, User: conf.Username, Pwd: Pwd, Ct: time.Now().Unix(), Operator: "init"},
+		{Name: "self-cluster", Description: "cluster this project using", Addr: initData.Host, User: initData.UserName, Pwd: Pwd, Ct: time.Now().Unix(), Operator: "init"},
 	}
 	if err := global.GVA_DB.Create(&entities).Error; err != nil {
 		return errors.Wrap(err, u.TableName()+"表数据初始化失败!")

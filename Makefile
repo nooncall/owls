@@ -40,7 +40,7 @@ build-docs:
 	cd ..
 
 build-docker: build-front build-linux build-docs
-	docker build -t mingbai/owls:v0.1.2 .
+	docker build -t mingbai/owls:v0.5.0 .
 
 run-docker: build-docker
-	docker run -p 80:80 -d  mingbai/owls:v0.1.2
+	docker run -p 80:80 -d  mingbai/owls:v0.5.0

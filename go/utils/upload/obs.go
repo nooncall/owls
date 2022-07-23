@@ -2,8 +2,8 @@ package upload
 
 import (
 	"github.com/huaweicloud/huaweicloud-sdk-go-obs/obs"
-	"github.com/pkg/errors"
 	"github.com/nooncall/owls/go/global"
+	"github.com/pkg/errors"
 	"mime/multipart"
 )
 

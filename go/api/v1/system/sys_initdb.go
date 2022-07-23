@@ -3,7 +3,7 @@ package system
 import (
 	"github.com/nooncall/owls/go/global"
 	"github.com/nooncall/owls/go/model/common/response"
-	"github.com/nooncall/owls/go/model/system/request"
+	"github.com/nooncall/owls/go/model/system"
 	"go.uber.org/zap"
 
 	"github.com/gin-gonic/gin"
@@ -24,7 +24,7 @@ func (i *DBApi) InitDB(c *gin.Context) {
 		response.FailWithMessage("已存在数据库配置", c)
 		return
 	}
-	var dbInfo request.InitDB
+	var dbInfo system.InitDBData
 	if err := c.ShouldBindJSON(&dbInfo); err != nil {
 		global.GVA_LOG.Error("参数校验不通过!", zap.Error(err))
 		response.FailWithMessage("参数校验不通过", c)

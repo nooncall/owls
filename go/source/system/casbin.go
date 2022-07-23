@@ -3,6 +3,7 @@ package system
 import (
 	adapter "github.com/casbin/gorm-adapter/v3"
 	"github.com/nooncall/owls/go/global"
+	"github.com/nooncall/owls/go/model/system"
 	"github.com/pkg/errors"
 	"gorm.io/gorm"
 )
@@ -16,7 +17,7 @@ func (c *casbin) TableName() string {
 	return entity.TableName()
 }
 
-func (c *casbin) Initialize() error {
+func (c *casbin) Initialize(initData *system.InitDBData) error {
 	entities := []adapter.CasbinRule{
 		{PType: "p", V0: "888", V1: "/base/login", V2: "POST"},
 		{PType: "p", V0: "888", V1: "/user/admin_register", V2: "POST"},
