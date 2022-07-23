@@ -1,9 +1,9 @@
 package system
 
 import (
-	"github.com/pkg/errors"
 	"github.com/nooncall/owls/go/global"
 	"github.com/nooncall/owls/go/model/system"
+	"github.com/pkg/errors"
 	"gorm.io/gorm"
 )
 
@@ -38,7 +38,7 @@ func (m *menu) Initialize() error {
 		{GVA_MODEL: global.GVA_MODEL{ID: 19}, MenuLevel: 0, Hidden: true, ParentId: "3", Path: "dictionaryDetail/:id", Name: "dictionaryDetail", Component: "view/superAdmin/dictionary/sysDictionaryDetail.vue", Sort: 1, Meta: system.Meta{Title: "字典详情", Icon: "order"}},
 		{GVA_MODEL: global.GVA_MODEL{ID: 20}, MenuLevel: 0, Hidden: false, ParentId: "3", Path: "operation", Name: "operation", Component: "view/superAdmin/operation/sysOperationRecord.vue", Sort: 6, Meta: system.Meta{Title: "操作历史", Icon: "pie-chart"}},
 		{GVA_MODEL: global.GVA_MODEL{ID: 21}, MenuLevel: 0, Hidden: false, ParentId: "9", Path: "simpleUploader", Name: "simpleUploader", Component: "view/example/simpleUploader/simpleUploader", Sort: 6, Meta: system.Meta{Title: "断点续传（插件版）", Icon: "upload"}},
-		{GVA_MODEL: global.GVA_MODEL{ID: 22}, MenuLevel: 0, Hidden: false, ParentId: "0", Path: "http://owls.nooncall.cn:8778", Name: "http://owls.nooncall.cn:8778", Component: "/", Sort: 0, Meta: system.Meta{Title: "官方网站", Icon: "home-filled"}},
+		{GVA_MODEL: global.GVA_MODEL{ID: 22}, MenuLevel: 0, Hidden: false, ParentId: "0", Path: "http://owls.nooncall.cn:8778", Name: "http://owls.nooncall.cn:8778/docs", Component: "/", Sort: 0, Meta: system.Meta{Title: "官方网站", Icon: "home-filled"}},
 		{GVA_MODEL: global.GVA_MODEL{ID: 23}, MenuLevel: 0, Hidden: false, ParentId: "0", Path: "state", Name: "state", Component: "view/system/state.vue", Sort: 6, Meta: system.Meta{Title: "服务器状态", Icon: "cloudy"}},
 		{GVA_MODEL: global.GVA_MODEL{ID: 24}, MenuLevel: 0, Hidden: false, ParentId: "14", Path: "autoCodeAdmin", Name: "autoCodeAdmin", Component: "view/systemTools/autoCodeAdmin/index.vue", Sort: 1, Meta: system.Meta{Title: "自动化代码管理", Icon: "magic-stick"}},
 		{GVA_MODEL: global.GVA_MODEL{ID: 25}, MenuLevel: 0, Hidden: true, ParentId: "14", Path: "autoCodeEdit/:id", Name: "autoCodeEdit", Component: "view/systemTools/autoCode/index.vue", Sort: 0, Meta: system.Meta{Title: "自动化代码（复用）", Icon: "magic-stick"}},

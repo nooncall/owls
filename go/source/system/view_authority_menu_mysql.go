@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/pkg/errors"
 	"github.com/nooncall/owls/go/global"
 	"github.com/nooncall/owls/go/model/system"
+	"github.com/pkg/errors"
 )
 
 var ViewAuthorityMenuMysql = new(viewAuthorityMenuMysql)
