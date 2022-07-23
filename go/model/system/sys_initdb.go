@@ -1,6 +1,8 @@
 package system
 
-import "github.com/gookit/color"
+import (
+	"github.com/gookit/color"
+)
 
 type InitDBFunc interface {
 	Init() (err error)
@@ -18,13 +20,13 @@ const (
 
 type InitData interface {
 	TableName() string
-	Initialize() error
+	Initialize(conf *InitDBData) error
 	CheckDataExist() bool
 }
 
 // MysqlDataInitialize Mysql 初始化接口使用封装
 // Author [SliverHorn](https://github.com/SliverHorn)
-func MysqlDataInitialize(inits ...InitData) error {
+func MysqlDataInitialize(initData *InitDBData, inits ...InitData) error {
 	var entity SysMenu
 	for i := 0; i < len(inits); i++ {
 		if inits[i].TableName() == entity.TableName() {
@@ -39,7 +41,7 @@ func MysqlDataInitialize(inits ...InitData) error {
 			}
 		}
 
-		if err := inits[i].Initialize(); err != nil {
+		if err := inits[i].Initialize(initData); err != nil {
 			color.Info.Printf(InitDataFailed, Mysql, err)
 			return err
 		} else {
@@ -52,7 +54,7 @@ func MysqlDataInitialize(inits ...InitData) error {
 
 // PgsqlDataInitialize Pgsql 初始化接口使用封装
 // Author [SliverHorn](https://github.com/SliverHorn)
-func PgsqlDataInitialize(inits ...InitData) error {
+func PgsqlDataInitialize(initData *InitDBData, inits ...InitData) error {
 	var entity SysMenu
 	for i := 0; i < len(inits); i++ {
 		if inits[i].TableName() == entity.TableName() {
@@ -67,7 +69,7 @@ func PgsqlDataInitialize(inits ...InitData) error {
 			}
 		}
 
-		if err := inits[i].Initialize(); err != nil {
+		if err := inits[i].Initialize(initData); err != nil {
 			color.Info.Printf(InitDataFailed, Pgsql, err)
 			continue
 		} else {

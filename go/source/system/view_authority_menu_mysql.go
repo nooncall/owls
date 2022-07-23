@@ -18,7 +18,7 @@ func (v *viewAuthorityMenuMysql) TableName() string {
 	return entity.TableName()
 }
 
-func (v *viewAuthorityMenuMysql) Initialize() error {
+func (v *viewAuthorityMenuMysql) Initialize(initData *system.InitDBData) error {
 	var entity AuthorityMenus
 	sql := `
 	CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW @table_name AS

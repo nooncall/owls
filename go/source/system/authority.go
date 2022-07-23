@@ -15,7 +15,7 @@ func (a *authority) TableName() string {
 	return "sys_authorities"
 }
 
-func (a *authority) Initialize() error {
+func (a *authority) Initialize(initData *system.InitDBData) error {
 	entities := []system.SysAuthority{
 		{AuthorityId: "888", AuthorityName: "dev", ParentId: "0", DefaultRouter: "dashboard"},
 		{AuthorityId: "887", AuthorityName: "admin", ParentId: "0", DefaultRouter: "dashboard"},
