@@ -1,3 +1,9 @@
+---
+sidebar_label: '数据读取'
+title: 数据读取
+sidebar_position: 3
+---
+
 ## 数据权限管理
 
 #### 版本记录

@@ -1,5 +1,6 @@
 ---
 sidebar_label: '介绍'
+title: 介绍
 sidebar_position: 1
 ---
 

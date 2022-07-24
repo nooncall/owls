@@ -1,5 +1,6 @@
 ---
 sidebar_label: '权限'
+title: 权限管理
 sidebar_position: 3
 ---
 

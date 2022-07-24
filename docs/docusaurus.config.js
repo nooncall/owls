@@ -43,7 +43,7 @@ const config = {
         },
         //remarkPlugins: [npm2yarn],
         editCurrentVersion: true,
-        // sidebarPath: require.resolve('./sidebarsCommunity.js'),
+        sidebarPath: require.resolve('./user_guide/sidebarsCommunity.js'),
         showLastUpdateAuthor: true,
         showLastUpdateTime: true,
       }),
@@ -52,27 +52,9 @@ const config = {
       'content-docs',
       /** @type {import('@docusaurus/plugin-content-docs').Options} */
       ({
-        id: 'db',
-        path: 'db',
-        routeBasePath: 'db',
-        editUrl: ({locale, versionDocsDirPath, docPath}) => {
-          if (locale !== 'en') {
-            return `https://crowdin.com/project/docusaurus-v2/${locale}`;
-          }
-          return `https://github.com/nooncall/owls/edit/main/website/${versionDocsDirPath}/${docPath}`;
-        },
-        editCurrentVersion: true,
-        showLastUpdateAuthor: true,
-        showLastUpdateTime: true,
-      }),
-    ],
-    [
-      'content-docs',
-      /** @type {import('@docusaurus/plugin-content-docs').Options} */
-      ({
-        id: 'roadmap',
-        path: 'roadmap',
-        routeBasePath: 'roadmap',
+        id: 'develop',
+        path: 'develop',
+        routeBasePath: 'develop',
         editUrl: ({locale, versionDocsDirPath, docPath}) => {
           if (locale !== 'en') {
             return `https://crowdin.com/project/docusaurus-v2/${locale}`;
@@ -124,8 +106,7 @@ const config = {
         items: [
           
           {to: '/user_guide/intro', label: '用户手册', position: 'left', activeBaseRegex: `/user_guide/`,},
-          {to: '/db/intro', label: 'DB', position: 'left', activeBaseRegex: `/db/`,},
-          {to: '/roadmap/intro', label: '研发文档', position: 'left', activeBaseRegex: `/roadmap/`,},
+          {to: '/develop/intro', label: '研发文档', position: 'left', activeBaseRegex: `/develop/`,},
 
           // {
           //   type: 'doc',

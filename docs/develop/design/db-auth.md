@@ -1,3 +1,9 @@
+---
+sidebar_label: '数据权限'
+title: 数据权限
+sidebar_position: 4
+---
+
 ## 数据权限管理
 
 #### 版本记录
