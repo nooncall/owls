@@ -1,5 +1,6 @@
 ---
 sidebar_label: '写工单'
+title: 提交写sql
 sidebar_position: 2
 ---
 

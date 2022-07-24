@@ -1,12 +1,13 @@
 ---
 sidebar_position: 2
+title: Roadmap
 ---
 
 ### 中短期计划
 
 * 完善文档
 * 支持mysql使用ghost改表
-* fix项目、文档中指向的目录、地址的错误
+* 收集展示库表状态信息
 
 ### 长期计划
 

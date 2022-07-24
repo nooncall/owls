@@ -1,3 +1,8 @@
+---
+sidebar_label: '模板'
+title: 模板
+sidebar_position: 1
+---
 ## 标题
 
 #### 版本记录

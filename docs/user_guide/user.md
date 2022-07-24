@@ -1,5 +1,6 @@
 ---
 sidebar_label: '用户'
+title: 用户管理
 sidebar_position: 2
 ---
 
