@@ -18,7 +18,7 @@ func (a *viewAuthorityMenuPostgres) TableName() string {
 	return entity.TableName()
 }
 
-func (a *viewAuthorityMenuPostgres) Initialize() error {
+func (a *viewAuthorityMenuPostgres) Initialize(initData *system.InitDBData) error {
 	var entity AuthorityMenus
 	sql := `
 	CREATE VIEW @table_name as

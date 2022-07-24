@@ -5,7 +5,6 @@ import (
 	"github.com/nooncall/owls/go/config"
 	"github.com/nooncall/owls/go/global"
 	model "github.com/nooncall/owls/go/model/system"
-	"github.com/nooncall/owls/go/model/system/request"
 	"github.com/nooncall/owls/go/source/example"
 	"github.com/nooncall/owls/go/source/system"
 	"github.com/nooncall/owls/go/source/tidb_or_mysql"
@@ -36,7 +35,7 @@ func (initDBService *InitDBService) writeMysqlConfig(mysql config.Mysql) error {
 // Author [piexlmax](https://github.com/piexlmax)
 // Author [SliverHorn](https://github.com/SliverHorn)
 // Author: [songzhibin97](https://github.com/songzhibin97)
-func (initDBService *InitDBService) initMysqlDB(conf request.InitDB) error {
+func (initDBService *InitDBService) initMysqlDB(conf model.InitDBData) error {
 	dsn := conf.MysqlEmptyDsn()
 	createSql := fmt.Sprintf("CREATE DATABASE IF NOT EXISTS `%s` DEFAULT CHARACTER SET utf8mb4 DEFAULT COLLATE utf8mb4_general_ci;", conf.DBName)
 	if err := initDBService.createDatabase(dsn, "mysql", createSql); err != nil {
@@ -68,14 +67,12 @@ func (initDBService *InitDBService) initMysqlDB(conf request.InitDB) error {
 		global.GVA_DB = db
 	}
 
-	// todo, here to init
-
 	if err := initDBService.initTables(); err != nil {
 		global.GVA_DB = nil
 		return err
 	}
 
-	if err := initDBService.initMysqlData(); err != nil {
+	if err := initDBService.initMysqlData(&conf); err != nil {
 		global.GVA_DB = nil
 		return err
 	}
@@ -91,8 +88,8 @@ func (initDBService *InitDBService) initMysqlDB(conf request.InitDB) error {
 // initData mysql 初始化数据
 // Author [SliverHorn](https://github.com/SliverHorn)
 // Author: [songzhibin97](https://github.com/songzhibin97)
-func (initDBService *InitDBService) initMysqlData() error {
-	return model.MysqlDataInitialize(
+func (initDBService *InitDBService) initMysqlData(conf *model.InitDBData) error {
+	return model.MysqlDataInitialize(conf, []model.InitData{
 		system.Api,
 		system.User,
 		system.Casbin,
@@ -107,5 +104,5 @@ func (initDBService *InitDBService) initMysqlData() error {
 		example.FileMysql,
 
 		tidb_or_mysql.Cluster,
-	)
+	}...)
 }

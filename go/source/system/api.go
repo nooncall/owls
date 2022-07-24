@@ -15,7 +15,7 @@ func (a *api) TableName() string {
 	return "sys_apis"
 }
 
-func (a *api) Initialize() error {
+func (a *api) Initialize(initData *system.InitDBData) error {
 	entities := []system.SysApi{
 		{ApiGroup: "base", Method: "POST", Path: "/base/login", Description: "用户登录(必选)"},
 

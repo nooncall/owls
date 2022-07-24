@@ -15,7 +15,7 @@ func (d *dictionary) TableName() string {
 	return "sys_dictionaries"
 }
 
-func (d *dictionary) Initialize() error {
+func (d *dictionary) Initialize(initData *system.InitDBData) error {
 	status := new(bool)
 	*status = true
 	entities := []system.SysDictionary{

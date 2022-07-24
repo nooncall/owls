@@ -3,9 +3,9 @@ package system
 import (
 	"strings"
 
-	"github.com/pkg/errors"
 	"github.com/nooncall/owls/go/global"
 	"github.com/nooncall/owls/go/model/system/response"
+	"github.com/pkg/errors"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
