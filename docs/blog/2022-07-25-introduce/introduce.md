@@ -14,7 +14,9 @@ tags: [introduce, publish]
 ### 概要
 这里主要是向大家推荐一款sql检测、审批工具Owls，用于自动检测、审批sql的执行，还有其他的审批、备份、查询等功能。以提高sql的规范化，增强服务稳定性。  
 
-另外，非常欢迎感兴趣的伙伴加入社区共同开发维护：[社区群组](http://owls.nooncall.cn:8778/docs/develop/community/)
+另外，非常欢迎感兴趣的伙伴加入社区共同开发维护：[社区群组](http://owls.nooncall.cn:8778/docs/develop/community/)  
+
+开发计划也会以用户需求为主，欢迎在issue中提出合理、清晰的需求。
 
 #### 在线示例
 在线预览: http://owls.nooncall.cn:8778/owls
