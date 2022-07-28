@@ -7,6 +7,10 @@ func TestAddLimit(t *testing.T) {
 		source, expect string
 	}{
 		{
+			"select * from cluster;  ",
+			"select * from cluster limit 10",
+		},
+		{
 			"select * from cluster limit 2",
 			"select * from cluster limit 2",
 		},
@@ -14,6 +18,7 @@ func TestAddLimit(t *testing.T) {
 			"select * from cluster",
 			"select * from cluster limit 10",
 		},
+
 		{
 			"select * from owl_clusters where id in (select id from owl_clusters limit 2)",
 			"select * from owl_clusters where id in (select id from owl_clusters limit 2) limit 10",
@@ -29,7 +34,7 @@ func TestAddLimit(t *testing.T) {
 	}
 
 	for i, v := range testData {
-		if v.expect != AddLimit(v.source) {
+		if v.expect != AddLimitToSelect(v.source) {
 			t.Log("failed at :", testData[i])
 			t.FailNow()
 		}

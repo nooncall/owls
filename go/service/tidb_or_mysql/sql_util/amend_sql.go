@@ -2,13 +2,14 @@ package sql_util
 
 import (
 	"fmt"
+	"strings"
 
 	"github.com/nooncall/owls/go/utils/logger"
 	"github.com/pingcap/parser/ast"
 )
 
-func AddLimit(sql string) string {
-	f := "AddLimit-->: "
+func AddLimitToSelect(sql string) string {
+	f := "AddLimitToSelect-->: "
 	stmtNodes, _, err := getParser().Parse(sql, "", "")
 	if err != nil {
 		logger.Errorf("%sparse sql err: %v", f, err)
@@ -19,7 +20,7 @@ func AddLimit(sql string) string {
 		switch node := tiStmt.(type) {
 		case *ast.SelectStmt:
 			if node.Limit == nil {
-				return fmt.Sprintf("%s limit 10", sql)
+				return appendLimit(sql)
 			}
 		default:
 			return sql
@@ -27,4 +28,13 @@ func AddLimit(sql string) string {
 	}
 
 	return sql
+}
+
+func appendLimit(sql string) string {
+	sql = strings.TrimSpace(sql)
+	if string(sql[len(sql)-1]) == ";" {
+		sql = sql[:len(sql)-1]
+	}
+
+	return fmt.Sprintf("%s limit 10", sql)
 }
