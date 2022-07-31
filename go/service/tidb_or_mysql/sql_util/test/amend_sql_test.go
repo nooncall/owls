@@ -1,6 +1,9 @@
-package sql_util
+package test
 
-import "testing"
+import (
+	"github.com/nooncall/owls/go/service/tidb_or_mysql/sql_util"
+	"testing"
+)
 
 func TestAddLimit(t *testing.T) {
 	testData := []struct {
@@ -34,7 +37,7 @@ func TestAddLimit(t *testing.T) {
 	}
 
 	for i, v := range testData {
-		if v.expect != AddLimitToSelect(v.source) {
+		if v.expect != sql_util.AddLimitToSelect(v.source) {
 			t.Log("failed at :", testData[i])
 			t.FailNow()
 		}
