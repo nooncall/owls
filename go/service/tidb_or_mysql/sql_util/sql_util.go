@@ -338,14 +338,7 @@ const (
 )
 
 func DeleteSpecifyCharAtHead(str string) string {
-	if len(str) < 1 {
-		return str
-	}
-	head := str[:1]
-	if head == Semicolon || head == Space || head == NewLine {
-		return DeleteSpecifyCharAtHead(str[1:])
-	}
-	return str
+	return strings.TrimLeft(str, Semicolon+Space+NewLine)
 }
 
 func ReplaceSpecifyChar(str string) string {

@@ -22,7 +22,7 @@ func ReadData(req *SqlParam) (*ReadResult, error) {
 			req.Sql, req.ClusterName, req.DBName, req.BackupId)
 	}
 
-	req.Sql = sql_util.AddLimitToSelect(req.Sql)
+	req.Sql = sql_util.NewReadSql(req.Sql).SetLimitResult()
 
 	dbInfo, err := dbTool.GetDBConn(req.DBName, req.ClusterName)
 	if err != nil {

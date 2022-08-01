@@ -37,7 +37,7 @@ func TestAddLimit(t *testing.T) {
 	}
 
 	for i, v := range testData {
-		if v.expect != sql_util.AddLimitToSelect(v.source) {
+		if v.expect != sql_util.NewReadSql(v.source).SetLimitResult() {
 			t.Log("failed at :", testData[i])
 			t.FailNow()
 		}
