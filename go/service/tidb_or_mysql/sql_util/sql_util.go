@@ -27,7 +27,7 @@ type Column struct {
 	Extra   string
 }
 
-func buildDelRollBackSql(column []Column, dataItems [][]string, tableName string) (string, error) {
+func BuildDelRollBackSql(column []Column, dataItems [][]string, tableName string) (string, error) {
 	columnLen := len(column)
 
 	var columnName, values []string
@@ -304,7 +304,7 @@ func SplitMultiSql(sql string) (resp []string, err error) {
 	}
 
 	for _, v := range stmtNodes {
-		resp = append(resp, deleteSpecifyCharAtHead(v.Text()))
+		resp = append(resp, DeleteSpecifyCharAtHead(v.Text()))
 	}
 
 	// vitess can't parse multi sql once
@@ -337,18 +337,11 @@ const (
 `
 )
 
-func deleteSpecifyCharAtHead(str string) string {
-	if len(str) < 1 {
-		return str
-	}
-	head := str[:1]
-	if head == Semicolon || head == Space || head == NewLine {
-		return deleteSpecifyCharAtHead(str[1:])
-	}
-	return str
+func DeleteSpecifyCharAtHead(str string) string {
+	return strings.TrimLeft(str, Semicolon+Space+NewLine)
 }
 
-func replaceSpecifyChar(str string) string {
+func ReplaceSpecifyChar(str string) string {
 	if len(str) < 1 {
 		return str
 	}
@@ -359,7 +352,7 @@ func replaceSpecifyChar(str string) string {
 	}
 	str = strings.ReplaceAll(str, NewLine, Space)
 	str = strings.ReplaceAll(str, Table, Space)
-	return replaceSpecifyChar(strings.ReplaceAll(str, DoubleSpace, Space))
+	return ReplaceSpecifyChar(strings.ReplaceAll(str, DoubleSpace, Space))
 }
 
 const KeyJoinChar = "+"

@@ -3,6 +3,9 @@ sidebar_position: 2
 title: Roadmap
 ---
 
+## 说明
+开发计划会优先考虑用户提出的需求，欢迎在issue或者社区微信群里提出需求。
+
 ### 中短期计划
 
 * 完善文档

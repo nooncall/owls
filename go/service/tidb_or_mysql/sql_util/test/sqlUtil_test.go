@@ -1,7 +1,8 @@
-package sql_util
+package test
 
 import (
 	"fmt"
+	"github.com/nooncall/owls/go/service/tidb_or_mysql/sql_util"
 	"reflect"
 	"testing"
 
@@ -11,7 +12,7 @@ import (
 )
 
 func initConfigLog() {
-	global.GVA_VP = core.Viper() // 初始化Viper
+	global.GVA_VP = core.Viper("../../../../config.yaml") // 初始化Viper
 	logger.InitLog(global.GVA_CONFIG.DBFilter.LogDir, "test.log", "debug")
 }
 
@@ -47,7 +48,7 @@ func TestGetUpdateColumn(t *testing.T) {
 	}
 
 	for _, v := range datas {
-		tar, err := GetSqlColumn(v.origin)
+		tar, err := sql_util.GetSqlColumn(v.origin)
 		if v.isErrr && err != nil {
 			continue
 		}
@@ -87,7 +88,7 @@ hello`,
 	}
 
 	for _, v := range datas {
-		tar := deleteSpecifyCharAtHead(v.origin)
+		tar := sql_util.DeleteSpecifyCharAtHead(v.origin)
 		if tar != v.target {
 			t.Log(fmt.Sprintf("expert :%s, \n got :%s", v.target, tar))
 			t.Fail()
@@ -100,7 +101,7 @@ func TestBuildDelRollBackSql(t *testing.T) {
 
 	tableName := "auth"
 
-	column := []Column{
+	column := []sql_util.Column{
 		{
 			Field: "id",
 		},
@@ -126,7 +127,7 @@ func TestBuildDelRollBackSql(t *testing.T) {
 	}
 	target := `INSERT INTO auth (id, channels, permission, topic, backup_status, backup_id) VALUES ('1', 'hello', '2', 'hello', '4', '5'), ('4', 'hi', '3', 'boy', '5', '6');`
 
-	sql, err := buildDelRollBackSql(column, data, tableName)
+	sql, err := sql_util.BuildDelRollBackSql(column, data, tableName)
 	if err != nil {
 		t.Log(err.Error())
 		t.FailNow()
@@ -169,7 +170,7 @@ hello`,
 	}
 
 	for _, v := range datas {
-		tar := replaceSpecifyChar(v.origin)
+		tar := sql_util.ReplaceSpecifyChar(v.origin)
 		if tar != v.target {
 			t.Log(fmt.Sprintf("expert :%s, \n got :%s", v.target, tar))
 			t.Fail()
@@ -204,7 +205,7 @@ func TestHandleKeyWordForCondition(t *testing.T) {
 	}
 
 	for _, v := range datas {
-		resp := HandelKeyWorldForCondition(v.origin)
+		resp := sql_util.HandelKeyWorldForCondition(v.origin)
 		if !reflect.DeepEqual(resp, v.target) {
 			t.Log(fmt.Sprintf("expert: %v, \n got : %v", v.target, resp))
 			t.FailNow()
@@ -235,7 +236,7 @@ func TestGetCondition(t *testing.T) {
 	}
 
 	for _, v := range datas {
-		tar := GetCondition(v.origin)
+		tar := sql_util.GetCondition(v.origin)
 		if !reflect.DeepEqual(tar, v.target) {
 			t.Log(fmt.Sprintf("expert: %v, \n got : %v", tar, v.target))
 			t.FailNow()
@@ -265,10 +266,10 @@ func TestIsSubKey(t *testing.T) {
 		},
 	}
 	for _, v := range keys {
-		if resp := IsSubKey(v.KeyL, v.KeyS); resp != v.Result {
+		if resp := sql_util.IsSubKey(v.KeyL, v.KeyS); resp != v.Result {
 			t.FailNow()
 		}
-		if resp := IsSubKey(v.KeyS, v.KeyL); resp != v.Result {
+		if resp := sql_util.IsSubKey(v.KeyS, v.KeyL); resp != v.Result {
 			t.FailNow()
 		}
 	}
