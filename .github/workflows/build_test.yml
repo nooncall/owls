@@ -60,5 +60,5 @@ jobs:
 
       - name: Test and Build
         run: |
-          go build -v -race
+          go build -v -race cmd/owls/main.go
         working-directory: ./go
