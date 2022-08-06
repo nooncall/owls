@@ -8,28 +8,12 @@ jwt:
 zap:
   level: 'info'
   format: 'console'
-  prefix: '[github.com/flipped-aurora/gin-vue-admin/server]'
+  prefix: '[github.com/nooncall/owls/go]'
   director: 'log'
   show-line: true
   encode-level: 'LowercaseColorLevelEncoder'
   stacktrace-key: 'stacktrace'
   log-in-console: true
-
-# redis configuration
-redis:
-  db: 0
-  addr: '127.0.0.1:6379'
-  password: ''
-
-# email configuration
-email:
-  to: 'xxx@qq.com'
-  port: 465
-  from: 'xxx@163.com'
-  host: 'smtp.163.com'
-  is-ssl: true
-  secret: 'xxx'
-  nickname: 'test'
 
 # casbin configuration
 casbin:
@@ -83,22 +67,6 @@ pgsql:
   log-mode: ""
   log-zap: false
 
-db-list:
-  - disabled: true # 是否启用
-    type: "" # 数据库的类型,目前支持mysql、pgsql
-    alias-name: "" # 数据库的名称,注意: alias-name 需要在db-list中唯一
-    path: ''
-    port: ''
-    config: ''
-    db-name: ''
-    username: ''
-    password: ''
-    max-idle-conns: 10
-    max-open-conns: 100
-    log-mode: ""
-    log-zap: false
-
-
 # local configuration
 local:
   path: 'uploads/file'
@@ -109,7 +77,7 @@ autocode:
   # root 自动适配项目根目录
   # 请不要手动配置,他会在项目加载的时候识别出根路径
   root: ""
-  server: /server
+  server: /go
   server-plug: /plugin/%s
   server-api: /api/v1/%s
   server-initialize: /initialize
@@ -122,69 +90,9 @@ autocode:
   web-form: /view
   web-table: /view
 
-# qiniu configuration (请自行七牛申请对应的 公钥 私钥 bucket 和 域名地址)
-qiniu:
-  zone: 'ZoneHuaDong'
-  bucket: ''
-  img-path: ''
-  use-https: false
-  access-key: ''
-  secret-key: ''
-  use-cdn-domains: false
-
-# aliyun oss configuration
-aliyun-oss:
-  endpoint: 'yourEndpoint'
-  access-key-id: 'yourAccessKeyId'
-  access-key-secret: 'yourAccessKeySecret'
-  bucket-name: 'yourBucketName'
-  bucket-url: 'yourBucketUrl'
-  base-path: 'yourBasePath'
-
-# tencent cos configuration
-tencent-cos:
-  bucket: 'xxxxx-10005608'
-  region: 'ap-shanghai'
-  secret-id: 'xxxxxxxx'
-  secret-key: 'xxxxxxxx'
-  base-url: 'https://gin.vue.admin'
-  path-prefix: 'github.com/flipped-aurora/gin-vue-admin/server'
-
-# aws s3 configuration (minio compatible)
-aws-s3:
-  bucket: xxxxx-10005608
-  region: ap-shanghai
-  endpoint: ''
-  s3-force-path-style: false
-  disable-ssl: false
-  secret-id: xxxxxxxx
-  secret-key: xxxxxxxx
-  base-url: https://gin.vue.admin
-  path-prefix: github.com/flipped-aurora/gin-vue-admin/server
-
-# huawei obs configuration
-hua-wei-obs:
-  path: 'you-path'
-  bucket: 'you-bucket'
-  endpoint: 'you-endpoint'
-  access-key: 'you-access-key'
-  secret-key: 'you-secret-key'
-
 # excel configuration
 excel:
   dir: './resource/excel/'
-
-# timer task db clear table
-Timer:
-  start: true
-  spec: "@daily"  # 定时任务详细配置参考 https://pkg.go.dev/github.com/robfig/cron/v3
-  detail:
-    - tableName: "sys_operation_records"
-      compareField: "created_at"
-      interval: "2160h"
-    - tableName: "jwt_blacklists"
-      compareField: "created_at"
-      interval: "168h"
 
 # 跨域配置
 # 需要配合 go/initialize/router.go#L32 使用

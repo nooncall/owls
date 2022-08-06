@@ -5,7 +5,6 @@ import "github.com/nooncall/owls/go/service"
 type ApiGroup struct {
 	ExcelApi
 	CustomerApi
-	FileUploadAndDownloadApi
 }
 
 var (
