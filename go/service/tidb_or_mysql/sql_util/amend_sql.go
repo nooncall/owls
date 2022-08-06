@@ -8,33 +8,48 @@ import (
 	"github.com/pingcap/parser/ast"
 )
 
-func AddLimitToSelect(sql string) string {
+type readSql struct {
+	sql string
+}
+
+func NewReadSql(sql string) *readSql {
+	return &readSql{sql}
+}
+
+func (readSql *readSql) String() string {
+	return readSql.sql
+}
+
+func (readSql *readSql) appendLimit() {
+	readSql.sql = fmt.Sprintf("%s limit 10", readSql.sql)
+}
+
+func (readSql *readSql) Trim() {
+	readSql.sql = strings.TrimSpace(readSql.sql)
+	readSql.sql = strings.TrimRight(readSql.sql, ";")
+}
+
+func (readSql *readSql) SetLimitResult() string {
 	f := "AddLimitToSelect-->: "
-	stmtNodes, _, err := getParser().Parse(sql, "", "")
+
+	readSql.Trim()
+	stmtNodes, _, err := getParser().Parse(readSql.sql, "", "")
 	if err != nil {
 		logger.Errorf("%sparse sql err: %v", f, err)
-		return sql
+		return readSql.sql
 	}
 
 	for _, tiStmt := range stmtNodes {
 		switch node := tiStmt.(type) {
 		case *ast.SelectStmt:
 			if node.Limit == nil {
-				return appendLimit(sql)
+				readSql.appendLimit()
+				return readSql.String()
 			}
 		default:
-			return sql
+			return readSql.String()
 		}
 	}
 
-	return sql
-}
-
-func appendLimit(sql string) string {
-	sql = strings.TrimSpace(sql)
-	if string(sql[len(sql)-1]) == ";" {
-		sql = sql[:len(sql)-1]
-	}
-
-	return fmt.Sprintf("%s limit 10", sql)
+	return readSql.String()
 }
