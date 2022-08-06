@@ -40,10 +40,10 @@ jobs:
     name: Backend build
     runs-on: ubuntu-latest
     steps:
-      - name: Set up Go 1.6
+      - name: Set up Go 1.8
         uses: actions/setup-go@v1
         with:
-          go-version: 1.16
+          go-version: 1.18
         id: go
 
       - name: Check out branch
@@ -56,9 +56,9 @@ jobs:
               curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh
               dep ensure
           fi
-        working-directory: ./server
+        working-directory: ./go
 
       - name: Test and Build
         run: |
           go build -v -race
-        working-directory: ./server
+        working-directory: ./go
