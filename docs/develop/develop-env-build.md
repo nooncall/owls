@@ -27,7 +27,7 @@ sidebar_position: 3
 ### 后端
 
 
-使用 `Goland` 等编辑工具，打开server目录，不可以打开 Owls 根目录
+使用 `Goland` 等编辑工具，打开go目录，不可以打开 Owls 根目录
 
 ```bash
 
