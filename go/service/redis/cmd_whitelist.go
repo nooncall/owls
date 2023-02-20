@@ -16,6 +16,8 @@ const (
 	CheckTypeOnlyString = "only_string"
 )
 
+// todo continue, use this!
+
 const CheckPass = "pass"
 
 // config eg: key: cmd, val : CheckType,LenLimit
@@ -62,7 +64,7 @@ func (Check) CheckReadCmd(ctx context.Context, cmd, cluster string, db int) (boo
 	}
 }
 
-func (Check) CheckWriteCmd(ctx context.Context, cmd, prefix, service string, usePrefix bool) (bool, string, error) {
+func (Check) CheckWriteCmd(ctx context.Context, cmd, cluster string, db int) (bool, string, error) {
 	cmd = utils.DelUselessSpace(cmd)
 	checkV := getCmdType(strings.ToLower(getCmdPrefix(cmd)))
 	if len(checkV) < 1 {
@@ -74,7 +76,7 @@ func (Check) CheckWriteCmd(ctx context.Context, cmd, prefix, service string, use
 	case CheckTypeExist:
 		return true, CheckPass, nil
 	case CheckTypeOnlyString:
-		return checkOnlyString(ctx, cmd, prefix, service, usePrefix)
+		return checkOnlyString(ctx, cmd, cluster, db)
 	default:
 		logger.Infof("exec cmd check err, type not found, cmd: %s, checkType: %s", cmd, checkType)
 		return false, "", fmt.Errorf("exec cmd check err, type not found, cmd: %s, checkType: %s", cmd, checkType)

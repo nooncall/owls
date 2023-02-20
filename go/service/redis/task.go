@@ -95,7 +95,7 @@ func (r *RedisTask) ExecTask(ctx context.Context, taskId int64, cluster, db stri
 }
 
 func (r *RedisTask) UpdateTask(action string) error {
-	return redisTaskDao.UpdateTask(GetDB(), nil)
+	return redisTaskDao.UpdateTask(GetDB(), r)
 }
 func (r *RedisTask) ListTask(pageInfo request.SortPageInfo, isDBA bool, status []string) (interface{}, int64, error) {
 	return redisTaskDao.ListTask(GetDB(), pageInfo, isDBA, status)
