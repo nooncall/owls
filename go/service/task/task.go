@@ -2,8 +2,9 @@ package task
 
 import (
 	"fmt"
-	"github.com/nooncall/owls/go/model/common/request"
 	"time"
+
+	"github.com/nooncall/owls/go/model/common/request"
 )
 
 // 新建task 模块，用以封装统一的task、审批流
@@ -16,21 +17,24 @@ import (
 // todo, 接口层，先用一个参数指定类型，set 接口filed，再unmarshel
 
 type Task struct {
-	ID            int64  `json:"id" gorm:"column:id"`
-	Name          string `json:"name" gorm:"column:name"`
-	Status        string `json:"status" gorm:"column:status"`
-	Creator       string `json:"creator" gorm:"column:creator"`
-	Reviewer      string `json:"reviewer" gorm:"column:reviewer"`
-	Executor      string `json:"executor" gorm:"column:executor"`
-	Description   string `json:"description"`
-	ExecInfo      string `json:"exec_info" gorm:"column:exec_info"`
-	SubTaskID     int64  `json:"sub_task_id"`
-	SubTaskType   string `json:"sub_task_type"`
-	RejectContent string `json:"reject_content" gorm:"column:reject_content"`
-	Ct            int64  `json:"ct" gorm:"column:ct"`
-	Ut            int64  `json:"ut" gorm:"column:ut"`
-	Et            int64  `json:"et" gorm:"column:et"`
-	Ft            int64  `json:"ft" gorm:"column:ft"`
+	ID               int64  `json:"id" gorm:"column:id"`
+	Name             string `json:"name" gorm:"column:name"`
+	Status           string `json:"status" gorm:"column:status"`
+	Creator          string `json:"creator" gorm:"column:creator"`
+	Reviewer         string `json:"reviewer" gorm:"column:reviewer"`
+	Executor         string `json:"executor" gorm:"column:executor"`
+	Description      string `json:"description"`
+	ExecInfo         string `json:"exec_info" gorm:"column:exec_info"`
+	SubTaskID        int64  `json:"sub_task_id"`
+	SubTaskType      string `json:"sub_task_type"`
+	RejectContent    string `json:"reject_content" gorm:"column:reject_content"`
+	Cluster          string `json:"cluster" gorm:"column:cluster"`
+	Database         string `json:"database" gorm:"column:database"`
+	ContinueOnFailed bool   `json:"continue_on_failed" gorm:"column:continue_on_failed"`
+	Ct               int64  `json:"ct" gorm:"column:ct"`
+	Ut               int64  `json:"ut" gorm:"column:ut"`
+	Et               int64  `json:"et" gorm:"column:et"`
+	Ft               int64  `json:"ft" gorm:"column:ft"`
 
 	SubTask SubTask `json:"sub_task" gorm:"-"`
 
@@ -40,7 +44,7 @@ type Task struct {
 
 type SubTask interface {
 	AddTask() (int64, error)
-	ExecTask() error
+	ExecTask(taskId int64) error
 	UpdateTask(action string) error
 	ListTask(pageInfo request.SortPageInfo, isDBA bool, status []string) ([]interface{}, int64, error)
 	GetTask(id int64) (interface{}, error)
