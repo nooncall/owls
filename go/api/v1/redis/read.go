@@ -5,11 +5,10 @@ import (
 
 	"github.com/gin-gonic/gin"
 
-	"github.com/nooncall/owls/go/model/common/request"
+	"github.com/nooncall/owls/go/api/v1/tidb_or_mysql"
 	"github.com/nooncall/owls/go/model/common/response"
 	"github.com/nooncall/owls/go/service/redis"
 	"github.com/nooncall/owls/go/service/tidb_or_mysql/checker"
-	"github.com/nooncall/owls/go/utils"
 )
 
 type ReadApi struct{}
@@ -27,26 +26,22 @@ func (readApi *ReadApi) ReadData(ctx *gin.Context) {
 }
 
 func (readApi *ReadApi) ListRule(ctx *gin.Context) {
-	var pageInfo request.SortPageInfo
-	ctx.ShouldBindJSON(&pageInfo)
-	if err := utils.Verify(pageInfo.PageInfo, utils.PageInfoVerify); err != nil {
-		response.FailWithMessage(err.Error(), ctx)
+	f := "redis.ListRule() -->"
+
+	rules, err := redis.GetAllWhitelist(ctx)
+	if err != nil {
+		response.FailWithMessage(fmt.Sprintf("%s, get white list failed :%s ", f, err.Error()), ctx)
 		return
 	}
 
-	redis.list
-
-	rules, total := redis.ListRules(pageInfo)
-	response.OkWithData(ListData{
-		List:     rules,
-		Total:    int64(total),
-		PageSize: pageInfo.PageSize,
-		Page:     pageInfo.Page,
+	response.OkWithData(tidb_or_mysql.ListData{
+		List:  rules,
+		Total: int64(len(rules)),
 	}, ctx)
 }
 
 func (ruleApi *ReadApi) UpdateRuleStatus(ctx *gin.Context) {
-	f := "UpdateRuleStatus()-->"
+	f := "redis.UpdateRuleStatus()-->"
 
 	params := struct {
 		Name   string `json:"name" binding:"required"`

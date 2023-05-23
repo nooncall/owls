@@ -24,7 +24,7 @@ func (s *RedisRouter) InitApiRouter(Router *gin.RouterGroup) {
 	{
 		ruleApi := v1.ApiGroupApp.Redis.ReadApi
 
-		apiRouterWithoutRecord.POST("/rule/list", ruleApi.LisRule)
+		apiRouterWithoutRecord.GET("/rule/list", ruleApi.ListRule)
 		apiRouter.PUT("/rule/status", ruleApi.UpdateRuleStatus)
 	}
 }
