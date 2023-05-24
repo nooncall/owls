@@ -10,7 +10,7 @@ func (a Auth) AddTask() (int64, error) {
 }
 
 // give auth by set status
-func (a Auth) ExecTask() error {
+func (a Auth) ExecTask(taskId int64) error {
 	a.Status = StatusPass
 	return authDao.UpdateAuth(&a)
 }

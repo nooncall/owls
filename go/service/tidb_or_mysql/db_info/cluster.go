@@ -11,6 +11,7 @@ import (
 	"github.com/nooncall/owls/go/utils"
 )
 
+// todo, list support type, backend and ui
 type OwlCluster struct {
 	ID          int64  `json:"id" gorm:"column:id"`
 	Name        string `json:"name" gorm:"column:name"`
@@ -18,6 +19,7 @@ type OwlCluster struct {
 	Addr        string `json:"addr" gorm:"column:addr"` //ip : port
 	User        string `json:"user" gorm:"column:user"`
 	Pwd         string `json:"pwd" gorm:"column:pwd"`
+	CType       string `json:"ctype" gorm:"column:ctype"`
 
 	Ct       int64  `json:"ct" gorm:"column:ct"`
 	Ut       int64  `json:"ut" gorm:"column:ut"`

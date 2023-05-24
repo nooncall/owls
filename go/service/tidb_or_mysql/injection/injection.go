@@ -2,6 +2,8 @@ package injection
 
 import (
 	"github.com/nooncall/owls/go/global"
+	"github.com/nooncall/owls/go/service/redis"
+	"github.com/nooncall/owls/go/service/redis/redis_dao"
 	"github.com/nooncall/owls/go/service/system"
 	"github.com/nooncall/owls/go/service/system/login"
 	service "github.com/nooncall/owls/go/service/tidb_or_mysql"
@@ -25,6 +27,7 @@ func Injection() {
 	auth.SetLoginService(login_check.LoginService)
 	service.SetClock(service.RealClock{})
 	admin.SetAdminDao(dao.Admin)
+	redis.SetRedisTaskDao(redis_dao.Task)
 
 	switch global.GVA_CONFIG.Login.Model {
 	case "ldap": // todo, const

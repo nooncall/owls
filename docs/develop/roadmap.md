@@ -11,9 +11,15 @@ title: Roadmap
 * 完善文档
 * 支持mysql使用ghost改表
 * 收集展示库表状态信息
+* redis缓存管理
+
 
 ### 长期计划
 
-* redis缓存管理
 * MQ管理
 * ......
+
+### 需求
+
+* 支持SqlServer，PG
+* 支持ClickHouse
