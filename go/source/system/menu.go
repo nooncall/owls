@@ -56,6 +56,15 @@ func (m *menu) Initialize(initData *system.InitDBData) error {
 		{GVA_MODEL: global.GVA_MODEL{ID: 35}, MenuLevel: 0, Hidden: false, ParentId: "34", Path: "apply", Name: "apply", Component: "view/auth/apply.vue", Sort: 1, Meta: system.Meta{Title: "申请", Icon: "zoom-in"}},
 		{GVA_MODEL: global.GVA_MODEL{ID: 36}, MenuLevel: 0, Hidden: false, ParentId: "34", Path: "approval", Name: "approval", Component: "view/auth/approval.vue", Sort: 2, Meta: system.Meta{Title: "审批", Icon: "ship"}},
 		{GVA_MODEL: global.GVA_MODEL{ID: 37}, MenuLevel: 0, Hidden: false, ParentId: "34", Path: "auths", Name: "auths", Component: "view/auth/auths.vue", Sort: 3, Meta: system.Meta{Title: "权限", Icon: "view"}},
+
+		{GVA_MODEL: global.GVA_MODEL{ID: 38}, MenuLevel: 0, Hidden: false, ParentId: "0", Path: "Redis", Name: "Redis", Component: "view/redis/index.vue", Sort: 3, Meta: system.Meta{Title: "Redis", Icon: "coin"}},
+		{GVA_MODEL: global.GVA_MODEL{ID: 39}, MenuLevel: 0, Hidden: false, ParentId: "38", Path: "rClusterManager", Name: "ClusterManager", Component: "view/redis/cluster/cluster.vue", Sort: 6, Meta: system.Meta{Title: "集群管理", Icon: "aim"}},
+		{GVA_MODEL: global.GVA_MODEL{ID: 40}, MenuLevel: 0, Hidden: false, ParentId: "38", Path: "rSubmitSql", Name: "SubmitSql", Component: "view/redis/submit/submit.vue", Sort: 1, Meta: system.Meta{Title: "提交命令", Icon: "chat-line-square"}},
+		{GVA_MODEL: global.GVA_MODEL{ID: 41}, MenuLevel: 0, Hidden: false, ParentId: "38", Path: "rReview", Name: "Review", Component: "view/redis/review/review.vue", Sort: 2, Meta: system.Meta{Title: "审核与执行", Icon: "operation"}},
+		{GVA_MODEL: global.GVA_MODEL{ID: 42}, MenuLevel: 0, Hidden: false, ParentId: "38", Path: "rRule", Name: "Rule", Component: "view/redis/rule/rule.vue", Sort: 3, Meta: system.Meta{Title: "自动审核规则", Icon: "question-filled"}},
+		{GVA_MODEL: global.GVA_MODEL{ID: 43}, MenuLevel: 0, Hidden: true, ParentId: "38", Path: "rExec/:id", Name: "exec", Component: "view/redis/exec/exec.vue", Sort: 4, Meta: system.Meta{Title: "任务执行", Icon: "pointer"}},
+		{GVA_MODEL: global.GVA_MODEL{ID: 44}, MenuLevel: 0, Hidden: false, ParentId: "38", Path: "rTaskHistory", Name: "TaskHistory", Component: "view/redis/history/history.vue", Sort: 5, Meta: system.Meta{Title: "历史任务", Icon: "message-box"}},
+		{GVA_MODEL: global.GVA_MODEL{ID: 45}, MenuLevel: 0, Hidden: false, ParentId: "38", Path: "rRead", Name: "Read", Component: "view/redis/read.vue", Sort: 0, Meta: system.Meta{Title: "数据读取", Icon: "search"}},
 	}
 	if err := global.GVA_DB.Create(&entities).Error; err != nil { // 创建 model.User 初始化数据
 		return errors.Wrap(err, m.TableName()+"表数据初始化失败!")

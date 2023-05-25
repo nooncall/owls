@@ -59,6 +59,15 @@ func (a *authoritiesMenus) Initialize(initData *system.InitDBData) error {
 		{BaseMenuId: 36, AuthorityId: "888"},
 		{BaseMenuId: 37, AuthorityId: "888"},
 
+		{BaseMenuId: 38, AuthorityId: "888"},
+		{BaseMenuId: 39, AuthorityId: "888"},
+		{BaseMenuId: 40, AuthorityId: "888"},
+		{BaseMenuId: 41, AuthorityId: "888"},
+		{BaseMenuId: 42, AuthorityId: "888"},
+		{BaseMenuId: 43, AuthorityId: "888"},
+		{BaseMenuId: 44, AuthorityId: "888"},
+		{BaseMenuId: 45, AuthorityId: "888"},
+
 		//admin
 		{BaseMenuId: 1, AuthorityId: "887"},
 		// {BaseMenuId: 2, AuthorityId: "887"}, todo, design about us
@@ -82,6 +91,15 @@ func (a *authoritiesMenus) Initialize(initData *system.InitDBData) error {
 		{BaseMenuId: 36, AuthorityId: "887"},
 		{BaseMenuId: 37, AuthorityId: "887"},
 
+		{BaseMenuId: 38, AuthorityId: "887"},
+		{BaseMenuId: 39, AuthorityId: "887"},
+		{BaseMenuId: 40, AuthorityId: "887"},
+		{BaseMenuId: 41, AuthorityId: "887"},
+		{BaseMenuId: 42, AuthorityId: "887"},
+		{BaseMenuId: 43, AuthorityId: "887"},
+		{BaseMenuId: 44, AuthorityId: "887"},
+		{BaseMenuId: 45, AuthorityId: "887"},
+
 		// user
 		{BaseMenuId: 1, AuthorityId: "886"},
 		// {BaseMenuId: 2, AuthorityId: "886"}, todo,design about us
@@ -96,6 +114,12 @@ func (a *authoritiesMenus) Initialize(initData *system.InitDBData) error {
 		{BaseMenuId: 33, AuthorityId: "886"},
 		{BaseMenuId: 34, AuthorityId: "886"},
 		{BaseMenuId: 35, AuthorityId: "886"},
+
+		{BaseMenuId: 38, AuthorityId: "886"},
+		{BaseMenuId: 40, AuthorityId: "886"},
+		{BaseMenuId: 42, AuthorityId: "886"},
+		{BaseMenuId: 44, AuthorityId: "886"},
+		{BaseMenuId: 45, AuthorityId: "886"},
 	}
 	if err := global.GVA_DB.Create(&entities).Error; err != nil {
 		return errors.Wrap(err, a.TableName()+"表数据初始化失败!")
