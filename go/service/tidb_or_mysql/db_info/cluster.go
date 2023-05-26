@@ -19,7 +19,7 @@ type OwlCluster struct {
 	Addr        string `json:"addr" gorm:"column:addr"` //ip : port
 	User        string `json:"user" gorm:"column:user"`
 	Pwd         string `json:"pwd" gorm:"column:pwd"`
-	CType       string `json:"ctype" gorm:"column:ctype"`
+	CType       string `json:"c_type" gorm:"column:ctype"`
 
 	Ct       int64  `json:"ct" gorm:"column:ct"`
 	Ut       int64  `json:"ut" gorm:"column:ut"`
@@ -106,7 +106,7 @@ func ListClusterForUI(pageInfo request.SortPageInfo) ([]OwlCluster, error) {
 	return clusters, nil
 }
 
-func ListClusterName(userId uint, filter bool) ([]string, error) {
+func ListClusterName(userId uint, filter bool, cType string) ([]string, error) {
 	clusters, err := clusterDao.ListAllCluster(global.GetDB())
 	if err != nil {
 		return nil, err
@@ -114,6 +114,10 @@ func ListClusterName(userId uint, filter bool) ([]string, error) {
 
 	var result []string
 	for _, v := range clusters {
+		if cType != "" && v.CType != cType {
+			continue
+		}
+
 		result = append(result, v.Name)
 	}
 

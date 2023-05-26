@@ -50,7 +50,7 @@ jwt:
   buffer-time: 86400
   expires-time: 604800
   issuer: qmPlus
-  signing-key: df2c2683-5542-4338-9338-c44207c1090a
+  signing-key: c533863c-0484-42c2-a932-88ac519888d7
 local:
   path: uploads/file
 login:
@@ -103,7 +103,7 @@ zap:
   format: console
   prefix: '[github.com/nooncall/owls/go]'
   director: log
-  showLine: true
+  showLine: false
   encode-level: LowercaseColorLevelEncoder
   stacktrace-key: stacktrace
   log-in-console: true

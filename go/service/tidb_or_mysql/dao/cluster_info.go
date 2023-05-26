@@ -39,6 +39,10 @@ func (ClusterImpl) ListCluster(db *gorm.DB, info request.SortPageInfo) ([]db_inf
 	if info.OrderKey != "" {
 		db = db.Order(utils.GenerateOrderField(info.OrderKey, info.Desc))
 	}
+	if info.Type != "" {
+		db = db.Where("ctype = ?", info.Type)
+	}
+
 	if info.Key != "" {
 		fmtKey := "%" + info.Key + "%"
 		db = db.Where("name like ? or description like ? or addr like ?",
