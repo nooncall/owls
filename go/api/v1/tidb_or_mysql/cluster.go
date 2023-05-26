@@ -102,13 +102,15 @@ func (clusterApi *ClusterApi) ListClusterName(ctx *gin.Context) {
 		filter = true
 	}
 
+	cType := ctx.Query("c_type")
+
 	claims, err := utils.GetClaims(ctx)
 	if err != nil {
 		response.FailWithMessage("get user err: "+err.Error(), ctx)
 		return
 	}
 
-	clusters, err := db_info.ListClusterName(claims.ID, filter)
+	clusters, err := db_info.ListClusterName(claims.ID, filter, cType)
 	if err != nil {
 		response.FailWithMessage(fmt.Sprintf("%s,list cluster failed :%s ", f, err.Error()), ctx)
 		return

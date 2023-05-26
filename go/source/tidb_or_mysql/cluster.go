@@ -2,9 +2,10 @@ package tidb_or_mysql
 
 import (
 	"fmt"
+	"time"
+
 	"github.com/nooncall/owls/go/model/system"
 	"gorm.io/gorm"
-	"time"
 
 	"github.com/pkg/errors"
 
@@ -29,7 +30,14 @@ func (u *cluster) Initialize(initData *system.InitDBData) error {
 
 	Pwd := utils.StringifyByteDirectly(cryptoData)
 	entities := []db_info.OwlCluster{
-		{Name: "self-cluster", Description: "cluster this project using", Addr: initData.Host, User: initData.UserName, Pwd: Pwd, Ct: time.Now().Unix(), Operator: "init"},
+		{Name: "self-cluster",
+			Description: "cluster this project using",
+			Addr:        initData.Host,
+			User:        initData.UserName,
+			CType:       "mysql",
+			Pwd:         Pwd,
+			Ct:          time.Now().Unix(),
+			Operator:    "init"},
 	}
 	if err := global.GVA_DB.Create(&entities).Error; err != nil {
 		return errors.Wrap(err, u.TableName()+"表数据初始化失败!")

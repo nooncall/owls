@@ -12,6 +12,7 @@ type SortPageInfo struct {
 	Key      string `json:"key"`
 	Desc     bool   `json:"desc"` // 排序方式:升序false(默认)|降序true
 	Operator string `json:"operator"`
+	Type     string `json:"type"`
 }
 
 // GetById Find by id structure
