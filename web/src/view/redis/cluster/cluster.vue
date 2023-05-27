@@ -131,8 +131,9 @@ const form = ref({
   addr: '',
   pwd: '',
   user: '',
-  c_type: 'mysql',
+  c_type: 'redis',
 })
+
 const methodOptions = ref([
   {
     value: 'POST',
@@ -212,10 +213,10 @@ const sortChange = ({ prop, order }) => {
 
 // 查询
 const getTableData = async() => {
-  const table = await listCluster({ page: page.value,
-     pageSize: pageSize.value, 
-     type: "mysql",
-     ...searchInfo.value })
+  const table = await listCluster({ page: page.value, 
+    pageSize: pageSize.value, 
+    type: "redis",
+    ...searchInfo.value })
   if (table.code === 0) {
     tableData.value = table.data.list
     total.value = table.data.total

@@ -10,7 +10,7 @@ import (
 )
 
 func ExecReadTask(ctx context.Context, params *Params) (interface{}, error) {
-	pass, msg, err := checker.CheckReadCmd(ctx, params.cmd, params.cluster, params.db)
+	pass, msg, err := checker.CheckReadCmd(ctx, params.Cmd, params.Cluster, params.DB)
 	if err != nil {
 		return nil, err
 	}
@@ -18,7 +18,7 @@ func ExecReadTask(ctx context.Context, params *Params) (interface{}, error) {
 		return nil, errors.New(msg)
 	}
 
-	return exec(ctx, params.cmd, params.cluster, params.db)
+	return exec(ctx, params.Cmd, params.Cluster, params.DB)
 }
 
 func load(ctx context.Context, key interface{}) (value interface{}, err error) {
@@ -48,7 +48,7 @@ func exec(ctx context.Context, cmd, cluster string, db int) (resp interface{}, e
 		return cmdResult.Val(), cmdResult.Err()
 	// multi continuous keys
 	case "mget":
-		cmdResult := redisCli.Do(ctx, cmdSplit[0], cmdSplit[1:])
+		cmdResult := redisCli.Do(ctx, utils.StringArrayToInterfaceArray(cmdSplit)...)
 		return cmdResult.Val(), cmdResult.Err()
 	// one key
 	default:
@@ -58,11 +58,9 @@ func exec(ctx context.Context, cmd, cluster string, db int) (resp interface{}, e
 				othersParams = append(othersParams, v)
 			}
 		}
-		cmdResult := redisCli.Do(ctx, cmdSplit[0], []string{cmdSplit[1]}, othersParams)
+		cmdResult := redisCli.Do(ctx, utils.StringArrayToInterfaceArray(cmdSplit)...)
 		return cmdResult.Val(), cmdResult.Err()
 	}
-
-	return resp, err
 }
 
 func filterNilStr(data interface{}) string {

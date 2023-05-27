@@ -22,6 +22,11 @@ func (readApi *ReadApi) ReadData(ctx *gin.Context) {
 		return
 	}
 
+	if req.Cluster == "" {
+		response.FailWithMessage(fmt.Sprintf("%s, cluster not selected ", f), ctx)
+		return
+	}
+
 	response.OkWithData(redis.ExecQuery(ctx.Request.Context(), &req), ctx)
 }
 

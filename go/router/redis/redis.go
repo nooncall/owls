@@ -9,8 +9,8 @@ import (
 type RedisRouter struct{}
 
 func (s *RedisRouter) InitApiRouter(Router *gin.RouterGroup) {
-	apiRouter := Router.Group("cache").Use(middleware.OperationRecord())
-	apiRouterWithoutRecord := Router.Group("cache")
+	apiRouter := Router.Group("redis").Use(middleware.OperationRecord())
+	apiRouterWithoutRecord := Router.Group("redis")
 
 	{
 		readApi := v1.ApiGroupApp.Redis.ReadApi

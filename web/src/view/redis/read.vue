@@ -7,24 +7,10 @@
               v-model="form.cluster_name"
               :fetch-suggestions="querySearchAsync"
               placeholder="请选择"
-              @select="handleSelect"
           />
         </el-form-item>
         <el-form-item label="库名" prop="apiGroup">
-          <el-autocomplete
-              v-model="form.db_name"
-              :fetch-suggestions="querySearchDBAsync"
-              placeholder="请选择"
-              @select="handleDBSelect"
-          />
-        </el-form-item>
-        <el-form-item label="表名" prop="apiGroup">
-          <el-autocomplete
-              v-model="form.table_name"
-              :fetch-suggestions="querySearchTableAsync"
-              placeholder="请选择"
-              @select="handleTableSelect"
-          />
+          <el-input v-model="form.db_name" placeholder="请输入，默认0"/>
         </el-form-item>
       </el-form>
     </div>
@@ -32,7 +18,7 @@
     <div>
       <div style="float: left; width: 55%">
         <el-input
-            v-model="form.sql_content"
+            v-model="form.cmd"
             :autosize="{ minRows: 15, maxRows: 500 }"
             type="textarea"
             placeholder="Please input"
@@ -42,24 +28,14 @@
         </div>
       </div>
 
-      <div style="float: left;margin-left: 2%; width: 42%">
-        <code>
-          <span v-html="tableInfoFormatted()"></span>
-        </code>
-      </div>
-
     </div>
 
-    <br><br>
-
-    <div class="gva-table-box" style="margin-top: 20px;float: left; width: 95%">
-      <el-table :data="tableData" >
-        <el-table-column min-width="160" :label="date" v-for="(date, key) in column" :render-header="renderHeader">
-          <template align="left" #default="scope">
-            {{tableData[scope.$index][key]}}
-          </template>
-        </el-table-column>
-      </el-table>
+    <div style="float: left;margin-left: 2%; width: 42%">
+      <div class="gva-top-card-left-title">查询结果：</div>
+      <br/>
+      <code>
+        <h4>{{ data }}</h4>
+      </code>
     </div>
   </div>
 </template>
@@ -78,12 +54,9 @@ import {ElMessage, ElMessageBox} from 'element-plus'
 import moment from 'moment'
 import {
   listClusterName,
-  listDatabase,
-  listTable,
 } from '@/api/db/cluster'
 import {
-  readData,
-  getTableInfo,
+  readRedisData,
 } from '@/api/db/read'
 
 const methodFiletr = (value) => {
@@ -91,17 +64,13 @@ const methodFiletr = (value) => {
   return target && `${target.label}`
 }
 
-const tableInfoFormatted = () => {
-  return tableInfo.value.replaceAll("\n", "<br><br>")
-}
-
 const apis = ref([])
 const form = ref({
   cluster_name: '',
-  db_name: '',
+  db_name: 0,
   task_type: '',
   remark: '',
-  sql_content: ''
+  cmd: ''
 })
 
 const type = ref('')
@@ -121,7 +90,7 @@ const rules = ref({
 const page = ref(1)
 const total = ref(0)
 const pageSize = ref(10)
-const tableData = ref([])
+const data = ref([])
 const column = ref([])
 const searchInfo = ref({})
 
@@ -143,15 +112,13 @@ const renderHeader = ({column,index}) =>{
 // 查询
 const doReadData = async () => {
   let params = {
-    cluster_name: form.value.cluster_name,
-    db_name: form.value.db_name,
-    table_name: form.value.table_name,
-    sql: form.value.sql_content,
+    cluster: form.value.cluster_name,
+    db: parseInt(form.value.db_name),
+    cmd: form.value.cmd,
   }
-  const table = await readData(params)
-  if (table.code === 0) {
-    tableData.value = table.data.data_items
-    column.value= table.data.columns
+  const result = await readRedisData(params)
+  if (result.code === 0) {
+    data.value = result.data
   }
 }
 
@@ -184,30 +151,10 @@ const db = ref<clusterItem[]>([])
 const table = ref<clusterItem[]>([])
 
 const loadCluster = async () => {
-  const resp = await listClusterName(true, 'mysql')
+  const resp = await listClusterName(true, 'redis')
   let result = []
   for (let cluster of resp.data) {
     result.push({value: cluster, name: cluster})
-  }
-
-  return result
-}
-
-const loadDB = async (cluster) => {
-  const resp = await listDatabase(cluster, true)
-  let result = []
-  for (let db of resp.data) {
-    result.push({value: db, name: db})
-  }
-
-  return result
-}
-
-const loadTable = async (cluster, db) => {
-  const resp = await listTable(cluster, db)
-  let result = []
-  for (let db of resp.data) {
-    result.push({value: db, name: db})
   }
 
   return result
@@ -218,17 +165,6 @@ const querySearchAsync = (queryString: string, cb: (arg: any) => void) => {
   const results = queryString
       ? clusters.value.filter(createFilter(queryString))
       : clusters.value
-
-  clearTimeout(timeout)
-  timeout = setTimeout(() => {
-    cb(results)
-  }, 3000 * Math.random())
-}
-
-const querySearchDBAsync = async (queryString: string, cb: (arg: any) => void) => {
-  const results = queryString
-      ? db.value.filter(createFilter(queryString))
-      : db.value
 
   clearTimeout(timeout)
   timeout = setTimeout(() => {
@@ -253,25 +189,6 @@ const createFilter = (queryString: string) => {
         restaurant.name.toLowerCase().indexOf(queryString.toLowerCase()) === 0
     )
   }
-}
-
-const handleSelect = async (item: clusterItem) => {
-  db.value = await loadDB(item.value)
-}
-
-const handleDBSelect = async (item: clusterItem) => {
-  table.value = await loadTable(form.value.cluster_name, item.value)
-}
-
-const tableInfo = ref('')
-const handleTableSelect = async (item: clusterItem) => {
-  let params = {
-    cluster_name: form.value.cluster_name,
-    db_name: form.value.db_name,
-    table_name: form.value.table_name,
-  }
-  let result = await getTableInfo(params)
-  tableInfo.value = result.data
 }
 
 onMounted(async () => {

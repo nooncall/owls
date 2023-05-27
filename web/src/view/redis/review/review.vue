@@ -12,51 +12,47 @@
       </el-form>
     </div>
     <div class="gva-table-box">
-      <div class="gva-btn-list">
-        <el-button size="small" type="primary" icon="plus" @click="openDialog('add')">新增</el-button>
-        <el-popover v-model:visible="deleteVisible" placement="top" width="160">
-          <p>确定要删除吗？</p>
-          <div style="text-align: right; margin-top: 8px;">
-            <el-button size="small" type="text" @click="deleteVisible = false">取消</el-button>
-            <el-button size="small" type="primary" @click="onDelete">确定</el-button>
-          </div>
-          <template #reference>
-            <el-button icon="delete" size="small" :disabled="!apis.length" style="margin-left: 10px;" @click="deleteVisible = true">删除</el-button>
-          </template>
-        </el-popover>
-      </div>
-      <el-table :data="tableData" @sort-change="sortChange" @selection-change="handleSelectionChange">
-        <el-table-column
-            type="selection"
-            width="55"
-        />
-        <el-table-column align="left" label="集群名" min-width="150" prop="name" sortable="custom" />
-        <el-table-column align="left" label="描述" min-width="150" prop="description" sortable="custom" />
-        <el-table-column align="left" label="地址" min-width="150" prop="addr" sortable="custom" />
-        <el-table-column align="left" label="用户名" min-width="150" prop="user" sortable="custom" />
-        <el-table-column align="left" label="创建时间" min-width="150" prop="ct" sortable="custom" />
-        <el-table-column align="left" label="更新时间" min-width="150" prop="ut" sortable="custom">
+      <el-table :data="tableData" @sort-change="sortChange" row-key="id" @selection-change="handleSelectionChange">
+        <el-table-column type="expand">
           <template #default="scope">
-            <div>
-              {{ scope.row.method }} / {{ methodFiletr(scope.row.method) }}
-            </div>
+            <el-table :data="scope.row.exec_items" style="width: calc(100% - 47px)" class="two-list">
+              <el-table-column prop="id" label="序号"></el-table-column>
+              <el-table-column prop="cluster_name" label="集群"></el-table-column>
+              <el-table-column prop="db_name" label="库名"></el-table-column>
+              <el-table-column prop="task_type" label="类型"></el-table-column>
+              <el-table-column prop="affect_rows" label="影响行数"></el-table-column>
+              <el-table-column prop="status" label="状态"></el-table-column>
+              <el-table-column prop="exec_info" label="执行信息"></el-table-column>
+              <el-table-column class="cell" prop="cat_id" width="600"  label="SQL语句">
+                <template class="cell" style="white-space: pre-line;" #default="scope">
+                  <code>
+                    <span v-html="newLineFormatter(scope.row, '')"></span>
+                  </code>
+                </template>
+              </el-table-column>
+              <el-table-column prop="remark" label="备注" width="200"></el-table-column>
+            </el-table>
           </template>
         </el-table-column>
-
+        <el-table-column align="left" label="ID" min-width="150" prop="id" sortable="custom" />
+        <el-table-column align="left" label="任务名" min-width="150" prop="name" sortable="custom" />
+        <el-table-column align="left" label="状态" min-width="150" prop="status_name" sortable="custom" />
+        <el-table-column align="left" label="创建者" min-width="150" prop="creator" sortable="custom" />
+        <el-table-column align="left" label="创建时间" min-width="150" prop="ct" :formatter="dateFormatter" sortable="custom" />
         <el-table-column align="left" fixed="right" label="操作" width="200">
           <template #default="scope">
-            <el-button
-                icon="edit"
-                size="small"
-                type="text"
-                @click="editClusterFunc(scope.row)"
-            >编辑</el-button>
             <el-button
                 icon="delete"
                 size="small"
                 type="text"
-                @click="deleteClusterFunc(scope.row)"
-            >删除</el-button>
+                @click="rejectFunc(scope.row)"
+            >驳回</el-button>
+            <el-button
+                icon="delete"
+                size="small"
+                type="text"
+                @click="toTarget('exec',scope.row.id)"
+            >审核</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -64,7 +60,7 @@
         <el-pagination
             :current-page="page"
             :page-size="pageSize"
-            :page-sizes="[10, 30, 50, 100]"
+            :page-sizes="[10, 20, 30, 50, 100]"
             :total="total"
             layout="total, sizes, prev, pager, next, jumper"
             @current-change="handleCurrentChange"
@@ -73,65 +69,70 @@
       </div>
     </div>
 
-    <el-dialog v-model="dialogFormVisible" :before-close="closeDialog" :title="dialogTitle">
-      <warning-bar title="新增集群，需要在角色管理内配置权限才可使用" />
+    <el-dialog v-model="rejectDialogFormVisible" :before-close="closeDialog" :title="驳回">
       <el-form ref="apiForm" :model="form" :rules="rules" label-width="80px">
-        <el-form-item label="名称" prop="path">
-          <el-input v-model="form.name" autocomplete="off" />
-        </el-form-item>
-        <el-form-item label="地址" prop="path">
-          <el-input v-model="form.addr" autocomplete="off" />
-        </el-form-item>
-        <el-form-item label="描述" prop="apiGroup">
-          <el-input v-model="form.description" autocomplete="off" />
-        </el-form-item>
-        <el-form-item label="用户名" prop="description">
-          <el-input v-model="form.user" autocomplete="off" />
-        </el-form-item>
-        <el-form-item label="密码" prop="description">
-          <el-input v-model="form.pwd" autocomplete="off" />
+        <el-form-item label="驳回原因" prop="description">
+          <el-input
+              v-model="form.reject_content"
+              :autosize="{ minRows: 3, maxRows: 5000 }"
+              type="textarea"
+              placeholder="Please input"
+          />
         </el-form-item>
       </el-form>
       <template #footer>
         <div class="dialog-footer">
           <el-button size="small" @click="closeDialog">取 消</el-button>
-          <el-button size="small" type="primary" @click="enterDialog">确 定</el-button>
+          <el-button size="small" type="primary" @click="enterEditDialog">确 定</el-button>
         </div>
       </template>
     </el-dialog>
   </div>
 </template>
 
-<script>
+<script lang="ts">
 export default {
   name: 'Api',
 }
 </script>
 
-<script setup>
+<script lang="ts" setup>
 import {
-  listCluster,
-  createCluster,
-  updateCluster,
-  deleteCluster,
-} from '@/api/db/cluster'
+  listReviewTask,
+  updateTask,
+} from '@/api/db/task'
 import { toSQLLine } from '@/utils/stringFun'
-import warningBar from '@/components/warningBar/warningBar.vue'
-import { ref } from 'vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
+import moment from 'moment'
+import { ref } from 'vue'
+import { useRouter } from 'vue-router'
 
 const methodFiletr = (value) => {
   const target = methodOptions.value.filter(item => item.value === value)[0]
   return target && `${target.label}`
 }
 
+const router = useRouter()
+const toTarget = (name,id) => {
+  router.push({
+    name: name,
+    params: {
+      id: id,
+    },
+  })
+}
+
+const newLineFormatter = (row, column) =>{
+  return row.sql_content.replaceAll("\n", "<br>")
+}
+
 const apis = ref([])
 const form = ref({
-  name: '',
-  addr: '',
-  pwd: '',
-  user: '',
-  c_type: 'mysql',
+  cluster_name: '',
+  db_name:'',
+  task_type: '',
+  remark: '',
+  sql_content: ''
 })
 const methodOptions = ref([
   {
@@ -198,6 +199,10 @@ const handleCurrentChange = (val) => {
   getTableData()
 }
 
+const dateFormatter = (row, column) =>{
+  return moment(row.ct *1000).format('YYYY-MM-DD HH:mm');
+}
+
 // 排序
 const sortChange = ({ prop, order }) => {
   if (prop) {
@@ -212,10 +217,7 @@ const sortChange = ({ prop, order }) => {
 
 // 查询
 const getTableData = async() => {
-  const table = await listCluster({ page: page.value,
-     pageSize: pageSize.value, 
-     type: "mysql",
-     ...searchInfo.value })
+  const table = await listReviewTask({ page: page.value, pageSize: pageSize.value, ...searchInfo.value })
   if (table.code === 0) {
     tableData.value = table.data.list
     total.value = table.data.total
@@ -260,31 +262,43 @@ const initForm = () => {
   }
 }
 
-const dialogTitle = ref('新增')
-const dialogFormVisible = ref(false)
-const openDialog = (key) => {
-  switch (key) {
-    case 'add':
-      dialogTitle.value = '新增'
-      break
-    case 'edit':
-      dialogTitle.value = '编辑'
-      break
-    default:
-      break
-  }
-  type.value = key
-  dialogFormVisible.value = true
-}
-const closeDialog = () => {
-  initForm()
-  dialogFormVisible.value = false
+const handleId = ref('');
+const rejectDialogFormVisible = ref(false)
+const openDialog = (id) => {
+  rejectDialogFormVisible.value = true
+  handleId.value = id
 }
 
-const editClusterFunc = async(row) => {
+const closeDialog = () => {
+  initForm()
+  rejectDialogFormVisible.value = false
+}
+
+const editTaskFunc = async(row) => {
   form.value = row
   openDialog('edit')
 }
+
+const enterEditDialog = async() => {
+  apiForm.value.validate(async valid => {
+    let params = {
+      id: handleId.value,
+      reject_content: form.value.reject_content,
+      action: "reject"
+    }
+    const res = await updateTask(params)
+    if (res.code === 0) {
+      ElMessage({
+        type: 'success',
+        message: '操作成功',
+        showClose: true
+      })
+    }
+    getTableData()
+    closeDialog()
+  })
+}
+
 
 const enterDialog = async() => {
   apiForm.value.validate(async valid => {
@@ -292,7 +306,24 @@ const enterDialog = async() => {
       switch (type.value) {
         case 'add':
         {
-          const res = await createCluster(form.value)
+          //todo, refactor
+          let paramas = {
+            name: form.value.name,
+            sub_tasks:[
+              {
+                cluster_name: form.value.cluster_name,
+                db_name: form.value.db_name,
+                task_type: form.value.task_type,
+                exec_items:[
+                  {
+                    remark: form.value.remark,
+                    sql_content: form.value.sql_content,
+                  }
+                ]
+              }
+            ]
+          }
+          const res = await createTask(paramas)
           if (res.code === 0) {
             ElMessage({
               type: 'success',
@@ -307,7 +338,7 @@ const enterDialog = async() => {
           break
         case 'edit':
         {
-          const res = await updateCluster(form.value)
+          const res = await updateTask(form.value)
           if (res.code === 0) {
             ElMessage({
               type: 'success',
@@ -334,25 +365,16 @@ const enterDialog = async() => {
   })
 }
 
-const deleteClusterFunc = async(row) => {
-  ElMessageBox.confirm('确定删除吗?', '提示', {
-    confirmButtonText: '确定',
-    cancelButtonText: '取消',
-    type: 'warning'
-  })
-      .then(async() => {
-        const res = await deleteCluster(row)
-        if (res.code === 0) {
-          ElMessage({
-            type: 'success',
-            message: '删除成功!'
-          })
-          if (tableData.value.length === 1 && page.value > 1) {
-            page.value--
-          }
-          getTableData()
-        }
-      })
+const rejectFunc = async(row) => {
+  handleId.value = row.id
+  rejectDialogFormVisible.value = true
+}
+
+const state = ref('')
+
+interface clusterItem {
+  name: string
+  value: string
 }
 
 </script>
@@ -367,4 +389,9 @@ const deleteClusterFunc = async(row) => {
 .warning {
   color: #dc143c;
 }
+
+.el-table .cell{
+  white-space:pre-line;
+}
+
 </style>

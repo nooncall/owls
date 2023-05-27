@@ -48,9 +48,9 @@ func GetAllWhitelist(ctx context.Context) ([]PermitCmd, error) {
 
 func (Check) CheckReadCmd(ctx context.Context, cmd, cluster string, db int) (bool, string, error) {
 	cmd = utils.DelUselessSpace(cmd)
-	checkV := getCmdType(strings.ToLower(getCmdPrefix(cmd)))
+	checkV := getReadCmdType(strings.ToLower(getCmdPrefix(cmd)))
 	if len(checkV) < 1 {
-		return false, "此命令不允许使用", nil
+		return false, "此命令不允许读取时使用", nil
 	}
 
 	checkType, limit := getCheckTypeAndLenLimit(ctx, checkV)
@@ -66,7 +66,7 @@ func (Check) CheckReadCmd(ctx context.Context, cmd, cluster string, db int) (boo
 
 func (Check) CheckWriteCmd(ctx context.Context, cmd, cluster string, db int) (bool, string, error) {
 	cmd = utils.DelUselessSpace(cmd)
-	checkV := getCmdType(strings.ToLower(getCmdPrefix(cmd)))
+	checkV := getWriteCmdType(strings.ToLower(getCmdPrefix(cmd)))
 	if len(checkV) < 1 {
 		return false, "此命令不允许使用", nil
 	}
