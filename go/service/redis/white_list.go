@@ -42,6 +42,10 @@ func getAllWhiteCmd() map[string]string {
 	return utils.MergeStringMaps(getReadWhiteCmd(), getWriteWhiteCmd())
 }
 
-func getCmdType(key string) string {
-	return getAllWhiteCmd()[key]
+func getReadCmdType(key string) string {
+	return getReadWhiteCmd()[key]
+}
+
+func getWriteCmdType(key string) string {
+	return getWriteWhiteCmd()[key]
 }

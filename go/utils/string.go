@@ -92,3 +92,11 @@ func StringArrayDeduplication(data []string) (result []string) {
 	}
 	return
 }
+
+func StringArrayToInterfaceArray(str []string) (result []interface{}) {
+	for _, v := range str {
+		result = append(result, v)
+	}
+
+	return
+}

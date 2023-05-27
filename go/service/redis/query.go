@@ -5,8 +5,8 @@ import (
 )
 
 type Params struct {
-	cmd, cluster string
-	db           int
+	Cmd, Cluster string
+	DB           int
 }
 
 // ExecQuery ...

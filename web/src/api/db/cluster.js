@@ -8,9 +8,9 @@ export const listCluster = (data) => {
   })
 }
 
-export const listClusterName = (filter) => {
+export const listClusterName = (filter, ctype) => {
   return service({
-    url: '/db/cluster/name/list?filter=' + filter,
+    url: '/db/cluster/name/list?filter=' + filter + '&c_type=' + ctype,
     method: 'get',
   })
 }
