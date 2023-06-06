@@ -1,7 +1,8 @@
 package task
 
 const (
-	Auth = "auth"
+	Auth  = "auth"
+	Redis = "redis"
 
 	ActionCancel   = "cancel"
 	ActionUpdate   = "update"
