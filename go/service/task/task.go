@@ -1,6 +1,7 @@
 package task
 
 import (
+	"context"
 	"fmt"
 	"time"
 
@@ -44,11 +45,10 @@ type Task struct {
 
 type SubTask interface {
 	AddTask() (int64, error)
-	ExecTask(taskId int64) error
+	ExecTask(ctx context.Context, taskId int64) error
 	UpdateTask(action string) error
-	ListTask(pageInfo request.SortPageInfo, isDBA bool, status []string) ([]interface{}, int64, error)
+	ListTask(pageInfo request.SortPageInfo, isDBA bool, status []string) (interface{}, int64, error)
 	GetTask(id int64) (interface{}, error)
-	GetExecWaitTask() ([]interface{}, int64, error)
 }
 
 func AddTask(task *Task) (int64, error) {

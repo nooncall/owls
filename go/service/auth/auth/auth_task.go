@@ -1,6 +1,8 @@
 package auth
 
 import (
+	"context"
+
 	"github.com/nooncall/owls/go/model/common/request"
 	"github.com/nooncall/owls/go/service/task"
 )
@@ -10,7 +12,7 @@ func (a Auth) AddTask() (int64, error) {
 }
 
 // give auth by set status
-func (a Auth) ExecTask(taskId int64) error {
+func (a Auth) ExecTask(ctx context.Context, taskId int64) error {
 	a.Status = StatusPass
 	return authDao.UpdateAuth(&a)
 }
@@ -28,7 +30,7 @@ func (a Auth) UpdateTask(action string) error {
 	return authDao.UpdateAuth(&a)
 }
 
-func (a Auth) ListTask(pageInfo request.SortPageInfo, isDBA bool, status []string) ([]interface{}, int64, error) {
+func (a Auth) ListTask(pageInfo request.SortPageInfo, isDBA bool, status []string) (interface{}, int64, error) {
 	panic("implement me")
 }
 

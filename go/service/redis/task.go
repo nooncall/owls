@@ -20,12 +20,22 @@ type SubTask interface {
 	GetTask(id int64) (interface{}, error)
 	GetExecWaitTask() ([]interface{}, int64, error)
 }
+type SubTask2 interface { // need
+	AddTask() (int64, error)
+	ExecTask(taskId int64) error
+	UpdateTask(action string) error
+	ListTask(pageInfo request.SortPageInfo, isDBA bool, status []string) ([]interface{}, int64, error)
+	GetTask(id int64) (interface{}, error)
+	GetExecWaitTask() ([]interface{}, int64, error)
+}
 
 type RedisTask struct {
 	ID       int64  `json:"id" gorm:"column:id"`
 	TaskID   int64  `json:"task_id" gorm:"column:task_id"`
 	Cmd      string `json:"cmd" gorm:"column:cmd"`
 	ExecInfo string `json:"exec_info" gorm:"column:exec_info"`
+	Cluster  string `json:"cluster"`
+	DB       string `json:"db"`
 }
 
 type RedisTaskDao interface {
@@ -66,19 +76,18 @@ func (r *RedisTask) AddTask() (int64, error) {
 	return 0, tx.Commit().Error
 }
 
-func (r *RedisTask) ExecTask(ctx context.Context, taskId int64, cluster, db string) error {
-	// list task,
+func (r *RedisTask) ExecTask(ctx context.Context, taskId int64) error {
 	tasks, err := redisTaskDao.ListRedisTaskByTaskID(GetDB(), taskId)
 	if err != nil {
 		return fmt.Errorf("while exec task, get task err: %v", err)
 	}
 
-	intDB, err := strconv.Atoi(db)
+	intDB, err := strconv.Atoi(r.DB)
 
 	// exec, // 假设都是独立的，更常见的场景。
 	var failed bool
 	for _, v := range tasks {
-		resp, err := exec(ctx, v.Cmd, cluster, intDB)
+		resp, err := exec(ctx, v.Cmd, r.Cluster, intDB)
 		if err != nil {
 			failed = true
 			logger.Warnf("exec redis task failed, taskId: %d, resp: %v, err: %v", v.ID, resp, err)
@@ -97,6 +106,7 @@ func (r *RedisTask) ExecTask(ctx context.Context, taskId int64, cluster, db stri
 func (r *RedisTask) UpdateTask(action string) error {
 	return redisTaskDao.UpdateTask(GetDB(), r)
 }
+
 func (r *RedisTask) ListTask(pageInfo request.SortPageInfo, isDBA bool, status []string) (interface{}, int64, error) {
 	return redisTaskDao.ListTask(GetDB(), pageInfo, isDBA, status)
 }

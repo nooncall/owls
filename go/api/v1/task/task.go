@@ -10,6 +10,7 @@ import (
 	"github.com/nooncall/owls/go/model/common/response"
 	request2 "github.com/nooncall/owls/go/model/system/request"
 	"github.com/nooncall/owls/go/service/auth/auth"
+	"github.com/nooncall/owls/go/service/redis"
 	"github.com/nooncall/owls/go/service/task"
 	"github.com/nooncall/owls/go/utils"
 )
@@ -204,8 +205,9 @@ func genSubType(ctx *gin.Context) (task.SubTask, string, error) {
 }
 
 type TaskParam struct {
-	Task task.Task `json:"task"`
-	Auth auth.Auth `json:"auth"`
+	Task      task.Task       `json:"task"`
+	Auth      auth.Auth       `json:"auth"`
+	RedisTask redis.RedisTask `json:"redis_task"`
 }
 
 func fillSubTask(param *TaskParam, claims *request2.CustomClaims) {
@@ -216,6 +218,8 @@ func fillSubTask(param *TaskParam, claims *request2.CustomClaims) {
 			param.Auth.Username = claims.Username
 		}
 		param.Task.SubTask = param.Auth
+	case task.Redis:
+		param.Task.SubTask = &param.RedisTask
 	}
 
 	if claims != nil {
