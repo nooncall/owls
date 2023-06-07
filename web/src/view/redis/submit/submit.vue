@@ -85,7 +85,7 @@
     </div>
 
     <el-dialog v-model="dialogFormVisible" :before-close="closeDialog" :title="dialogTitle">
-      <warning-bar title="提交写SQL" />
+      <warning-bar title="提交写命令" />
       <el-form ref="apiForm" :model="form" :rules="rules" label-width="80px">
         <el-form-item label="名称" prop="path">
           <el-input v-model="form.name" input-style="width:350px" autocomplete="off" />
@@ -95,29 +95,17 @@
               v-model="form.cluster_name"
               :fetch-suggestions="querySearchAsync"
               placeholder="请选择"
-              @select="handleSelect"
           />
         </el-form-item>
         <el-form-item label="库名" prop="apiGroup">
-          <el-autocomplete
-              v-model="form.db_name"
-              :fetch-suggestions="querySearchDBAsync"
-              placeholder="请选择"
-          />
+          <el-input v-model="form.db_name" placeholder="请输入，默认0"/>
         </el-form-item>
-        <el-form-item>
-          <el-radio-group v-model="form.task_type">
-            <el-radio  label="CREATE">建表</el-radio>
-            <el-radio label="UPDATE">改表</el-radio>
-            <el-radio label="DML">操作数据</el-radio>
-          </el-radio-group>
-        </el-form-item>
-        <el-form-item label="SQL" prop="description">
+        <el-form-item label="命令" prop="description">
           <el-input
-              v-model="form.sql_content"
+              v-model="form.cmd"
               :autosize="{ minRows: 3, maxRows: 5000 }"
               type="textarea"
-              placeholder="Please input"
+              placeholder="请输入"
           />
         </el-form-item>
         <el-form-item label="备注" prop="description">
@@ -125,7 +113,7 @@
               v-model="form.remark"
               :autosize="{ minRows: 3, maxRows: 500 }"
               type="textarea"
-              placeholder="Please input"
+              placeholder="请输入"
           />
         </el-form-item>
       </el-form>
@@ -138,11 +126,11 @@
     </el-dialog>
 
     <el-dialog v-model="editDialogFormVisible" :before-close="closeDialog" :title="编辑">
-      <warning-bar title="编辑仅可提交单条SQL" />
+      <warning-bar title="编辑仅可提交单条命令" />
       <el-form ref="apiForm" :model="form" :rules="rules" label-width="80px">
         <el-form-item label="SQL" prop="description">
           <el-input
-              v-model="form.sql_content"
+              v-model="form.cmd"
               :autosize="{ minRows: 3, maxRows: 5000 }"
               type="textarea"
               placeholder="Please input"
@@ -178,7 +166,7 @@ import {
   listTask,
   createTask,
   updateTask,
-} from '@/api/db/task'
+} from '@/api/task/task'
 import { toSQLLine } from '@/utils/stringFun'
 import warningBar from '@/components/warningBar/warningBar.vue'
 import { onMounted, ref } from 'vue'
@@ -186,8 +174,9 @@ import { ElMessage, ElMessageBox } from 'element-plus'
 import moment from 'moment'
 import {
   listCluster,
-  listDatabase,
 } from '@/api/db/cluster'
+
+const taskType = 'redis'
 
 const methodFiletr = (value) => {
   const target = methodOptions.value.filter(item => item.value === value)[0]
@@ -195,7 +184,7 @@ const methodFiletr = (value) => {
 }
 
 const newLineFormatter = (row, column) =>{
-  return row.sql_content.replaceAll("\n", "<br>")
+  return row.cmd.replaceAll("\n", "<br>")
 }
 
 const apis = ref([])
@@ -204,7 +193,7 @@ const form = ref({
   db_name:'',
   task_type: '',
   remark: '',
-  sql_content: ''
+  cmd: ''
 })
 const methodOptions = ref([
   {
@@ -408,23 +397,20 @@ const enterDialog = async() => {
       switch (type.value) {
         case 'add':
         {
-          //todo, refactor
           let paramas = {
-            name: form.value.name,
-            sub_tasks:[
-              {
-                cluster_name: form.value.cluster_name,
-                db_name: form.value.db_name,
-                task_type: form.value.task_type,
-                exec_items:[
-                  {
-                    remark: form.value.remark,
-                    sql_content: form.value.sql_content,
-                  }
-                ]
-              }
-            ]
+            task: {
+              name: form.value.name,
+              sub_task_type: taskType,
+              description: form.value.remark,
+            },
+            redis_task: {
+              cluster: form.value.cluster_name,
+              db: form.value.db_name,
+              cmd: form.value.cmd,
+            }
           }
+
+
           const res = await createTask(paramas)
           if (res.code === 0) {
             ElMessage({
@@ -522,20 +508,10 @@ const clusters = ref<clusterItem[]>([])
 const db = ref<clusterItem[]>([])
 
 const loadCluster = async () => {
-  const resp = await listCluster({page: 1, pageSize: 5})
+  const resp = await listCluster({page: 1, pageSize: 5, type: "redis"})
   let result = []
   for (let cluster of resp.data.list){
     result.push({value: cluster.name, name: cluster.name})
-  }
-
-  return result
-}
-
-const loadDB = async (cluster) => {
-  const resp = await listDatabase(cluster)
-  let result = []
-  for (let db of resp.data){
-    result.push({value: db, name: db})
   }
 
   return result
@@ -553,27 +529,12 @@ const querySearchAsync = (queryString: string, cb: (arg: any) => void) => {
   }, 3000 * Math.random())
 }
 
-const querySearchDBAsync = async(queryString: string, cb: (arg: any) => void) => {
-  const results = queryString
-      ? db.value.filter(createFilter(queryString))
-      : db.value
-
-  clearTimeout(timeout)
-  timeout = setTimeout(() => {
-    cb(results)
-  }, 3000 * Math.random())
-}
-
 const createFilter = (queryString: string) => {
   return (restaurant: clusterItem) => {
     return (
         restaurant.name.toLowerCase().indexOf(queryString.toLowerCase()) === 0
     )
   }
-}
-
-const handleSelect = async (item: clusterItem) => {
-  db.value = await loadDB(item.value)
 }
 
 onMounted(async () => {
