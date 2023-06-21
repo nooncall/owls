@@ -28,6 +28,7 @@ func Injection() {
 	service.SetClock(service.RealClock{})
 	admin.SetAdminDao(dao.Admin)
 	redis.SetRedisTaskDao(redis_dao.Task)
+	redis.SetWhiteListDao(redis_dao.NewWhiteListDao())
 
 	switch global.GVA_CONFIG.Login.Model {
 	case "ldap": // todo, const
