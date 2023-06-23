@@ -18,21 +18,10 @@
       <el-table :data="tableData" @sort-change="sortChange" row-key="id" @selection-change="handleSelectionChange">
         <el-table-column type="expand">
           <template #default="scope">
-            <el-table :data="scope.row.exec_items" style="width: calc(100% - 47px)" class="two-list">
+            <el-table :data="scope.row.sub_tasks" style="width: calc(100% - 47px)" class="two-list">
               <el-table-column prop="id" label="序号"></el-table-column>
-              <el-table-column prop="cluster_name" label="集群"></el-table-column>
-              <el-table-column prop="db_name" label="库名"></el-table-column>
-              <el-table-column prop="task_type" label="类型"></el-table-column>
-              <el-table-column prop="affect_rows" label="影响行数"></el-table-column>
-              <el-table-column prop="status" width="120" label="状态"></el-table-column>
+              <el-table-column prop="cmd" width="180" label="命令"></el-table-column>
               <el-table-column prop="rule_comments" width="180" label="规范信息"></el-table-column>
-              <el-table-column class="cell" prop="cat_id" width="600"  label="SQL语句">
-                <template class="cell" style="white-space: pre-line;" #default="scope">
-                  <code>
-                    <span v-html="newLineFormatter(scope.row, '')"></span>
-                  </code>
-                </template>
-              </el-table-column>
               <el-table-column prop="remark" label="备注" width="200"></el-table-column>
                <el-table-column prop="cat_id" fixed="right"  label="操作">
                  <template #default="scope">
@@ -49,10 +38,10 @@
         </el-table-column>
         <el-table-column align="left" label="ID" min-width="150" prop="id" sortable="custom" />
         <el-table-column align="left" label="任务名" min-width="150" prop="name" sortable="custom" />
-        <el-table-column align="left" label="状态" min-width="150" prop="status_name" sortable="custom" />
+        <el-table-column align="left" label="状态" min-width="150" prop="status" sortable="custom" />
         <el-table-column align="left" label="创建者" min-width="150" prop="creator" sortable="custom" />
         <el-table-column align="left" label="创建时间" min-width="150" prop="ct" :formatter="dateFormatter" sortable="custom" />
-        <el-table-column align="left" label="说明" min-width="150" prop="reject_content" sortable="custom" />
+        <el-table-column align="left" label="说明" min-width="150" prop="description" sortable="custom" />
         <el-table-column align="left" fixed="right" label="操作" width="200">
           <template #default="scope">
             <el-button
@@ -190,7 +179,7 @@ const newLineFormatter = (row, column) =>{
 const apis = ref([])
 const form = ref({
   cluster_name: '',
-  db_name:'',
+  db_name: 0,
   task_type: '',
   remark: '',
   cmd: ''
@@ -278,7 +267,7 @@ const sortChange = ({ prop, order }) => {
 
 // 查询
 const getTableData = async() => {
-  const table = await listTask({ page: page.value, pageSize: pageSize.value, ...searchInfo.value })
+  const table = await listTask({ page: page.value, pageSize: pageSize.value, ...searchInfo.value }, taskType)
   if (table.code === 0) {
     tableData.value = table.data.list
     total.value = table.data.total
@@ -389,7 +378,6 @@ const enterEditDialog = async() => {
     }
   })
 }
-
 
 const enterDialog = async() => {
   apiForm.value.validate(async valid => {

@@ -199,6 +199,8 @@ func genSubType(ctx *gin.Context) (task.SubTask, string, error) {
 	switch taskType {
 	case task.Auth:
 		return auth.Auth{}, task.Auth, nil
+	case task.Redis:
+		return &redis.RedisTask{}, task.Redis, nil
 	default:
 		return nil, "", fmt.Errorf("sub task type not found: %s", taskType)
 	}

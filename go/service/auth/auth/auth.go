@@ -9,13 +9,14 @@ type AuthAble interface {
 }
 
 type Auth struct {
-	ID       int64  `json:"id" gorm:"column:id"`
-	UserId   uint   `json:"user_id" gorm:"user_id"`
-	Username string `json:"username" gorm:"username"`
-	DataType string `json:"data_type"`
-	Cluster  string `json:"cluster"` // 单个集群名
-	DB       string `json:"db"`      // 单个db名
-	Status   string `json:"status"`
+	ID           int64  `json:"id" gorm:"column:id"`
+	UserId       uint   `json:"user_id" gorm:"user_id"`
+	ParentTaskID int64  `json:"parent_task_id" gorm:"parent_task_id"`
+	Username     string `json:"username" gorm:"username"`
+	DataType     string `json:"data_type"`
+	Cluster      string `json:"cluster"` // 单个集群名
+	DB           string `json:"db"`      // 单个db名
+	Status       string `json:"status"`
 }
 
 type authTool struct {
