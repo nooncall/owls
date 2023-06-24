@@ -24,6 +24,11 @@ func (taskApi *TaskApi) ListReviewTask(ctx *gin.Context) {
 		response.FailWithMessage(fmt.Sprintf("%s, parse param failed :%s ", f, err.Error()), ctx)
 		return
 	}
+	taskType := ctx.Query("type")
+	if taskType == "" {
+		response.FailWithMessage(fmt.Sprintf("%s, get param failed : type not found ", f), ctx)
+		return
+	}
 
 	claims, err := utils.GetClaims(ctx)
 	if err != nil {
@@ -38,7 +43,7 @@ func (taskApi *TaskApi) ListReviewTask(ctx *gin.Context) {
 	}
 
 	page.Operator = claims.Username
-	task, count, err := task.ListTask(page, task.ExecStatus(), subTask)
+	task, count, err := task.ListTask(page, task.ExecStatus(), subTask, taskType)
 	if err != nil {
 		response.FailWithMessage(fmt.Sprintf("%s: list ListReviewTask err: %s", f, err.Error()), ctx)
 		return
@@ -59,6 +64,11 @@ func (taskApi *TaskApi) ListTask(ctx *gin.Context) {
 		response.FailWithMessage(fmt.Sprintf("%s, parse param failed :%s ", f, err.Error()), ctx)
 		return
 	}
+	taskType := ctx.Query("type")
+	if taskType == "" {
+		response.FailWithMessage(fmt.Sprintf("%s, get param failed : type not found ", f), ctx)
+		return
+	}
 
 	subTask, _, err := genSubType(ctx)
 	if err != nil {
@@ -68,7 +78,7 @@ func (taskApi *TaskApi) ListTask(ctx *gin.Context) {
 
 	claims, _ := utils.GetClaims(ctx)
 	page.Operator = claims.Username
-	task, count, err := task.ListTask(page, task.ExecStatus(), subTask)
+	task, count, err := task.ListTask(page, task.ExecStatus(), subTask, taskType)
 	if err != nil {
 		response.FailWithMessage(fmt.Sprintf("%s: list ListReviewTask err: %s", f, err.Error()), ctx)
 		return
@@ -89,6 +99,11 @@ func (taskApi *TaskApi) ListHistoryTask(ctx *gin.Context) {
 		response.FailWithMessage(fmt.Sprintf("%s, parse param failed :%s ", f, err.Error()), ctx)
 		return
 	}
+	taskType := ctx.Query("type")
+	if taskType == "" {
+		response.FailWithMessage(fmt.Sprintf("%s, get param failed : type not found ", f), ctx)
+		return
+	}
 
 	subTask, _, err := genSubType(ctx)
 	if err != nil {
@@ -103,7 +118,7 @@ func (taskApi *TaskApi) ListHistoryTask(ctx *gin.Context) {
 	}
 
 	page.Operator = claims.Username
-	task, count, err := task.ListTask(page, task.HistoryStatus(), subTask)
+	task, count, err := task.ListTask(page, task.HistoryStatus(), subTask, taskType)
 	if err != nil {
 		response.FailWithMessage(fmt.Sprintf("%s: list ListHistoryTask err: %s", f, err.Error()), ctx)
 		return
@@ -199,6 +214,8 @@ func genSubType(ctx *gin.Context) (task.SubTask, string, error) {
 	switch taskType {
 	case task.Auth:
 		return auth.Auth{}, task.Auth, nil
+	case task.Redis:
+		return &redis.RedisTask{}, task.Redis, nil
 	default:
 		return nil, "", fmt.Errorf("sub task type not found: %s", taskType)
 	}
@@ -211,6 +228,7 @@ type TaskParam struct {
 }
 
 func fillSubTask(param *TaskParam, claims *request2.CustomClaims) {
+	// sub task type is ""
 	switch param.Task.SubTaskType {
 	case task.Auth:
 		if claims != nil {

@@ -7,5 +7,6 @@ const (
 	ActionCancel   = "cancel"
 	ActionUpdate   = "update"
 	ActionApproval = "approval"
+	ActionResubmit = "resubmit"
 	ActionReject   = "reject"
 )

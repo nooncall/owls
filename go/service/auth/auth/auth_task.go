@@ -3,11 +3,11 @@ package auth
 import (
 	"context"
 
-	"github.com/nooncall/owls/go/model/common/request"
 	"github.com/nooncall/owls/go/service/task"
 )
 
-func (a Auth) AddTask() (int64, error) {
+func (a Auth) AddTask(parentTaskID int64) (int64, error) {
+	a.ParentTaskID = parentTaskID
 	return authDao.AddAuth(&a)
 }
 
@@ -30,7 +30,7 @@ func (a Auth) UpdateTask(action string) error {
 	return authDao.UpdateAuth(&a)
 }
 
-func (a Auth) ListTask(pageInfo request.SortPageInfo, isDBA bool, status []string) (interface{}, int64, error) {
+func (a Auth) ListTask(parentTaskID int64) (interface{}, error) {
 	panic("implement me")
 }
 

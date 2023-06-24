@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"github.com/nooncall/owls/go/model/common/request"
+	"github.com/nooncall/owls/go/utils/logger"
 )
 
 // 新建task 模块，用以封装统一的task、审批流
@@ -37,32 +38,45 @@ type Task struct {
 	Et               int64  `json:"et" gorm:"column:et"`
 	Ft               int64  `json:"ft" gorm:"column:ft"`
 
-	SubTask SubTask `json:"sub_task" gorm:"-"`
+	SubTask  SubTask   `json:"sub_task" gorm:"-"`
+	SubTasks []SubTask `json:"sub_tasks" gorm:"-"`
 
 	StatusName string `json:"status_name" gorm:"-"`
 	Action     string `json:"action" gorm:"-"`
 }
 
 type SubTask interface {
-	AddTask() (int64, error)
+	AddTask(parentTaskID int64) (int64, error)
 	ExecTask(ctx context.Context, taskId int64) error
 	UpdateTask(action string) error
-	ListTask(pageInfo request.SortPageInfo, isDBA bool, status []string) (interface{}, int64, error)
+	ListTask(parentTaskID int64) (interface{}, error)
 	GetTask(id int64) (interface{}, error)
 }
 
+// todo, fix auth too
 func AddTask(task *Task) (int64, error) {
 	task.Ct = time.Now().Unix()
-	subId, err := task.SubTask.AddTask()
+	task.Status = WaitApproval
+	taskId, err := taskDao.AddTask(task)
 	if err != nil {
 		return 0, err
 	}
 
-	task.SubTaskID, task.Status = subId, WaitApproval
-	return taskDao.AddTask(task)
+	subTaskID, err := task.SubTask.AddTask(taskId)
+	if err != nil {
+		return 0, err
+	}
+
+	task.SubTaskID, task.ID = subTaskID, taskId
+	if err = taskDao.UpdateTask(task); err != nil {
+		logger.Errorf("update task with subtask err: %v", err)
+	}
+
+	return taskId, err
 }
 
 func UpdateTask(task *Task) error {
+	// subtask is nil
 	if err := task.SubTask.UpdateTask(task.Action); err != nil {
 		return err
 	}
@@ -74,21 +88,23 @@ func UpdateTask(task *Task) error {
 		task.Status = Pass
 	case ActionReject:
 		task.Status = Reject
+	case ActionResubmit:
+		task.Status = WaitApproval
 	case ActionUpdate:
 	}
 
 	return taskDao.UpdateTask(task)
 }
 
-func ListTask(pageInfo request.SortPageInfo, status []string, subTask SubTask) ([]Task, int64, error) {
-	tasks, count, err := taskDao.ListTask(pageInfo, true, status)
+func ListTask(pageInfo request.SortPageInfo, status []string, subTask SubTask, subType string) (interface{}, int64, error) {
+	tasks, count, err := taskDao.ListTask(pageInfo, true, status, subType)
 	if err != nil {
 		return nil, 0, err
 	}
 
-	for i, v := range tasks {
-		if tasks[i].SubTask, err = getSubTask(v, subTask); err != nil {
-			return nil, 0, err
+	for i := range tasks {
+		if err = getSubTask(&tasks[i], subTask); err != nil {
+			logger.Warnf("get sub task error: %v", err)
 		}
 	}
 
@@ -101,26 +117,32 @@ func GetTask(id int64, operator string, subTask SubTask) (*Task, error) {
 		return nil, err
 	}
 
-	task.SubTask, err = getSubTask(*task, subTask)
+	err = getSubTask(task, subTask)
 	return task, nil
 }
 
-func getSubTask(task Task, subTask SubTask) (SubTask, error) {
+func getSubTask(task *Task, subTask SubTask) error {
 	var err error
 
 	switch task.SubTaskType {
 	case Auth:
 		subTaskNoType, err := subTask.GetTask(task.SubTaskID)
 		if err != nil {
-			return nil, err
+			logger.Errorf("get sub task error: %v", err)
+			return nil
+		}
+		task.SubTask = subTaskNoType.(SubTask)
+	case Redis:
+		subTasks, err := subTask.ListTask(task.ID)
+		if err != nil {
+			logger.Errorf("get sub task for redis error: %v", err)
+			return nil
 		}
 
-		if typeTask, ok := subTaskNoType.(SubTask); ok {
-			return typeTask, nil
-		}
+		task.SubTasks = subTasks.([]SubTask)
 	default:
-		return nil, fmt.Errorf("sub task type err: %s", task.SubTaskType)
+		return fmt.Errorf("sub task type err: %s", task.SubTaskType)
 	}
 
-	return nil, fmt.Errorf("get subTask for %d err: %v", task.SubTaskID, err)
+	return fmt.Errorf("get subTask for %d err: %v", task.SubTaskID, err)
 }

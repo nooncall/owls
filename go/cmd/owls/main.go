@@ -6,7 +6,6 @@ import (
 	"github.com/nooncall/owls/go/initialize"
 	"github.com/nooncall/owls/go/service/tidb_or_mysql/injection"
 	"github.com/nooncall/owls/go/utils/logger"
-
 	"go.uber.org/zap"
 )
 

@@ -33,11 +33,12 @@ func (taskDaoImpl) UpdateTask(task *Task) error {
 	return GetDB().Model(task).Where("id = ?", task.ID).Updates(task).Error
 }
 
-func (taskDaoImpl) ListTask(info request.SortPageInfo, isDBA bool, status []task.ItemStatus) ([]Task, int64, error) {
+func (taskDaoImpl) ListTask(info request.SortPageInfo, isDBA bool, status []task.ItemStatus, subType string) ([]Task, int64, error) {
 	limit := info.PageSize
 	offset := info.PageSize * (info.Page - 1)
 
 	db := GetDB().Offset(offset)
+	db.Where("sub_task_type = ?", subType)
 	if info.Key != "" {
 		fmtKey := "%" + info.Key + "%"
 		db = db.Where("id like ? or name like ? or status like ? or creator like ?",

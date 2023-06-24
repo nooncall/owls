@@ -13,5 +13,5 @@ func ExecStatus() []string {
 }
 
 func HistoryStatus() []string {
-	return []string{Pass, Failed}
+	return []string{Pass, Failed, Cancel}
 }

@@ -385,6 +385,8 @@ const cancelClusterFunc = async (row) => {
         let auth = row.sub_task
         delete row.sub_task
         row.action = "cancel"
+        row.sub_task_type = "redis"
+
         let paramas = {
           task: row,
           auth: auth,

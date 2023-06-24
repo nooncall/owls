@@ -27,7 +27,7 @@ func (TaskDaoImpl) UpdateTask(db *gorm.DB, task *redis.RedisTask) error {
 
 func (TaskDaoImpl) ListRedisTaskByTaskID(db *gorm.DB, id int64) ([]redis.RedisTask, error) {
 	var tasks []redis.RedisTask
-	return tasks, db.Find(&tasks).Error
+	return tasks, db.Where("task_id = ? ", id).Find(&tasks).Error
 }
 
 func (TaskDaoImpl) ListTask(db *gorm.DB, info request.SortPageInfo, isDBA bool, status []string) ([]redis.RedisTask, int64, error) {
