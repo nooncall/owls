@@ -33,15 +33,25 @@ func (readApi *ReadApi) ReadData(ctx *gin.Context) {
 func (readApi *ReadApi) ListRule(ctx *gin.Context) {
 	f := "redis.ListRule() -->"
 
-	rules, err := redis.GetAllWhitelist(ctx)
+	readRules, err := redis.GetReadWhitelist(ctx)
 	if err != nil {
-		response.FailWithMessage(fmt.Sprintf("%s, get white list failed :%s ", f, err.Error()), ctx)
+		response.FailWithMessage(fmt.Sprintf("%s, get read white list failed :%s ", f, err.Error()), ctx)
+		return
+	}
+	writeRules, err := redis.GetWriteWhitelist(ctx)
+	if err != nil {
+		response.FailWithMessage(fmt.Sprintf("%s, get write white list failed :%s ", f, err.Error()), ctx)
 		return
 	}
 
 	response.OkWithData(tidb_or_mysql.ListData{
-		List:  rules,
-		Total: int64(len(rules)),
+		List: map[string]interface{}{
+			"read":  readRules,
+			"write": writeRules,
+		},
+		PageSize: 30, // todo store to db
+		Page:     1,
+		Total:    30,
 	}, ctx)
 }
 

@@ -11,21 +11,84 @@
         </el-form-item>
       </el-form>
     </div>
+
+    <br>
+    <span style="font-size:20px;">读命令白名单:</span>
+    <br><br>
+
     <div class="gva-table-box">
-      <el-table :data="tableData" @sort-change="sortChange" @selection-change="handleSelectionChange">
+      <el-table :data="tableData.read" @sort-change="sortChange" @selection-change="handleSelectionChange">
         <el-table-column
             type="selection"
             width="55"
         />
-        <el-table-column align="left" label="名称" min-width="150" prop="name" sortable="custom"/>
-        <el-table-column align="left" label="规则" min-width="150" prop="summary" sortable="custom"/>
-
+        <el-table-column align="left" label="命令" min-width="150" prop="cmd" sortable="custom"/>
+        <el-table-column align="left" label="检查类型" min-width="150" prop="check_type" sortable="custom"/>
+        <el-table-column align="left" fixed="right" label="长度限制" width="200">
+          <template #default="scope">
+            <span v-if="scope.row.len_limit != 0">{{scope.row.len_limit}}</span> 
+          </template>
+        </el-table-column>
         <el-table-column align="left" fixed="right" label="操作" width="200">
           <template #default="scope">
-            <el-switch
+            <!-- <el-switch TODO
                 v-model="scope.row.open"
                 active-color="#13ce66"
                 inactive-color="#ff4949"
+                @click="onSwitch(scope.row)"
+            /> -->
+            <el-switch
+                v-model="scope.row.open"
+                active-color="#13ce66"
+                inactive-color="#13ce66"
+                @click="onSwitch(scope.row)"
+            />
+          </template>
+        </el-table-column>
+      </el-table>
+      <div class="gva-pagination">
+        <el-pagination
+            :current-page="page"
+            :page-size="pageSize"
+            :page-sizes="[10, 30, 50, 100]"
+            :total="total"
+            layout="total, sizes, prev, pager, next, jumper"
+            @current-change="handleCurrentChange"
+            @size-change="handleSizeChange"
+        />
+      </div>
+    </div>
+
+    <br><br>
+    <span style="font-size:20px;">写命令白名单:</span>
+    <br><br>
+
+    <div class="gva-table-box">
+      <el-table :data="tableData.write" @sort-change="sortChange" @selection-change="handleSelectionChange">
+        <el-table-column
+            type="selection"
+            width="55"
+        />
+        <el-table-column align="left" label="命令" min-width="150" prop="cmd" sortable="custom"/>
+        <el-table-column align="left" label="检查类型" min-width="150" prop="check_type" sortable="custom"/>
+        <el-table-column align="left" fixed="right" label="长度限制" width="200">
+          <template #default="scope">
+            <span v-if="scope.row.len_limit != 0">{{scope.row.len_limit}}</span> 
+          </template>
+        </el-table-column>
+
+        <el-table-column align="left" fixed="right" label="操作" width="200">
+          <template #default="scope">
+            <!-- <el-switch TODO
+                v-model="scope.row.open"
+                active-color="#13ce66"
+                inactive-color="#ff4949"
+                @click="onSwitch(scope.row)"
+            /> -->
+            <el-switch
+                v-model="scope.row.open"
+                active-color="#13ce66"
+                inactive-color="#13ce66"
                 @click="onSwitch(scope.row)"
             />
           </template>
@@ -54,7 +117,7 @@ export default {
 
 <script setup>
 import {
-  listRule,
+  listRedisRule,
   updateRuleStatus,
 } from '@/api/db/rule'
 import { toSQLLine } from '@/utils/stringFun'
@@ -92,7 +155,7 @@ const type = ref('')
 const page = ref(1)
 const total = ref(0)
 const pageSize = ref(10)
-const tableData = ref([])
+const tableData = ref({})
 const searchInfo = ref({})
 
 const onReset = () => {
@@ -140,7 +203,7 @@ const sortChange = ({ prop, order }) => {
 
 // 查询
 const getTableData = async() => {
-  const table = await listRule({ page: page.value, pageSize: pageSize.value, ...searchInfo.value })
+  const table = await listRedisRule({ page: page.value, pageSize: pageSize.value, ...searchInfo.value })
   if (table.code === 0) {
     tableData.value = table.data.list
     total.value = table.data.total

@@ -32,9 +32,23 @@ type Check struct {
 
 var checker Check
 
-func GetAllWhitelist(ctx context.Context) ([]PermitCmd, error) {
+func GetReadWhitelist(ctx context.Context) ([]PermitCmd, error) {
 	var rules []PermitCmd
-	for k, v := range getAllWhiteCmd() {
+	for k, v := range getReadWhiteCmd() {
+		checkType, limit := getCheckTypeAndLenLimit(ctx, v)
+		rules = append(rules, PermitCmd{
+			Cmd:       k,
+			CheckType: checkType,
+			LenLimit:  limit,
+		})
+	}
+
+	return rules, nil
+}
+
+func GetWriteWhitelist(ctx context.Context) ([]PermitCmd, error) {
+	var rules []PermitCmd
+	for k, v := range getWriteWhiteCmd() {
 		checkType, limit := getCheckTypeAndLenLimit(ctx, v)
 		rules = append(rules, PermitCmd{
 			Cmd:       k,
