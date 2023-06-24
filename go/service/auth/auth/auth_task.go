@@ -7,7 +7,7 @@ import (
 )
 
 func (a Auth) AddTask(parentTaskID int64) (int64, error) {
-	a.ParentTaskID = parentTaskID
+	// a.ParentTaskID = parentTaskID
 	return authDao.AddAuth(&a)
 }
 
