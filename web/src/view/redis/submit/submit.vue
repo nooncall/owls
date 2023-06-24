@@ -115,9 +115,9 @@
     </el-dialog>
 
     <el-dialog v-model="editDialogFormVisible" :before-close="closeDialog" :title="编辑">
-      <warning-bar title="编辑仅可提交单条命令" />
+      <warning-bar title="编辑仅可修改单条命令" />
       <el-form ref="apiForm" :model="form" :rules="rules" label-width="80px">
-        <el-form-item label="SQL" prop="description">
+        <el-form-item label="命令" prop="description">
           <el-input
               v-model="form.cmd"
               :autosize="{ minRows: 3, maxRows: 5000 }"
@@ -182,7 +182,8 @@ const form = ref({
   db_name: 0,
   task_type: '',
   remark: '',
-  cmd: ''
+  cmd: '',
+  id: 0,
 })
 const methodOptions = ref([
   {
@@ -346,12 +347,19 @@ const enterEditDialog = async() => {
       switch (type.value) {
         case 'edit':
         {
-          // 这里不传task id，后端判断是否包含id。
-          // todo, refactor
-          let params = {
-            exec_item: form.value,
-            action: "editItem"
+          let sub_task = {
+            action: "update",
+            id: form.value.id ,
+            cmd: form.value.cmd,
           }
+          let params = {
+            task: {
+              action: "update",
+              sub_task_type : "redis",
+            },
+            redis_task: sub_task,
+          }
+
           const res = await updateTask(params)
           if (res.code === 0) {
             ElMessage({
@@ -448,8 +456,17 @@ const cancelClusterFunc = async(row) => {
     type: 'warning'
   })
       .then(async() => {
+        let redis = row.sub_task
+        delete row.sub_task
         row.action = "cancel"
-        const res = await updateTask(row)
+        row.sub_task_type = "redis"
+
+        let paramas = {
+          task: row,
+          redis_task: redis,
+        }
+        
+        const res = await updateTask(paramas)
         if (res.code === 0) {
           ElMessage({
             type: 'success',

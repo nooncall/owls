@@ -76,6 +76,7 @@ func AddTask(task *Task) (int64, error) {
 }
 
 func UpdateTask(task *Task) error {
+	// subtask is nil
 	if err := task.SubTask.UpdateTask(task.Action); err != nil {
 		return err
 	}
@@ -87,14 +88,16 @@ func UpdateTask(task *Task) error {
 		task.Status = Pass
 	case ActionReject:
 		task.Status = Reject
+	case ActionResubmit:
+		task.Status = WaitApproval
 	case ActionUpdate:
 	}
 
 	return taskDao.UpdateTask(task)
 }
 
-func ListTask(pageInfo request.SortPageInfo, status []string, subTask SubTask) (interface{}, int64, error) {
-	tasks, count, err := taskDao.ListTask(pageInfo, true, status)
+func ListTask(pageInfo request.SortPageInfo, status []string, subTask SubTask, subType string) (interface{}, int64, error) {
+	tasks, count, err := taskDao.ListTask(pageInfo, true, status, subType)
 	if err != nil {
 		return nil, 0, err
 	}
