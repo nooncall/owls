@@ -6,9 +6,10 @@ import (
 	"github.com/nooncall/owls/go/service/task"
 )
 
-func (a Auth) AddTask(parentTaskID int64) (int64, error) {
+func (a Auth) AddTask(ctx context.Context, cluster string, db int, parentTaskID int64) (int64, bool, error) {
 	// a.ParentTaskID = parentTaskID
-	return authDao.AddAuth(&a)
+	count, err := authDao.AddAuth(&a)
+	return count, true, err
 }
 
 // give auth by set status

@@ -13,10 +13,11 @@ import (
 )
 
 type RedisTask struct {
-	ID       int64  `json:"id" gorm:"column:id"`
-	TaskID   int64  `json:"task_id" gorm:"column:task_id"`
-	Cmd      string `json:"cmd" gorm:"column:cmd"`
-	ExecInfo string `json:"exec_info" gorm:"column:exec_info"`
+	ID        int64  `json:"id" gorm:"column:id"`
+	TaskID    int64  `json:"task_id" gorm:"column:task_id"`
+	Cmd       string `json:"cmd" gorm:"column:cmd"`
+	ExecInfo  string `json:"exec_info" gorm:"column:exec_info"`
+	CheckInfo string `json:"check_info" gorm:"column:check_info"`
 }
 
 type RedisTaskDao interface {
@@ -33,27 +34,36 @@ func SetRedisTaskDao(impl RedisTaskDao) {
 	redisTaskDao = impl
 }
 
-func (r *RedisTask) AddTask(parentTaskID int64) (int64, error) {
+func (r *RedisTask) AddTask(ctx context.Context, cluster string, db int, parentTaskID int64) (int64, bool, error) {
 	// split and store， others as normal
 	cmds := strings.Split(r.Cmd, ";")
 	tx := GetDB().Begin()
+	var checkPass bool
 
 	for _, v := range cmds {
 		if v == "" {
 			continue
 		}
 
-		if _, err := redisTaskDao.AddTask(tx, &RedisTask{
-			TaskID: parentTaskID,
-			Cmd:    v,
-		}); err != nil {
-			tx.Rollback()
-			return 0, err
+		pass, checkMsg, err := checker.CheckWriteCmd(ctx, v, cluster, db)
+		if err != nil {
+			return 0, checkPass, err
+		}
+		if !pass {
+			checkPass = pass
 		}
 
+		if _, err := redisTaskDao.AddTask(tx, &RedisTask{
+			TaskID:    parentTaskID,
+			CheckInfo: checkMsg,
+			Cmd:       v,
+		}); err != nil {
+			tx.Rollback()
+			return 0, checkPass, err
+		}
 	}
 
-	return 0, tx.Commit().Error
+	return 0, checkPass, tx.Commit().Error
 }
 
 func (r *RedisTask) ExecTask(ctx context.Context, taskId int64) error {
