@@ -522,7 +522,7 @@ const clusters = ref<clusterItem[]>([])
 const db = ref<clusterItem[]>([])
 
 const loadCluster = async () => {
-  const resp = await listCluster({page: 1, pageSize: 5, type: "redis"})
+  const resp = await listCluster({page: 1, pageSize: 5, type: "mysql"})
   let result = []
   for (let cluster of resp.data.list){
     result.push({value: cluster.name, name: cluster.name})

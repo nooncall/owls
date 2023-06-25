@@ -30,7 +30,13 @@
                        size="small"
                        type="text"
                        @click="editTaskFunc(scope.row)"
-                   >编辑</el-button>
+                   >驳回</el-button>
+                   <el-button
+                       icon="edit"
+                       size="small"
+                       type="text"
+                       @click="editTaskFunc(scope.row)"
+                   >审核</el-button>
                  </template>
                </el-table-column>
             </el-table>
@@ -405,7 +411,6 @@ const enterDialog = async() => {
               cmd: form.value.cmd,
             }
           }
-
 
           const res = await createTask(paramas)
           if (res.code === 0) {

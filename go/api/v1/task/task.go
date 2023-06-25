@@ -196,7 +196,7 @@ func (taskApi *TaskApi) AddTask(ctx *gin.Context) {
 	}
 	fillSubTask(&taskParam, claims)
 
-	id, err := task.AddTask(&taskParam.Task)
+	id, err := task.AddTask(ctx, &taskParam.Task)
 	if err != nil {
 		response.FailWithMessage(fmt.Sprintf("%s, add task failed :%s", f, err.Error()), ctx)
 		return

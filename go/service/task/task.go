@@ -3,6 +3,7 @@ package task
 import (
 	"context"
 	"fmt"
+	"strconv"
 	"time"
 
 	"github.com/nooncall/owls/go/model/common/request"
@@ -46,7 +47,7 @@ type Task struct {
 }
 
 type SubTask interface {
-	AddTask(parentTaskID int64) (int64, error)
+	AddTask(ctx context.Context, cluster string, db int, parentTaskID int64) (int64, bool, error)
 	ExecTask(ctx context.Context, taskId int64) error
 	UpdateTask(action string) error
 	ListTask(parentTaskID int64) (interface{}, error)
@@ -54,7 +55,7 @@ type SubTask interface {
 }
 
 // todo, fix auth too
-func AddTask(task *Task) (int64, error) {
+func AddTask(ctx context.Context, task *Task) (int64, error) {
 	task.Ct = time.Now().Unix()
 	task.Status = WaitApproval
 	taskId, err := taskDao.AddTask(task)
@@ -62,9 +63,17 @@ func AddTask(task *Task) (int64, error) {
 		return 0, err
 	}
 
-	subTaskID, err := task.SubTask.AddTask(taskId)
+	db, err := strconv.Atoi(task.Database)
 	if err != nil {
 		return 0, err
+	}
+
+	subTaskID, pass, err := task.SubTask.AddTask(ctx, task.Cluster, db, taskId)
+	if err != nil {
+		return 0, err
+	}
+	if !pass {
+		task.Status = Reject
 	}
 
 	task.SubTaskID, task.ID = subTaskID, taskId
