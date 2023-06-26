@@ -78,7 +78,7 @@ func (taskApi *TaskApi) ListTask(ctx *gin.Context) {
 
 	claims, _ := utils.GetClaims(ctx)
 	page.Operator = claims.Username
-	task, count, err := task.ListTask(page, task.ExecStatus(), subTask, taskType)
+	task, count, err := task.ListTask(page, task.SubmitStatus(), subTask, taskType)
 	if err != nil {
 		response.FailWithMessage(fmt.Sprintf("%s: list ListReviewTask err: %s", f, err.Error()), ctx)
 		return

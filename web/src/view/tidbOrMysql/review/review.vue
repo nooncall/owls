@@ -52,7 +52,7 @@
                 size="small"
                 type="text"
                 @click="toTarget('exec',scope.row.id)"
-            >审核</el-button>
+            >执行</el-button>
           </template>
         </el-table-column>
       </el-table>
