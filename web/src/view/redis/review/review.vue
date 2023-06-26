@@ -23,22 +23,6 @@
               <el-table-column prop="cmd" width="180" label="命令"></el-table-column>
               <el-table-column prop="rule_comments" width="180" label="规范信息"></el-table-column>
               <el-table-column prop="remark" label="备注" width="200"></el-table-column>
-               <el-table-column prop="cat_id" fixed="right"  label="操作">
-                 <template #default="scope">
-                   <el-button
-                       icon="edit"
-                       size="small"
-                       type="text"
-                       @click="editTaskFunc(scope.row)"
-                   >驳回</el-button>
-                   <el-button
-                       icon="edit"
-                       size="small"
-                       type="text"
-                       @click="editTaskFunc(scope.row)"
-                   >审核</el-button>
-                 </template>
-               </el-table-column>
             </el-table>
           </template>
         </el-table-column>
@@ -48,21 +32,20 @@
         <el-table-column align="left" label="创建者" min-width="150" prop="creator" sortable="custom" />
         <el-table-column align="left" label="创建时间" min-width="150" prop="ct" :formatter="dateFormatter" sortable="custom" />
         <el-table-column align="left" label="说明" min-width="150" prop="description" sortable="custom" />
-        <el-table-column align="left" fixed="right" label="操作" width="200">
+        <el-table-column prop="cat_id" fixed="right" min-width="150" label="操作">
           <template #default="scope">
             <el-button
-                icon="delete"
+                icon="edit"
                 size="small"
                 type="text"
-                @click="cancelClusterFunc(scope.row)"
-            >撤销</el-button>
+                @click="rejectFunc(scope.row)"
+            >驳回</el-button>
             <el-button
-                icon="delete"
+                icon="edit"
                 size="small"
                 type="text"
-                v-if="scope.row.status == 'reject'"
-                @click="ResubmitFunc(scope.row)"
-            >再次提交</el-button>
+                @click="editTaskFunc(scope.row)"
+            >执行</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -79,62 +62,12 @@
       </div>
     </div>
 
-    <el-dialog v-model="dialogFormVisible" :before-close="closeDialog" :title="dialogTitle">
-      <warning-bar title="提交写命令" />
+    <el-dialog v-model="rejectDialogFormVisible" :before-close="closeDialog" :title="驳回">
       <el-form ref="apiForm" :model="form" :rules="rules" label-width="80px">
-        <el-form-item label="名称" prop="path">
-          <el-input v-model="form.name" input-style="width:350px" autocomplete="off" />
-        </el-form-item>
-        <el-form-item label="集群" prop="path">
-          <el-autocomplete
-              v-model="form.cluster_name"
-              :fetch-suggestions="querySearchAsync"
-              placeholder="请选择"
-          />
-        </el-form-item>
-        <el-form-item label="库名" prop="apiGroup">
-          <el-input v-model="form.db_name" placeholder="请输入，默认0"/>
-        </el-form-item>
-        <el-form-item label="命令" prop="description">
+        <el-form-item label="驳回原因" prop="description">
           <el-input
-              v-model="form.cmd"
+              v-model="form.reject_content"
               :autosize="{ minRows: 3, maxRows: 5000 }"
-              type="textarea"
-              placeholder="请输入"
-          />
-        </el-form-item>
-        <el-form-item label="备注" prop="description">
-          <el-input
-              v-model="form.remark"
-              :autosize="{ minRows: 3, maxRows: 500 }"
-              type="textarea"
-              placeholder="请输入"
-          />
-        </el-form-item>
-      </el-form>
-      <template #footer>
-        <div class="dialog-footer">
-          <el-button size="small" @click="closeDialog">取 消</el-button>
-          <el-button size="small" type="primary" @click="enterDialog">确 定</el-button>
-        </div>
-      </template>
-    </el-dialog>
-
-    <el-dialog v-model="editDialogFormVisible" :before-close="closeDialog" :title="编辑">
-      <warning-bar title="编辑仅可修改单条命令" />
-      <el-form ref="apiForm" :model="form" :rules="rules" label-width="80px">
-        <el-form-item label="命令" prop="description">
-          <el-input
-              v-model="form.cmd"
-              :autosize="{ minRows: 3, maxRows: 5000 }"
-              type="textarea"
-              placeholder="Please input"
-          />
-        </el-form-item>
-        <el-form-item label="备注" prop="description">
-          <el-input
-              v-model="form.remark"
-              :autosize="{ minRows: 3, maxRows: 500 }"
               type="textarea"
               placeholder="Please input"
           />
@@ -172,15 +105,6 @@ import {
 } from '@/api/db/cluster'
 
 const taskType = 'redis'
-
-const methodFiletr = (value) => {
-  const target = methodOptions.value.filter(item => item.value === value)[0]
-  return target && `${target.label}`
-}
-
-const newLineFormatter = (row, column) =>{
-  return row.cmd.replaceAll("\n", "<br>")
-}
 
 const apis = ref([])
 const form = ref({
@@ -233,6 +157,44 @@ const total = ref(0)
 const pageSize = ref(10)
 const tableData = ref([])
 const searchInfo = ref({})
+
+const handleRow = ref({})
+const rejectDialogFormVisible = ref(false)
+const openDialog = () => {
+  rejectDialogFormVisible.value = true
+}
+const closeDialog = () => {
+  initForm()
+  rejectDialogFormVisible.value = false
+}
+
+const rejectFunc = async(row) => {
+  handleRow.value = row
+  rejectDialogFormVisible.value = true
+}
+
+const enterEditDialog = async() => {
+  apiForm.value.validate(async valid => {
+    handleRow.value.reject_content = form.value.reject_content
+    delete handleRow.value.sub_tasks
+    handleRow.value.action = "reject"
+    handleRow.value.sub_task_type = "redis"
+
+    let paramas = {
+      task: handleRow.value,
+    }
+    const res = await updateTask(paramas)
+    if (res.code === 0) {
+      ElMessage({
+        type: 'success',
+        message: '操作成功',
+        showClose: true
+      })
+    }
+    getTableData()
+    closeDialog()
+  })
+}
 
 const onReset = () => {
   searchInfo.value = {}
@@ -319,193 +281,6 @@ const initForm = () => {
   }
 }
 
-const dialogTitle = ref('新增')
-const dialogFormVisible = ref(false)
-const editDialogFormVisible = ref(false)
-const openDialog = (key) => {
-  switch (key) {
-    case 'add':
-      dialogTitle.value = '新增'
-      break
-    case 'edit':
-      editDialogFormVisible.value = true
-      break
-    default:
-      break
-  }
-  type.value = key
-  dialogFormVisible.value = true
-}
-const closeDialog = () => {
-  initForm()
-  dialogFormVisible.value = false
-  editDialogFormVisible.value = false
-}
-
-const editTaskFunc = async(row) => {
-  form.value = row
-  openDialog('edit')
-}
-
-const enterEditDialog = async() => {
-  apiForm.value.validate(async valid => {
-    if (valid) {
-      switch (type.value) {
-        case 'edit':
-        {
-          let sub_task = {
-            action: "update",
-            id: form.value.id ,
-            cmd: form.value.cmd,
-          }
-          let params = {
-            task: {
-              action: "update",
-              sub_task_type : "redis",
-            },
-            redis_task: sub_task,
-          }
-
-          const res = await updateTask(params)
-          if (res.code === 0) {
-            ElMessage({
-              type: 'success',
-              message: '编辑成功',
-              showClose: true
-            })
-          }
-          getTableData()
-          closeDialog()
-        }
-          break
-        default:
-          // eslint-disable-next-line no-lone-blocks
-        {
-          ElMessage({
-            type: 'error',
-            message: '未知操作',
-            showClose: true
-          })
-        }
-          break
-      }
-    }
-  })
-}
-
-const enterDialog = async() => {
-  apiForm.value.validate(async valid => {
-    if (valid) {
-      switch (type.value) {
-        case 'add':
-        {
-          let paramas = {
-            task: {
-              name: form.value.name,
-              sub_task_type: taskType,
-              description: form.value.remark,
-            },
-            redis_task: {
-              cluster: form.value.cluster_name,
-              db: form.value.db_name,
-              cmd: form.value.cmd,
-            }
-          }
-
-          const res = await createTask(paramas)
-          if (res.code === 0) {
-            ElMessage({
-              type: 'success',
-              message: '添加成功',
-              showClose: true
-            })
-          }
-          getTableData()
-          closeDialog()
-        }
-
-          break
-        case 'edit':
-        {
-          const res = await updateTask(form.value)
-          if (res.code === 0) {
-            ElMessage({
-              type: 'success',
-              message: '编辑成功',
-              showClose: true
-            })
-          }
-          getTableData()
-          closeDialog()
-        }
-          break
-        default:
-          // eslint-disable-next-line no-lone-blocks
-        {
-          ElMessage({
-            type: 'error',
-            message: '未知操作',
-            showClose: true
-          })
-        }
-          break
-      }
-    }
-  })
-}
-
-const cancelClusterFunc = async(row) => {
-  ElMessageBox.confirm('确定撤销吗?', '提示', {
-    confirmButtonText: '确定',
-    cancelButtonText: '取消',
-    type: 'warning'
-  })
-      .then(async() => {
-        let redis = row.sub_task
-        delete row.sub_task
-        row.action = "cancel"
-        row.sub_task_type = "redis"
-
-        let paramas = {
-          task: row,
-          redis_task: redis,
-        }
-        
-        const res = await updateTask(paramas)
-        if (res.code === 0) {
-          ElMessage({
-            type: 'success',
-            message: '撤销成功!'
-          })
-          if (tableData.value.length === 1 && page.value > 1) {
-            page.value--
-          }
-          getTableData()
-        }
-      })
-}
-
-const ResubmitFunc = async(row) => {
-  ElMessageBox.confirm('确定提交吗?', '提示', {
-    confirmButtonText: '确定',
-    cancelButtonText: '取消',
-    type: 'warning'
-  })
-      .then(async() => {
-        row.action = "resubmit"
-        const res = await updateTask(row)
-        if (res.code === 0) {
-          ElMessage({
-            type: 'success',
-            message: '提交成功!'
-          })
-          if (tableData.value.length === 1 && page.value > 1) {
-            page.value--
-          }
-          getTableData()
-        }
-      })
-}
 
 const state = ref('')
 
