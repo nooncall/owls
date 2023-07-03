@@ -44,7 +44,7 @@
                 icon="edit"
                 size="small"
                 type="text"
-                @click="editTaskFunc(scope.row)"
+                @click="toTarget('rexec',scope.row.id)"
             >执行</el-button>
           </template>
         </el-table-column>
@@ -103,6 +103,17 @@ import moment from 'moment'
 import {
   listCluster,
 } from '@/api/db/cluster'
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
+const toTarget = (name,id) => {
+  router.push({
+    name: name,
+    params: {
+      id: id,
+    },
+  })
+}
 
 const taskType = 'redis'
 

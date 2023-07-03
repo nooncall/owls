@@ -9,4 +9,5 @@ const (
 	ActionApproval = "approval"
 	ActionResubmit = "resubmit"
 	ActionReject   = "reject"
+	ActionExec     = "exec"
 )

@@ -20,7 +20,7 @@
               </el-col>
               <el-col :span="18" :xs="24" :sm="6">
                 <div class="flex-center">
-                  状态：{{task.status_name}}
+                  状态：{{task.status}}
                 </div>
               </el-col>
               <br><br><br><br>
@@ -32,6 +32,12 @@
               <el-col :span="18" :xs="24" :sm="12">
                 <div class="flex-center">
                   创建时间: {{dateFormatter(task.ct)}}
+                </div>
+              </el-col>
+              <br><br><br><br>
+              <el-col :span="18" :xs="24" :sm="12">
+                <div class="flex-center">
+                  任务描述: {{task.description}}
                 </div>
               </el-col>
             </el-row>
@@ -60,28 +66,18 @@
           </div>
           <el-table :data="tableData" style="width: calc(100% - 47px)" class="two-list">
             <el-table-column prop="id" label="序号"></el-table-column>
-            <el-table-column prop="cluster_name" label="集群"></el-table-column>
-            <el-table-column prop="db_name" label="库名"></el-table-column>
-            <el-table-column prop="task_type" label="类型"></el-table-column>
-            <el-table-column prop="affect_rows" label="影响行数"></el-table-column>
-            <el-table-column prop="status" label="状态" min-width="110%"></el-table-column>
+            <el-table-column prop="cmd" label="命令"></el-table-column>
+            <el-table-column prop="cluster" label="集群">{{task.cluster}}</el-table-column>
+            <el-table-column prop="db_name" label="库名">{{task.database}}</el-table-column>
             <el-table-column prop="exec_info" width="200" label="执行信息"></el-table-column>
-            <el-table-column class="cell" prop="cat_id" width="600"  label="SQL语句">
-              <template class="cell" style="white-space: pre-line;" #default="scope">
-                <code>
-                  <span v-html="newLineFormatter(scope.row, '')"></span>
-                </code>
-              </template>
-            </el-table-column>
-            <el-table-column prop="remark" label="备注" width="200"></el-table-column>
             <el-table-column prop="cat_id" fixed="right" label="操作">
               <template #default="scope">
-                <el-button
+                <!-- <el-button
                     icon="edit"
                     size="small"
                     type="text"
                     @click="onExecAt(scope.row)"
-                >此处开始</el-button>
+                >此处开始</el-button> -->
               </template>
             </el-table-column>
           </el-table>
@@ -117,7 +113,7 @@ import { onMounted, ref } from 'vue'
 import {
   getTask,
   updateTask,
-} from '@/api/db/task'
+} from '@/api/task/task'
 import moment from "moment";
 import {ElMessage} from "element-plus";
 
@@ -125,8 +121,7 @@ const form = ref({
   reject_content: ''
 })
 
-// contionue  下半部分的按钮实现
-
+const taskType = 'redis'
 const router = useRouter()
 const rout = useRoute()
 const execVisible = ref(false)
@@ -143,18 +138,21 @@ const task = ref({})
 const tableData = ref([])
 
 const getData = async() => {
-  const response = await getTask(rout.params.id)
+  const response = await getTask(rout.params.id, taskType)
   task.value = response.data
-  tableData.value = response.data.exec_items
+  tableData.value = response.data.sub_tasks
 }
 
 getData()
 
 const onReject = async() => {
   let params = {
-    id: Number(rout.params.id),
-    reject_content: form.value.reject_content,
-    action: 'reject'
+    task:{
+      id: Number(rout.params.id),
+      reject_content: form.value.reject_content,
+      action: 'reject',
+      sub_task_type: 'redis',
+    }
   }
   const res = await updateTask(params)
   if (res.code === 0) {
@@ -166,14 +164,17 @@ const onReject = async() => {
   }
   rejectDialogFormVisible.value = false
 
-  router.push({name: 'review'})
+  router.push({name: 'rReview'})
 }
 
 const onExec = async() => {
   execVisible.value = false
   let params = {
-    id: Number(rout.params.id),
-    action: 'exec'
+    task:{
+      id: Number(rout.params.id),
+      action: 'exec',
+      sub_task_type: 'redis',
+    }
   }
   const res = await updateTask(params)
   if (res.code === 0) {

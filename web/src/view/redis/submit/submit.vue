@@ -398,10 +398,10 @@ const enterDialog = async() => {
               name: form.value.name,
               sub_task_type: taskType,
               description: form.value.remark,
+              cluster: form.value.cluster_name,
+              database: form.value.db_name + '' || 0,
             },
             redis_task: {
-              cluster: form.value.cluster_name,
-              db: form.value.db_name,
               cmd: form.value.cmd,
             }
           }
@@ -487,8 +487,15 @@ const ResubmitFunc = async(row) => {
     type: 'warning'
   })
       .then(async() => {
+        let redis = row.sub_task
+        delete row.sub_tasks
         row.action = "resubmit"
-        const res = await updateTask(row)
+        row.sub_task_type = "redis"
+        let paramas = {
+          task: row,
+          redis_task: redis,
+        }
+        const res = await updateTask(paramas)
         if (res.code === 0) {
           ElMessage({
             type: 'success',
