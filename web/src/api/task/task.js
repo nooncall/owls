@@ -25,7 +25,7 @@ export const listHistoryTask = (data, subType) => {
 }
 export const getTask = (data, subType) => {
   return service({
-    url: '/task?id=' + data + '&?type=' + subType,
+    url: '/task?id=' + data + '&type=' + subType,
     method: 'get',
   })
 }

@@ -48,13 +48,13 @@ type Task struct {
 
 type SubTask interface {
 	AddTask(ctx context.Context, cluster string, db int, parentTaskID int64) (int64, bool, error)
-	ExecTask(ctx context.Context, taskId int64) error
+	//TODO, refactor, auth db on subtask, redis db on parent task;
+	ExecTask(ctx context.Context, taskId int64, cluster, db string) error
 	UpdateTask(action string) error
 	ListTask(parentTaskID int64) (interface{}, error)
 	GetTask(id int64) (interface{}, error)
 }
 
-// todo, fix auth too
 func AddTask(ctx context.Context, task *Task) (int64, error) {
 	task.Ct = time.Now().Unix()
 	task.Status = WaitApproval
@@ -84,9 +84,10 @@ func AddTask(ctx context.Context, task *Task) (int64, error) {
 	return taskId, err
 }
 
-func UpdateTask(task *Task) error {
+func UpdateTask(ctx context.Context, task *Task) error {
 	// subtask is nil
-	if err := task.SubTask.UpdateTask(task.Action); err != nil {
+	var err error
+	if err = task.SubTask.UpdateTask(task.Action); err != nil {
 		return err
 	}
 
@@ -99,6 +100,13 @@ func UpdateTask(task *Task) error {
 		task.Status = Reject
 	case ActionResubmit:
 		task.Status = WaitApproval
+	case ActionExec:
+		storeTask, err := GetTask(task.ID, "", task.SubTask)
+		if err != nil {
+			return err
+		}
+		task.Status = Pass
+		task.SubTask.ExecTask(ctx, storeTask.ID, storeTask.Cluster, storeTask.Database)
 	case ActionUpdate:
 	}
 
@@ -128,6 +136,10 @@ func GetTask(id int64, operator string, subTask SubTask) (*Task, error) {
 
 	err = getSubTask(task, subTask)
 	return task, nil
+}
+
+func GetOnlyTask(id int64) (*Task, error) {
+	return taskDao.GetTask(id)
 }
 
 func getSubTask(task *Task, subTask SubTask) error {

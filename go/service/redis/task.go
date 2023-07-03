@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"strconv"
 	"strings"
 
 	"github.com/nooncall/owls/go/model/common/request"
@@ -38,7 +39,7 @@ func (r *RedisTask) AddTask(ctx context.Context, cluster string, db int, parentT
 	// split and store， others as normal
 	cmds := strings.Split(r.Cmd, ";")
 	tx := GetDB().Begin()
-	var checkPass bool
+	checkPass := true
 
 	for _, v := range cmds {
 		if v == "" {
@@ -66,17 +67,22 @@ func (r *RedisTask) AddTask(ctx context.Context, cluster string, db int, parentT
 	return 0, checkPass, tx.Commit().Error
 }
 
-func (r *RedisTask) ExecTask(ctx context.Context, taskId int64) error {
+func (r *RedisTask) ExecTask(ctx context.Context, taskId int64, cluster, db string) error {
 	tasks, err := redisTaskDao.ListRedisTaskByTaskID(GetDB(), taskId)
 	if err != nil {
 		return fmt.Errorf("while exec task, get task err: %v", err)
+	}
+
+	database, err := strconv.Atoi(db)
+	if err != nil {
+		return err
 	}
 
 	// exec, // 假设都是独立的，更常见的场景。
 	// todo, get parent task, and set
 	var failed bool
 	for _, v := range tasks {
-		resp, err := exec(ctx, v.Cmd, "a", 0)
+		resp, err := exec(ctx, v.Cmd, cluster, database)
 		if err != nil {
 			failed = true
 			logger.Warnf("exec redis task failed, taskId: %d, resp: %v, err: %v", v.ID, resp, err)
