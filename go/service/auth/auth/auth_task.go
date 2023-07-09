@@ -13,7 +13,7 @@ func (a Auth) AddTask(ctx context.Context, cluster string, db int, parentTaskID 
 }
 
 // give auth by set status
-func (a Auth) ExecTask(ctx context.Context, taskId int64, cluster, db string) error {
+func (a Auth) ExecTask(ctx context.Context, startSubTaskId, taskId int64, cluster, db string) error {
 	a.Status = StatusPass
 	return authDao.UpdateAuth(&a)
 }

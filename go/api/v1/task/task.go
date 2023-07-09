@@ -173,7 +173,7 @@ func (taskApi *TaskApi) UpdateTask(ctx *gin.Context) {
 	}
 	fillSubTask(&taskParam, nil)
 
-	if err := task.UpdateTask(ctx, &taskParam.Task); err != nil {
+	if err := task.UpdateTask(ctx, &taskParam.Task, taskParam.Task.StartAtId); err != nil {
 		response.FailWithMessage(fmt.Sprintf("%s, update task failed :%s", f, err.Error()), ctx)
 		return
 	}

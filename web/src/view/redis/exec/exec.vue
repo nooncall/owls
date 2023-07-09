@@ -72,12 +72,12 @@
             <el-table-column prop="exec_info" width="200" label="执行信息"></el-table-column>
             <el-table-column prop="cat_id" fixed="right" label="操作">
               <template #default="scope">
-                <!-- <el-button
+                <el-button
                     icon="edit"
                     size="small"
                     type="text"
                     @click="onExecAt(scope.row)"
-                >此处开始</el-button> -->
+                >此处开始</el-button>
               </template>
             </el-table-column>
           </el-table>
@@ -191,9 +191,12 @@ const onExec = async() => {
 const onExecAt = async(row) => {
   execVisible.value = false
   let params = {
-    id: Number(rout.params.id),
-    exec_item: row,
-    action: 'beginAt'
+    task:{
+      id: Number(rout.params.id),
+      action: 'exec',
+      sub_task_type: 'redis',
+      start_at_id: row.id,
+    }
   }
   const res = await updateTask(params)
   if (res.code === 0) {

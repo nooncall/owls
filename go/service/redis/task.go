@@ -67,7 +67,7 @@ func (r *RedisTask) AddTask(ctx context.Context, cluster string, db int, parentT
 	return 0, checkPass, tx.Commit().Error
 }
 
-func (r *RedisTask) ExecTask(ctx context.Context, taskId int64, cluster, db string) error {
+func (r *RedisTask) ExecTask(ctx context.Context, startSubTaskId, taskId int64, cluster, db string) error {
 	tasks, err := redisTaskDao.ListRedisTaskByTaskID(GetDB(), taskId)
 	if err != nil {
 		return fmt.Errorf("while exec task, get task err: %v", err)
@@ -78,10 +78,21 @@ func (r *RedisTask) ExecTask(ctx context.Context, taskId int64, cluster, db stri
 		return err
 	}
 
-	// exec, // 假设都是独立的，更常见的场景。
-	// todo, get parent task, and set
+	// exec, 假设都是独立的，更常见的场景。
+	start := false
+	if startSubTaskId <= 0 {
+		start = true
+	}
+
 	var failed bool
 	for _, v := range tasks {
+		if v.ID == startSubTaskId {
+			start = true
+		}
+		if !start {
+			continue
+		}
+
 		resp, err := exec(ctx, v.Cmd, cluster, database)
 		if err != nil {
 			failed = true
@@ -109,8 +120,8 @@ func (r *RedisTask) ListTask(parentTaskID int64) (interface{}, error) {
 	}
 
 	var iTasks []task.SubTask
-	for _, v := range rTasks {
-		iTasks = append(iTasks, task.SubTask(&v))
+	for i := range rTasks {
+		iTasks = append(iTasks, task.SubTask(&rTasks[i]))
 	}
 	return iTasks, nil
 }

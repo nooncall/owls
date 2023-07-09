@@ -39,8 +39,9 @@ type Task struct {
 	Et               int64  `json:"et" gorm:"column:et"`
 	Ft               int64  `json:"ft" gorm:"column:ft"`
 
-	SubTask  SubTask   `json:"sub_task" gorm:"-"`
-	SubTasks []SubTask `json:"sub_tasks" gorm:"-"`
+	SubTask   SubTask   `json:"sub_task" gorm:"-"`
+	SubTasks  []SubTask `json:"sub_tasks" gorm:"-"`
+	StartAtId int64     `json:"start_at_id" gorm:"-"`
 
 	StatusName string `json:"status_name" gorm:"-"`
 	Action     string `json:"action" gorm:"-"`
@@ -49,7 +50,7 @@ type Task struct {
 type SubTask interface {
 	AddTask(ctx context.Context, cluster string, db int, parentTaskID int64) (int64, bool, error)
 	//TODO, refactor, auth db on subtask, redis db on parent task;
-	ExecTask(ctx context.Context, taskId int64, cluster, db string) error
+	ExecTask(ctx context.Context, startSubTaskId, taskId int64, cluster, db string) error
 	UpdateTask(action string) error
 	ListTask(parentTaskID int64) (interface{}, error)
 	GetTask(id int64) (interface{}, error)
@@ -84,7 +85,7 @@ func AddTask(ctx context.Context, task *Task) (int64, error) {
 	return taskId, err
 }
 
-func UpdateTask(ctx context.Context, task *Task) error {
+func UpdateTask(ctx context.Context, task *Task, startAtId int64) error {
 	// subtask is nil
 	var err error
 	if err = task.SubTask.UpdateTask(task.Action); err != nil {
@@ -106,7 +107,7 @@ func UpdateTask(ctx context.Context, task *Task) error {
 			return err
 		}
 		task.Status = Pass
-		task.SubTask.ExecTask(ctx, storeTask.ID, storeTask.Cluster, storeTask.Database)
+		task.SubTask.ExecTask(ctx, startAtId, storeTask.ID, storeTask.Cluster, storeTask.Database)
 	case ActionUpdate:
 	}
 
