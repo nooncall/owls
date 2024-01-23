@@ -9,6 +9,7 @@ import (
 	"github.com/nooncall/owls/go/model/example"
 	"github.com/nooncall/owls/go/model/system"
 	"github.com/nooncall/owls/go/service/auth/auth"
+	"github.com/nooncall/owls/go/service/redis"
 	tasks "github.com/nooncall/owls/go/service/task"
 	"github.com/nooncall/owls/go/service/tidb_or_mysql/checker"
 	"github.com/nooncall/owls/go/service/tidb_or_mysql/db_info"
@@ -65,6 +66,8 @@ func (initDBService *InitDBService) initTables() error {
 
 		tasks.Task{},
 		auth.Auth{},
+
+		redis.RedisTask{},
 	)
 }
 
