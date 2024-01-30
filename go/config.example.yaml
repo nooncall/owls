@@ -38,7 +38,7 @@ casbin:
 # system configuration
 system:
   env: 'public'  # Change to "develop" to skip authentication for development mode
-  addr: 8888
+  addr: 8778
   db-type: 'mysql'
   oss-type: 'local'    # 控制oss选择走本地还是 七牛等其他仓 自行增加其他oss仓可以在 go/utils/upload/upload.go 中 NewOss函数配置
   use-redis: false     # 使用redis
@@ -53,6 +53,20 @@ captcha:
   key-long: 6
   img-width: 240
   img-height: 80
+
+login:
+  model: registry
+  ldap:
+    host: ldap.pri.ibanyu.com
+    port: 389
+    base-dn: dc=ipalfish,dc=com
+    use-sll: false
+    bind-pwd: Ccjsj1200
+    bind-dn: cn=Manager,dc=ipalfish,dc=com
+  login-path: http://baidu.com
+  token-secret: ipalfish-db-injection-c362ef0dce45bb48b8f400e34b74c37b
+  token-effective-hour: 0
+  init-password: aaaaaa
 
 # mysql connect configuration
 # 未初始化之前请勿手动修改数据库信息！！！如果一定要手动初始化请看（https://www.github.com/flipped-aurora/gin-vue-admin/server.com/docs/first）
