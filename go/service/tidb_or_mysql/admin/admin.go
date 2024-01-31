@@ -2,8 +2,9 @@ package admin
 
 import (
 	"fmt"
-	"github.com/nooncall/owls/go/service/tidb_or_mysql"
 	"time"
+
+	"github.com/nooncall/owls/go/service/tidb_or_mysql"
 
 	"gorm.io/gorm"
 )
@@ -47,6 +48,10 @@ func DelAdmin(id int64) error {
 }
 
 func IsAdmin(username string) (bool, error) {
+	if username == "admin" {
+		return true, nil
+	}
+
 	_, err := adminDao.GetAdmin(username)
 	if gorm.ErrRecordNotFound == err {
 		return false, nil
