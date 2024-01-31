@@ -6,6 +6,7 @@ import (
 	"gorm.io/gorm"
 
 	"github.com/nooncall/owls/go/model/common/request"
+	"github.com/nooncall/owls/go/service/tidb_or_mysql/admin"
 	"github.com/nooncall/owls/go/service/tidb_or_mysql/task"
 )
 
@@ -44,7 +45,16 @@ func (taskDaoImpl) ListTask(info request.SortPageInfo, isDBA bool, status []task
 		db = db.Where("id like ? or name like ? or status like ? or creator like ?",
 			fmtKey, fmtKey, fmtKey, fmtKey)
 	}
-	db = db.Where("status in (?) and creator = ?", status, info.Operator)
+	db = db.Where("status in (?)", status)
+
+	// check admin
+	isAdmin, err := admin.IsAdmin(info.Operator)
+	if err != nil {
+		return nil, 0, err
+	}
+	if !isAdmin {
+		db.Where("creator = ?", info.Operator)
+	}
 
 	var count int64
 	if err := db.Model(&Task{}).Count(&count).Error; err != nil {
